@@ -404,8 +404,8 @@ function autoLevelEquipment() {
             //Buy health item, if cost is <5% of average weapon price
             if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && (DaThing.Resource == 'metal'){
                 //Calculate average weapon price
-                averageWeaponPrice = equipCost("metal", "Dagger") + equipCost("metal", "Mace") + equipCost("metal", "Polearm") + equipCost("metal", "Battleaxe") + equipCost("metal", "Greatsword") + equipCost("metal", "Arbalest");
-                averageWeaponPrice = averageWeaponPrice * 3; // Price * 20 / 6 ~ Price * 3
+                /*averageWeaponPrice = equipCost(gameResource, "Dagger") + equipCost(gameResource, "Mace") + equipCost(gameResource, "Polearm") + equipCost(gameResource, "Battleaxe") + equipCost(gameResource, "Greatsword") + equipCost(gameResource, "Arbalest");
+                averageWeaponPrice = averageWeaponPrice * 3; // Price * 20 / 6 ~ Price * 3*/
                 if(equipCost(gameResource, equip) < averageWeaponPrice) {
                     buyEquipment(eqName, null, true);
                     debug('Leveling cheap equipment ' + eqName + "equips", '*upload3');
