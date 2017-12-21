@@ -400,7 +400,7 @@ function autoLevelEquipment() {
                     buyEquipment(eqName, null, true);
                 }
             }
-            var averageWeaponPrice = 0;
+            /*var averageWeaponPrice = 0;
             //Buy health item, if cost is <5% of average weapon price
             if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && (DaThing.Resource == 'metal'){
                 //Calculate average weapon price
@@ -410,7 +410,7 @@ function autoLevelEquipment() {
                     buyEquipment(eqName, null, true);
                     debug('Leveling cheap equipment ' + eqName + "equips", '*upload3');
                 }
-            }
+            }*/
         }
     }
     postBuy();
