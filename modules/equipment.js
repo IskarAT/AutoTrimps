@@ -394,23 +394,23 @@ function autoLevelEquipment() {
                 }
             }
             var aalvl2 = getPageSetting('AlwaysArmorLvl2') || (spirecheck);
-            if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && aalvl2 && game.equipment[eqName].level < 2){
+            if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && aalvl2 && game.equipment[eqName].level < 25){
                 if (DaThing.Equip && !Best[stat].Wall && canAffordBuilding(eqName, null, null, true)) {
                     debug('Leveling equipment ' + eqName + " (AlwaysArmorLvl2)", "equips", '*upload3');
                     buyEquipment(eqName, null, true);
                 }
             }
-            var averageWeaponPrice = 0;
+            /*var averageWeaponPrice = 0;
             //Buy health item, if cost is <5% of average weapon price
             if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && (DaThing.Resource == 'metal'){
                 //Calculate average weapon price
-                /*averageWeaponPrice = equipCost(gameResource, "Dagger") + equipCost(gameResource, "Mace") + equipCost(gameResource, "Polearm") + equipCost(gameResource, "Battleaxe") + equipCost(gameResource, "Greatsword") + equipCost(gameResource, "Arbalest");
-                averageWeaponPrice = averageWeaponPrice * 3; // Price * 20 / 6 ~ Price * 3*/
+                averageWeaponPrice = equipCost(gameResource, "Dagger") + equipCost(gameResource, "Mace") + equipCost(gameResource, "Polearm") + equipCost(gameResource, "Battleaxe") + equipCost(gameResource, "Greatsword") + equipCost(gameResource, "Arbalest");
+                averageWeaponPrice = averageWeaponPrice * 3; // Price * 20 / 6 ~ Price * 3
                 if(equipCost(gameResource, equip) < averageWeaponPrice) {
                     buyEquipment(eqName, null, true);
                     debug('Leveling cheap equipment ' + eqName + "equips", '*upload3');
                 }
-            }
+            }*/
         }
     }
     postBuy();
