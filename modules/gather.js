@@ -165,6 +165,10 @@ function manualLabor2() {
 
     //Buildings:
     var manualBuildSpeedAdvantage = getPlayerModifier() / game.global.autoCraftModifier;
+    //If we have Foremany mastery, do not attempt to build manualy
+    if (game.talents.foreman.purchased) {
+            manualBuildSpeedAdvantage = 0;
+        }
         //pre-requisites for all: have something in the build queue, and playerCraftmod does actually speed it up.
     if ((game.global.buildingsQueue.length && manualBuildSpeedAdvantage > 1) && //AND:
     //if we have 2 or more buildings in queue, and playerCraftmod is high enough (>3x autoCraftmod) to speed it up.
