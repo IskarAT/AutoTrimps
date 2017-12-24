@@ -250,22 +250,25 @@ function autoStance() {
 function autoStance2() {
     //get back to a baseline of no stance (X)
     calcBaseDamageinX2();
-    debug("Entering autostance","other");
+    //debug("Entering autostance","other");
     //no need to continue
     if (game.global.gridArray.length === 0) return true;
     if (game.global.soldierHealth <= 0) return; //dont calculate stances when dead, cause the "current" numbers are not updated when dead.
     if (!getPageSetting('AutoStance')) return true;
     if (!game.upgrades.Formations.done) return true;
-    debug("Past first checks","other");
+    //debug("Past first checks","other");
     
     // Some special cases, where we want to force a stance below
     //If no challenge is active and we are deep in magma (so block >> HP), just force D stance in Void maps. Else this might cause some unwanted trimpicide due to bleed daily/Lead etc.
     var enemy = getCurrentEnemy();
     if (typeof enemy === 'undefined') return true;
-    debug("Past undefined","other");
+    //debug("Past undefined","other");
     var enemyHealth = enemy.health;
     var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
-    if (getCurrentMapObject().location == "Void" && game.global.challengeActive == "") {
+    debug("Enemy calculated","other");
+    debug("Location: " + getCurrentMapObject().location,"other");
+    if (game.upgrades.Dominance.done && getCurrentMapObject().location == "Void" && game.global.challengeActive == "") {
+        debug("Location: " + getCurrentMapObject().location,"other");
         if (enemyDamage < game.global.soldierCurrentBlock) {
             setFormation(2);
             return true;
