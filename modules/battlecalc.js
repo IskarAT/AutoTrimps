@@ -145,10 +145,13 @@ function getBattleStats(what,form,crit) {
     if (mutations.Magma.active() && (what == "attack" || what == "health")){
         mult = mutations.Magma.getTrimpDecay();
         var lvls = game.global.world - mutations.Magma.start() + 1;
+        /*
         //Magic modifier to improve health behavior in Magma, so we make AT buy some health gear
+        // Turns out, that AT instead messes with stancing, rather than HP gear. FFS
         if(what == "health") {
             mult *= (1/(lvls*lvls))
         }
+        */
         currentCalc *= mult;
     }
     if (crit) {
