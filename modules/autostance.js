@@ -255,7 +255,26 @@ function autoStance2() {
     if (game.global.soldierHealth <= 0) return; //dont calculate stances when dead, cause the "current" numbers are not updated when dead.
     if (!getPageSetting('AutoStance')) return true;
     if (!game.upgrades.Formations.done) return true;
-
+    
+    // Some special cases, where we want to force a stance below
+    //If no challenge is active and we are deep in magma (so block >> HP), just force D stance in Void maps. Else this might cause some unwanted trimpicide due to bleed daily/Lead etc.
+    var enemy = getCurrentEnemy();
+    if (typeof enemy === 'undefined') return true;
+    var enemyHealth = enemy.health;
+    var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
+    if (getCurrentMapObject().location == "Void" && game.global.challengeActive == "") {
+        if (enemyDamage < game.global.soldierCurrentBlock) {
+            setFormation(2);
+            return true;
+        }
+    }
+    // start: To be Done
+    // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
+    
+    // Force B in Wind world zones (not maps!) to achieve max wind stacks
+    //Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
+    // end: To be Done
+    
     //start analyzing autostance
     var missingHealth = game.global.soldierHealthMax - game.global.soldierHealth;
     var newSquadRdy = game.resources.trimps.realMax() <= game.resources.trimps.owned + 1;
@@ -264,10 +283,6 @@ function autoStance2() {
     var bHealth = baseHealth/2;
     //COMMON:
     var corrupt = game.global.world >= mutations.Corruption.start();
-    var enemy = getCurrentEnemy();
-    if (typeof enemy === 'undefined') return true;
-    var enemyHealth = enemy.health;
-    var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
     //crits
     var critMulti = 1;
     const ignoreCrits = getPageSetting('IgnoreCrits');
