@@ -147,7 +147,7 @@ function getBattleStats(what,form,crit) {
         var lvls = game.global.world - mutations.Magma.start() + 1;
         //Magic modifier to improve health behavior in Magma, so we make AT buy some health gear
         if(what == "health") {
-            mult *= (1/(1+lvls/5))
+            mult *= (10/(1+9*lvls))
         }
         currentCalc *= mult;
     }
