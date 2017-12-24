@@ -6,30 +6,6 @@ function getBattleStats(what,form,crit) {
 //  var minFluct = 0.2;
     if (what == "health" || what == "attack"){
         currentCalc += (what == "health") ? 50 : 6;
-/*      if (what == "attack"){
-            //Discipline
-            if (game.global.challengeActive == "Discipline"){
-                minFluct = 0.995;
-                maxFluct = 0.995;
-            }
-            else {
-                //Range
-                    if (game.portal.Range.level > 0){
-                        minFluct -= (0.02 * game.portal.Range.level);
-                    }
-                //MinDamageDaily
-                    if (typeof game.global.dailyChallenge.minDamage !== 'undefined'){
-                        var addMin = dailyModifiers.minDamage.getMult(game.global.dailyChallenge.minDamage.strength);
-                        minFluct += addMin;
-                        if (minFluct > 1) minFluct = 1;
-                    }
-                //MaxDamageDaily
-                    if (typeof game.global.dailyChallenge.maxDamage !== 'undefined'){
-                        var addMax = dailyModifiers.maxDamage.getMult(game.global.dailyChallenge.maxDamage.strength);
-                        maxFluct += addMax;
-                    }
-            }
-        } */
         for (var equip in game.equipment){
             var temp = game.equipment[equip];
             if (typeof temp[what] === 'undefined' || temp.level <= 0 || temp.blockNow) continue;
@@ -169,6 +145,10 @@ function getBattleStats(what,form,crit) {
     if (mutations.Magma.active() && (what == "attack" || what == "health")){
         mult = mutations.Magma.getTrimpDecay();
         var lvls = game.global.world - mutations.Magma.start() + 1;
+        //Magic modifier to improve health behavior in Magma, so we make AT buy some health gear
+        if(what == "health") {
+            mult *= (1/(1+lvls/5))
+        }
         currentCalc *= mult;
     }
     if (crit) {
