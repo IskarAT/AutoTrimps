@@ -35,6 +35,9 @@ function betterAutoFight2() {
     if (game.global.gridArray.length === 0 || game.global.preMapsActive || !game.upgrades.Battle.done || game.global.fighting)
         return;         //sanity check.
     var targetBreed = getPageSetting('GeneticistTimer');
+    if (targetBreed <= 0) {
+            targetBreed = 46; // later replace with get of current in-game geneticist assist
+    }
     var breeding = (game.resources.trimps.owned - game.resources.trimps.employed);
     var newSquadRdy = game.resources.trimps.realMax() <= game.resources.trimps.owned + 1;
     var adjustedMax = (game.portal.Coordinated.level) ? game.portal.Coordinated.currentSend : trimps.maxSoldiers;
