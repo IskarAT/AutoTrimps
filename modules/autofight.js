@@ -34,6 +34,7 @@ function betterAutoFight2() {
         pauseFight();   //Disable built-in autofight
     if (game.global.gridArray.length === 0 || game.global.preMapsActive || !game.upgrades.Battle.done || game.global.fighting)
         return;         //sanity check.
+    debug(getBreedTime());
     var targetBreed = getPageSetting('GeneticistTimer');
     if (targetBreed <= 0) {
             targetBreed = 46; // later replace with get of current in-game geneticist assist
