@@ -34,7 +34,6 @@ function betterAutoFight2() {
         pauseFight();   //Disable built-in autofight
     if (game.global.gridArray.length === 0 || game.global.preMapsActive || !game.upgrades.Battle.done || game.global.fighting)
         return;         //sanity check.
-    debug(getBreedTime());
     var targetBreed = getPageSetting('GeneticistTimer');
     if (targetBreed <= 0) {
             targetBreed = 46; // later replace with get of current in-game geneticist assist
@@ -77,10 +76,6 @@ function betterAutoFight2() {
         else if (game.global.soldierHealth == 0 && (game.global.lastBreedTime/1000)>=breedTimerLimit && targetBreed >= 0 && !game.jobs.Geneticist.locked && game.jobs.Geneticist.owned > 10 ) {
             battle(true);
             debug("AutoFight: NEW: BAF2 #4, NextGroupBreedTimer went over " + breedTimerLimit + " and we arent fighting.", "other");
-        }
-        else {
-            battle(true);
-            debug("We were stuck due to a bug, clicked fight.");
         }
     }
 }
