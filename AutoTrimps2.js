@@ -213,18 +213,18 @@ function mainLoop() {
     if (aWholeNewWorld && getPageSetting('FinishC2')>0 && game.global.runningChallengeSquared) finishChallengeSquared(); // "Finish Challenge2" (other.js)
     autoLevelEquipment();           //"Buy Armor", "Buy Armor Upgrades", "Buy Weapons", "Buy Weapons Upgrades"  (equipment.js)
 
-    if (getPageSetting('UseScryerStance'))  useScryerStance();  //"Use Scryer Stance"   (scryer.js)
-    else if (getPageSetting('AutoStance')<=1) autoStance();    //"Auto Stance"      (autostance.js)
-    else if (getPageSetting('AutoStance')==2) autoStance2();   //"Auto Stance #2"       (")
-    if (getPageSetting('UseAutoGen')) autoGenerator(); // "Auto Generator ON" (magma.js)
-
     BAFsetting = getPageSetting('BetterAutoFight');
     if (BAFsetting==1) betterAutoFight();        //"Better Auto Fight"  (autofight.js)
     else if (BAFsetting==2) betterAutoFight2();     //"Better Auto Fight2"  (")
     else if (BAFsetting==0 && BAFsetting!=oldBAFsetting && game.global.autoBattle && game.global.pauseFight)  pauseFight(); //turn on autofight on once when BAF is toggled off.
     else if (BAFsetting==0 && game.global.world == 1 && game.global.autoBattle && game.global.pauseFight) pauseFight();     //turn on autofight on lvl 1 if its off.
     else if (BAFsetting==0 && !game.global.autoBattle && game.global.soldierHealth == 0) betterAutoFight();   //use BAF as a backup for pre-Battle situations
-    oldBAFsetting = BAFsetting;                                            //enables built-in autofight once when disabled
+    oldBAFsetting = BAFsetting;                                            //enables built-in autofight once when disabled  
+  
+    if (getPageSetting('UseScryerStance'))  useScryerStance();  //"Use Scryer Stance"   (scryer.js)
+    else if (getPageSetting('AutoStance')<=1) autoStance();    //"Auto Stance"      (autostance.js)
+    else if (getPageSetting('AutoStance')==2) autoStance2();   //"Auto Stance #2"       (")
+    if (getPageSetting('UseAutoGen')) autoGenerator(); // "Auto Generator ON" (magma.js)
 
     if (getPageSetting('DynamicPrestige2')>0&&((getPageSetting('ForcePresZ')<0)||(game.global.world<getPageSetting('ForcePresZ')))) prestigeChanging2(); //"Dynamic Prestige" (dynprestige.js)
     else autoTrimpSettings.Prestige.selected = document.getElementById('Prestige').value; //if we dont want to, just make sure the UI setting and the internal setting are aligned.
