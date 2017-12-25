@@ -262,10 +262,10 @@ function autoStance2() {
     //If no challenge is active and we are deep in magma (so block >> HP), just force D stance in Void maps. Else this might cause some unwanted trimpicide due to bleed daily/Lead etc.
     var enemy = getCurrentEnemy();
     if (typeof enemy === 'undefined') return true;
-    //debug("Past undefined","other");
+    debug("Past undefined","other");
     var enemyHealth = enemy.health;
     var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
-    
+    debug("Map: " + game.global.currentMapId,"other");
     if (game.global.currentMapId > 0) {
         var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
         debug("Location: " + mapLocation,"other");
@@ -276,7 +276,7 @@ function autoStance2() {
             }
         }
     }
-    //debug("Past new part","other");
+    debug("Past new part","other");
     // start: To be Done
     // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
     
