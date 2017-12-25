@@ -394,7 +394,7 @@ function autoLevelEquipment() {
                 }
             }
             var aalvl2 = getPageSetting('AlwaysArmorLvl2') || (spirecheck);
-            if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && aalvl2 && game.equipment[eqName].level < 25){
+            if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && aalvl2 && game.equipment[eqName].level < 2){
                 if (DaThing.Equip && !Best[stat].Wall && canAffordBuilding(eqName, null, null, true)) {
                     debug('Leveling equipment ' + eqName + " (AlwaysArmorLvl2)", "equips", '*upload3');
                     buyEquipment(eqName, null, true);
@@ -402,10 +402,9 @@ function autoLevelEquipment() {
             }
             
             // Buy health item, if cost is <5% of average weapon price
-            if (getPageSetting('BuyArmor') && DaThing.Stat == 'health'){
+            if (getPageSetting('BuyArmor') && DaThing.Stat == 'health') {
                 //Calculate average weapon price
                 var averageWeaponLevel = 0;
-                debug("Yay!", "other");
                 if (game.equipment.Dagger.level > 0 && game.equipment.Arbalest.level > 0) {
                     averageWeaponLevel += game.equipment.Dagger.level;
                     averageWeaponLevel += game.equipment.Mace.level;
@@ -413,9 +412,12 @@ function autoLevelEquipment() {
                     averageWeaponLevel += game.equipment.Battleaxe.level;
                     averageWeaponLevel += game.equipment.Greatsword.level;
                     averageWeaponLevel += game.equipment.Arbalest.level;
-                    averageWeaponLevel = averageWeaponLevel / 6;
+                    averageWeaponLevel = Math.floor((averageWeaponLevel / 6) - 10);
+                    if (game.equipment[eqName].level < averageWeaponLevel) {
+                        buyEquipment(eqName, null, true);
+                        debug('Leveling cheap equipment: ' + eqName, "equips", '*upload3');
+                    }
                 }
-                debug("Avg lvl: " + averageWeaponLevel, "other");
             }
         }
     }
