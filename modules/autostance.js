@@ -285,6 +285,11 @@ function autoStance2() {
         //if we are in X/H stance, switch to H to avoid trimp death, else B stance
         if (game.global.formation == "0" || game.global.formation == 1) {
             //debug("Setting H stance for wind stacking");
+            //If we got killed by omnipotrimp in X/H stance, new one was not calculated yet. So, check HP and go B if we safely can
+            if (10*game.global.soldierHealth >= 9*game.global.soldierHealthMax) {
+                setFormation(3);
+                return;
+            }
             setFormation(1);
             return;
         } else {
