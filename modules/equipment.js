@@ -402,11 +402,10 @@ function autoLevelEquipment() {
             }
             
             // Buy health item, if cost is <5% of average weapon price
-            if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && (DaThing.Resource == 'metal')){
+            if (getPageSetting('BuyArmor') && DaThing.Stat == 'health' && DaThing.Resource == 'metal'){
                 //Calculate average weapon price
                 var averageWeaponLevel = 0;
                 debug("Yay!", "other");
-                }
             }
         }
     }
