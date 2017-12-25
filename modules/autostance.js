@@ -264,13 +264,9 @@ function autoStance2() {
     if (typeof enemy === 'undefined') return true;
     var enemyHealth = enemy.health;
     var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
-    debug("Map: " + game.global.currentMapId,"other");
     if (game.global.currentMapId) {
         var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
         debug("Location: " + mapLocation,"other");
-        if (game.global.challengeActive == "") {
-            debug("Challenge: " + game.global.challengeActive, "other");
-        } else if (game.global.challengeActive === 'undefined') debug("Sigh", "other");
         if (game.upgrades.Dominance.done && mapLocation == "Void" && game.global.challengeActive == "") {
             if (enemyDamage < game.global.soldierCurrentBlock) {
                 setFormation(2);
