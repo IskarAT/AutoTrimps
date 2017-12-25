@@ -366,7 +366,7 @@ function autoLevelEquipment() {
         }
     }
     preBuy();
-    game.global.buyAmt = 1; //needed for buyEquipment()
+    game.global.buyAmt = 1; // needed for buyEquipment()
     for (var stat in Best) {
         var eqName = Best[stat].Name;
         if (eqName !== '') {
@@ -379,14 +379,14 @@ function autoLevelEquipment() {
                 document.getElementById(eqName).style.color = Best[stat].Wall ? 'orange' : 'red';
                 document.getElementById(eqName).style.border = '2px solid red';
             }
-            //If we're considering an attack item, we want to buy weapons if we don't have enough damage, or if we don't need health (so we default to buying some damage)
+            // If we're considering an attack item, we want to buy weapons if we don't have enough damage, or if we don't need health (so we default to buying some damage)
             if (getPageSetting('BuyWeapons') && DaThing.Stat == 'attack' && (!enoughDamageE || enoughHealthE)) {
                 if (DaThing.Equip && !Best[stat].Wall && canAffordBuilding(eqName, null, null, true)) {
                     debug('Leveling equipment ' + eqName, "equips", '*upload3');
                     buyEquipment(eqName, null, true);
                 }
             }
-            //If we're considering a health item, buy it if we don't have enough health, otherwise we default to buying damage
+            // If we're considering a health item, buy it if we don't have enough health, otherwise we default to buying damage
             if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health' || DaThing.Stat == 'block') && !enoughHealthE) {
                 if (DaThing.Equip && !Best[stat].Wall && canAffordBuilding(eqName, null, null, true)) {
                     debug('Leveling equipment ' + eqName, "equips", '*upload3');
@@ -400,15 +400,12 @@ function autoLevelEquipment() {
                     buyEquipment(eqName, null, true);
                 }
             }
-            var averageWeaponPrice = 0;
-            //Buy health item, if cost is <5% of average weapon price
+            
+            // Buy health item, if cost is <5% of average weapon price
             if (getPageSetting('BuyArmor') && (DaThing.Stat == 'health') && (DaThing.Resource == 'metal')){
                 //Calculate average weapon price
-                averageWeaponPrice = equipCost(gameResource, "Dagger") + equipCost(gameResource, "Mace") + equipCost(gameResource, "Polearm") + equipCost(gameResource, "Battleaxe") + equipCost(gameResource, "Greatsword") + equipCost(gameResource, "Arbalest");
-                averageWeaponPrice = averageWeaponPrice * 3; // Price * 20 / 6 ~ Price * 3
-                if(equipCost(gameResource, eqName) < averageWeaponPrice) {
-                    buyEquipment(eqName, null, true);
-                    debug('Leveling cheap equipment ' + eqName + "equips", '*upload3');
+                var averageWeaponLevel = 0;
+                debug("Yay!", "other");
                 }
             }
         }
@@ -417,7 +414,7 @@ function autoLevelEquipment() {
 }
 
 function areWeAttackLevelCapped() {
-    //check if we have cap to 10 equip on, and we are capped for all attack weapons
+    // check if we have cap to 10 equip on, and we are capped for all attack weapons
     var attack = [];
     for (var equipName in equipmentList) {
         var equip = equipmentList[equipName];
