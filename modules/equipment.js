@@ -410,7 +410,7 @@ function autoLevelEquipment() {
                     averageWeaponLevel += game.equipment.Dagger.level;
                     averageWeaponLevel += game.equipment.Mace.level;
                     averageWeaponLevel += game.equipment.Polearm.level;
-                    averageWeaponLevel += game.equipment.Axe.level
+                    averageWeaponLevel += game.equipment.Battleaxe.level;
                     averageWeaponLevel += game.equipment.Greatsword.level;
                     averageWeaponLevel += game.equipment.Arbalest.level;
                     averageWeaponLevel = averageWeaponLevel / 6;
