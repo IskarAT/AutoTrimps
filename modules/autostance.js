@@ -280,12 +280,12 @@ function autoStance2() {
     // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
     
     // Force B in Wind world zones (not maps!) to achieve max wind stacks; I should add a button to toggle this on...
-    //Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
+    // Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
     if (activeEmpowerment == "Wind" && !game.global.mapsActive && game.empowerments.Wind.currentDebuffPower < game.empowerments.Wind.maxStacks) {
         //if we are in X/H stance, switch to H to avoid trimp death, else B stance
         if (game.global.formation == "0" || game.global.formation == 1) {
-            //debug("Setting H stance for wind stacking");
-            //If we got killed by omnipotrimp in X/H stance, new one was not calculated yet. So, check HP and go B if we safely can
+            // debug("Setting H stance for wind stacking");
+            // If we got killed by omnipotrimp in X/H stance, new one was not calculated yet. So, check HP and go B if we safely can
             if (10*game.global.soldierHealth >= 9*game.global.soldierHealthMax) {
                 setFormation(3);
                 return;
@@ -293,10 +293,15 @@ function autoStance2() {
             setFormation(1);
             return;
         } else {
-            //debug("Setting B stance for wind stacking");
-            //possible improvement: check if we're about to die and go to H stance
-            setFormation(3);
-            return;
+            // debug("Setting B stance for wind stacking");
+            // Check if we're about to die on the next hit in B and if yes, go to H
+            if (5*game.global.soldierHealth < enemyDamage) {
+                setFormation(1);
+                return;
+            } else {
+                setFormation(3);
+                return;
+            }
         }
     }
     // end: To be Done
