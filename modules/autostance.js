@@ -275,7 +275,7 @@ function autoStance2() {
             }
         }
     }
-    debug("Past new part","other");
+    //debug("Past new part","other");
     // start: To be Done
     // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
     
