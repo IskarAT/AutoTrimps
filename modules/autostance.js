@@ -262,15 +262,16 @@ function autoStance2() {
     //If no challenge is active and we are deep in magma (so block >> HP), just force D stance in Void maps. Else this might cause some unwanted trimpicide due to bleed daily/Lead etc.
     var enemy = getCurrentEnemy();
     if (typeof enemy === 'undefined') return true;
-    debug("Past undefined","other");
     var enemyHealth = enemy.health;
     var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
     debug("Map: " + game.global.currentMapId,"other");
     if (game.global.currentMapId) {
         var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
         debug("Location: " + mapLocation,"other");
-        debug("Challenge: " + game.global.challengeActive, "other")
-        if (game.upgrades.Dominance.done && CurrentMap.location == "Void" /*&& game.global.challengeActive == ""*/) {
+        if (game.global.challengeActive == "") {
+            debug("Challenge: " + game.global.challengeActive, "other");
+        } else if (game.global.challengeActive === 'undefined') debug("Sigh", "other");
+        if (game.upgrades.Dominance.done && mapLocation == "Void" && game.global.challengeActive == "") {
             if (enemyDamage < game.global.soldierCurrentBlock) {
                 setFormation(2);
                 return true;
