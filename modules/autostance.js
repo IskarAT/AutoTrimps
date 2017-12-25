@@ -281,7 +281,7 @@ function autoStance2() {
     if (activeEmpowerment == "Ice" && game.empowerments.Ice.level > 35) {
         //debug("Ice level: " + game.empowerments.Ice.level, "other");
         // Improvement: Wait until we can get some anticipation stacks, so we don't just commit trimpicide
-        setFormation(1);
+        setFormation(2);
         return;
     }
     
