@@ -266,7 +266,7 @@ function autoStance2() {
     var enemyHealth = enemy.health;
     var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
     debug("Map: " + game.global.currentMapId,"other");
-    if (game.global.currentMapId > 0) {
+    if (game.global.currentMapId) {
         var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
         debug("Location: " + mapLocation,"other");
         if (game.upgrades.Dominance.done && CurrentMap.location == "Void" && game.global.challengeActive == "") {
