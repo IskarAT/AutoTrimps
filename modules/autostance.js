@@ -275,12 +275,26 @@ function autoStance2() {
             }
         }
     }
-    debug("Empowerment: " + getEmpowerment() + " and " + game.empowerments.Wind.currentDebuffPower + " wind stacks","other");
+    //debug("Empowerment: " + getEmpowerment() + " and " + game.empowerments.Wind.currentDebuffPower + " wind stacks","other");
+    var activeEmpowerment = getEmpowerment();
     // start: To be Done
     // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
     
     // Force B in Wind world zones (not maps!) to achieve max wind stacks
     //Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
+    if (activeEmpowerment == "Wind" && game.empowerments.Wind.currentDebuffPower < game.empowerments.Wind.maxStacks) {
+        //if we are in X/H stance, switch to H to avoid trimp death, else B stance
+        if (game.global.formation == "0" || game.global.formation == 1) {
+            debug("Setting H stance for wind stacking");
+            setFormation(1);
+            return;
+        } else {
+            debug("Setting B stance for wind stacking");
+            //possible improvement: check if we're about to die and go to H stance
+            setFormation(3);
+            return;
+        }
+    }
     // end: To be Done
     
     //start analyzing autostance
