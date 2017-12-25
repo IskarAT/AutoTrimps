@@ -269,7 +269,8 @@ function autoStance2() {
     if (game.global.currentMapId) {
         var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
         debug("Location: " + mapLocation,"other");
-        if (game.upgrades.Dominance.done && CurrentMap.location == "Void" && game.global.challengeActive == "") {
+        debug("Challenge: " + game.global.challengeActive, "other")
+        if (game.upgrades.Dominance.done && CurrentMap.location == "Void" /*&& game.global.challengeActive == ""*/) {
             if (enemyDamage < game.global.soldierCurrentBlock) {
                 setFormation(2);
                 return true;
