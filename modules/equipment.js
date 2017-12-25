@@ -406,7 +406,7 @@ function autoLevelEquipment() {
                 //Calculate average weapon price
                 averageWeaponPrice = equipCost(gameResource, "Dagger") + equipCost(gameResource, "Mace") + equipCost(gameResource, "Polearm") + equipCost(gameResource, "Battleaxe") + equipCost(gameResource, "Greatsword") + equipCost(gameResource, "Arbalest");
                 averageWeaponPrice = averageWeaponPrice * 3; // Price * 20 / 6 ~ Price * 3
-                if(equipCost(gameResource, equip) < averageWeaponPrice) {
+                if(equipCost(gameResource, eqName) < averageWeaponPrice) {
                     buyEquipment(eqName, null, true);
                     debug('Leveling cheap equipment ' + eqName + "equips", '*upload3');
                 }
