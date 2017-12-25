@@ -265,14 +265,17 @@ function autoStance2() {
     //debug("Past undefined","other");
     var enemyHealth = enemy.health;
     var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
-    /*var CurrentMap = game.global.mapsOwnedArray[getCurrentMapObject()];
-    debug("Location: " + CurrentMap.location,"other");
-    if (game.upgrades.Dominance.done && CurrentMap.location == "Void" && game.global.challengeActive == "") {
-        if (enemyDamage < game.global.soldierCurrentBlock) {
-            setFormation(2);
-            return true;
+    
+    if (game.global.currentMapId > 0) {
+        var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
+        debug("Location: " + mapLocation,"other");
+        if (game.upgrades.Dominance.done && CurrentMap.location == "Void" && game.global.challengeActive == "") {
+            if (enemyDamage < game.global.soldierCurrentBlock) {
+                setFormation(2);
+                return true;
+            }
         }
-    }*/
+    }
     //debug("Past new part","other");
     // start: To be Done
     // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
