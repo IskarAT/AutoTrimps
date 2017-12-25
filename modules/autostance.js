@@ -265,10 +265,10 @@ function autoStance2() {
     //debug("Past undefined","other");
     var enemyHealth = enemy.health;
     var enemyDamage = calcBadGuyDmg(enemy,null,true,true);
-    /*debug("Enemy calculated","other");
-    debug("Location: " + getCurrentMapObject().location,"other");
-    if (game.upgrades.Dominance.done && getCurrentMapObject().location == "Void" && game.global.challengeActive == "") {
-        debug("Location: " + getCurrentMapObject().location,"other");
+    var CurrentMap = game.global.mapsOwnedArray[getCurrentMapObject()];
+    debug("Location: " + CurrentMap.location,"other");
+    /*
+    if (game.upgrades.Dominance.done && CurrentMap.location == "Void" && game.global.challengeActive == "") {
         if (enemyDamage < game.global.soldierCurrentBlock) {
             setFormation(2);
             return true;
