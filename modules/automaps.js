@@ -342,7 +342,7 @@ function autoMap() {
       shouldDoMaps = false;
       debug("Disabled map farming " + HDratio, "other");
     } else {
-      debug("Continue map farming " + HDratio, "other");
+      debug("Continue map farming " + HDratio + " " + forceWind + " " + windModifier, "other");
     }
   
     //Run a single map to get nurseries when 1. it's still locked,
