@@ -401,18 +401,26 @@ function autoLevelEquipment() {
                 }
             }
             
-            // Buy health item, if cost is <5% of average weapon price
-            if (getPageSetting('BuyArmor') && DaThing.Stat == 'health') {
+            // Buy health item, if cost is very low
+            const gearLevelCutoff = getPageSetting('CheapGear');
+            if (getPageSetting('BuyArmor') && DaThing.Stat == 'health' && gearLevelCutoff > 0) {
                 //Calculate average weapon price
                 var averageWeaponLevel = 0;
+                
                 if (game.equipment.Dagger.level > 0 && game.equipment.Arbalest.level > 0) {
-                    averageWeaponLevel += game.equipment.Dagger.level;
-                    averageWeaponLevel += game.equipment.Mace.level;
-                    averageWeaponLevel += game.equipment.Polearm.level;
-                    averageWeaponLevel += game.equipment.Battleaxe.level;
-                    averageWeaponLevel += game.equipment.Greatsword.level;
-                    averageWeaponLevel += game.equipment.Arbalest.level;
-                    averageWeaponLevel = Math.floor((averageWeaponLevel / 6) - 10);
+                    // Check prestiged dagger and apply cutoff
+                    if (game.equipment.Dagger.level < game.equipment.Arbalest.level) {
+                        averageWeaponLevel = game.equipment.Dagger.level - gearLevelCutoff/2;
+                    } else {
+                        averageWeaponLevel += game.equipment.Dagger.level;
+                        averageWeaponLevel += game.equipment.Mace.level;
+                        averageWeaponLevel += game.equipment.Polearm.level;
+                        averageWeaponLevel += game.equipment.Battleaxe.level;
+                        averageWeaponLevel += game.equipment.Greatsword.level;
+                        averageWeaponLevel += game.equipment.Arbalest.level;
+                        averageWeaponLevel = Math.floor((averageWeaponLevel / 6) - gearLevelCutoff);
+                    }
+                    
                     if (game.equipment[eqName].level < averageWeaponLevel) {
                         buyEquipment(eqName, null, true);
                         debug('Leveling cheap equipment: ' + eqName, "equips", '*upload3');
