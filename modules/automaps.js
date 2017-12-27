@@ -338,9 +338,9 @@ function autoMap() {
     const forceWind = getPageSetting('ForceWind');
     const windModifier = getPageSetting('WindModifier');
     
-    if(forceWind && windModifier < Math.floor(HDratio)) {
+    if(forceWind && windModifier > Math.floor(HDratio)) {
       shouldDoMaps = false;
-      debug("Disabled map farming " + HDratio, "other");
+      debug("Disabled map farming " + HDratio>windModifier, "other");
     } else {
       debug("Continue map farming " + Math.floor(HDratio) + " " + forceWind + " " + windModifier, "other");
     }
