@@ -337,8 +337,10 @@ function autoMap() {
     // If we are on a wind zone, check settings and decide whether to map or not
     const forceWind = getPageSetting('ForceWind');
     const windModifier = getPageSetting('WindModifier');
+    const ignoreWindSpire = getPageSetting('WindSpire');
+    var skipSpire = ignoreWindSpire && game.global.spireActive;
     
-    if(forceWind && windModifier > Math.floor(HDratio)) {
+    if(!skipSpire && forceWind && windModifier > Math.floor(HDratio)) {
       shouldDoMaps = false;
       //debug("Disabled map farming to stack wind", "other");
     }
