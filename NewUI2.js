@@ -178,6 +178,7 @@ function initializeAllSettings() {
     } else {
         createSetting('CapEquip2', 'Cap Equip to', 'Do not level equipment past this number. Helps for early game when the script wants to level your tier2s to level 40+, or to stop wasting metal. Recommended value: 10, Disable with -1 or 0.', 'value', -1, null, 'Gear');
     }
+    createSetting('CheapGear', 'Buy cheap armor', 'Past magma, AT tends to not buy armor. This will force buy HP gear if very cheap. Value determines how many armor lvls below average weapon lvl to aim for. Recommended value: 10, Disable with -1 or 0.', 'value', -1, null, 'Gear');
 
 //AutoMaps + VoidMaps settings:
     createSetting('AutoMaps', 'Auto Maps', 'Recommended. Automatically run maps to progress. Very Important. Has multiple modes: <b>Prestige, Voids, Want more Damage, Want more Health, Want Health & Damage, and Farming.</b>Prestige takes precedence and does equal level maps until it gets what is needed as per Autotrimps Prestige dropdown setting. Voids is self explanatory: use the Void Difficulty Check setting to control the amount of farming. If \'want more damage\', it will only do 10 maps for 200% mapbonus damage bonus. If \'Farming\', it does maps beyond 10 if the displayed number is over >16x. \'Want more health[or and damage]\' is basically just a status message telling you need more health, theres not much that can be done besides tell AutoLevelEquipment to keep buying stuff. If you \'want health\' but your damage is OK to continue, invest in more HP perks.', 'boolean', true, null, "Maps");
@@ -293,6 +294,11 @@ function initializeAllSettings() {
     createSetting('AutoPoison', 'Poison', 'Spend/convert Poison tokens', 'dropdown', 'Off', ['Off', 'Empowerment', 'Transfer', 'Convert to Wind', 'Convert to Ice'], 'Nature');
     createSetting('AutoWind', 'Wind', 'Spend/convert Wind tokens', 'dropdown', 'Off', ['Off', 'Empowerment', 'Transfer', 'Convert to Poison', 'Convert to Ice'], 'Nature');
     createSetting('AutoIce', 'Ice', 'Spend/convert Ice tokens', 'dropdown', 'Off', ['Off', 'Empowerment', 'Transfer', 'Convert to Poison', 'Convert to Wind'], 'Nature');
+    createSetting('ForceWind', 'Force wind stacking', 'When on wind zone, autostance in order to achieve max stacks and therefore more He', 'boolean', false, null, 'Nature');
+    createSetting('WindSpire', 'Ignore wind spire', 'Ignore wind stacking in spire (z500)', 'boolean', true, null, 'Nature');
+    createSetting('WindModifier', 'Wind H:D control', 'Controls how agressively you want to stack wind. If your H:D ratio (Automaps) is lower than specified, do <b>NOT</b> automap for bonus.<br> Change/test according to your Wind empower. Low number wastes stacks, high is good for bone portal but wastes time after a sharpie in H.<br>Recommended: 15-25 for He/Hr, 30-40 for manual dailies and >60 for maxing bone portal.<br><b>Disable with -1</b>', 'value', -1, null, 'Nature');
+    createSetting('ForceIce', 'Force D stance in ice', 'When on ice zone, ignore usual stancing and force D. Safety requires > 35 ice levels to trigger the code, else we waste He/Hr! (=we are impervious to Healthy Sharpie)', 'boolean', false, null, 'Nature');
+    createSetting('IceNursery', 'No nurseries in ice', 'If you have enough ice, do not buy more nurseries on ice zones -> less shut down due to magma.', 'boolean', false, null, 'Nature');
 
 //Spam settings:
     createSetting('SpamGeneral', 'General Spam', 'General Spam = Starting Zone, Auto He/Hr, AutoMagmiteSpender ', 'boolean', true, null, 'Spam');
