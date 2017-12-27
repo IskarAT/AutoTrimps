@@ -280,7 +280,8 @@ function autoStance2() {
     var activeEmpowerment = getEmpowerment();
     const forceIce = getPageSetting('ForceIce');
     const forceWind = getPageSetting('ForceWind');
-    const ignoreWindSpire = getPageSetting('WindSpire'); // not implemented yet
+    const ignoreWindSpire = getPageSetting('WindSpire');
+    var skipSpire = ignoreWindSpire && game.global.spireActive;
     
     // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
     if (activeEmpowerment == "Ice" && game.empowerments.Ice.level > 30 && forceIce) {
@@ -292,7 +293,7 @@ function autoStance2() {
     
     // Force B in Wind world zones (not maps!) to achieve max wind stacks; I should add a button to toggle this on...
     // Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
-    if (forceWind && activeEmpowerment == "Wind" && !game.global.mapsActive && game.empowerments.Wind.currentDebuffPower < game.empowerments.Wind.maxStacks) {
+    if (forceWind && activeEmpowerment == "Wind" && !game.global.mapsActive && game.empowerments.Wind.currentDebuffPower < game.empowerments.Wind.maxStacks && !skipSpire) {
         // if we are in X/H stance, switch to H to avoid trimp death, else B stance
         if (game.global.formation == "0" || game.global.formation == 1) {
             // debug("Setting H stance for wind stacking");
