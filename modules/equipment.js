@@ -410,7 +410,7 @@ function autoLevelEquipment() {
                 if (game.equipment.Dagger.level > 0 && game.equipment.Arbalest.level > 0) {
                     // Check prestiged dagger and apply cutoff
                     if (game.equipment.Dagger.level < game.equipment.Arbalest.level) {
-                        averageWeaponLevel = game.equipment.Dagger.level - gearLevelCutoff/2;
+                        averageWeaponLevel = game.equipment.Dagger.level - gearLevelCutoff;
                     } else {
                         averageWeaponLevel += game.equipment.Dagger.level;
                         averageWeaponLevel += game.equipment.Mace.level;
