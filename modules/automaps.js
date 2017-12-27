@@ -236,14 +236,6 @@ function autoMap() {
     if (mapTimeEstimate == 0) {
         var lastzone = lookUpZoneData(game.global.world-1);
     }
-    
-    // If we are on a wind zone, check settings and decide whether to map or not
-    const forceWind = getPageSetting('ForceWind');
-    const windModifier = getPageSetting('WindModifier');
-    
-    if(forceWind && windModifier < HDratio) {
-      shouldDoMaps = false;
-    }
   
     var shouldDoHealthMaps = false;
     //if we are at max map bonus (10), and we don't need to farm, don't do maps
@@ -341,6 +333,16 @@ function autoMap() {
         shouldDoMaps = true;
         shouldDoSpireMaps = true;
     }
+  
+    // If we are on a wind zone, check settings and decide whether to map or not
+    const forceWind = getPageSetting('ForceWind');
+    const windModifier = getPageSetting('WindModifier');
+    
+    if(forceWind && windModifier < HDratio) {
+      shouldDoMaps = false;
+      debug("Disabled map farming", "other");
+    }
+  
     //Run a single map to get nurseries when 1. it's still locked,
     // 2. blacksmithery is purchased,
     // but not when 3A. home detector is purchased, or 3B. we don't need nurseries
