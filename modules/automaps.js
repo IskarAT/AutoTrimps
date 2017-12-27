@@ -340,9 +340,7 @@ function autoMap() {
     
     if(forceWind && windModifier > Math.floor(HDratio)) {
       shouldDoMaps = false;
-      debug("Disabled map farming " + HDratio>windModifier, "other");
-    } else {
-      debug("Continue map farming " + Math.floor(HDratio) + " " + forceWind + " " + windModifier, "other");
+      //debug("Disabled map farming to stack wind", "other");
     }
   
     //Run a single map to get nurseries when 1. it's still locked,
