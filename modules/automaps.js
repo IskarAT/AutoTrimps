@@ -338,11 +338,11 @@ function autoMap() {
     const forceWind = getPageSetting('ForceWind');
     const windModifier = getPageSetting('WindModifier');
     
-    if(forceWind && windModifier < HDratio) {
+    if(forceWind && windModifier < Math.floor(HDratio)) {
       shouldDoMaps = false;
       debug("Disabled map farming " + HDratio, "other");
     } else {
-      debug("Continue map farming " + HDratio + " " + forceWind + " " + windModifier, "other");
+      debug("Continue map farming " + Math.floor(HDratio) + " " + forceWind + " " + windModifier, "other");
     }
   
     //Run a single map to get nurseries when 1. it's still locked,
