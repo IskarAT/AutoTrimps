@@ -17,35 +17,3 @@ javascript:with(document)(head.appendChild(createElement('script')).src='https:/
 ```
 
 Notes: https://github.com/genbtc/AutoTrimps/blob/gh-pages/README.md
-
-## Current feature changes by coderpatsy
-**12/1/2017 v2.1.5.9p10**
-<br>Add option to never use scryer in void maps
-<br>**11/26/2017 v2.1.5.9p9**
-<br>Fix Chrono/Jestimps in 4.6
-<br>**11/22/2017 v2.1.5.9p8**
-<br>Merge in changes from genBTC
-<br>**11/9/2017 v2.1.5.8p8**
-<br>The genBTC version of the script has been updated with most of this fork's changes, and vice-versa.
-<br>If you migrate, genBTC has a zone-based Maps -> Ignore Spires Until setting instead of this fork's genBTC -> Min Spire for AT.
-<br>**11/6/2017 v2.1.5.6p7**
-<br>Fix Auto Gather 2 (whoops)
-<br>**11/5/2017 v2.1.5.6p6**
-<br>Revert grabbing prestige before running void maps
-<br>**11/5/2017 v2.1.5.6p5**
-<br>Quick fix Golden Helium being autobought before Golden Void is maxed
-<br>**11/4/2017 v2.1.5.6p4**
-<br>Fix Auto Gather and Turkimp Tamer IV
-<br>Fix Auto Magmamancer and Magmamancermancy
-<br>Auto Maps displays "Off" and "Out of Map Credits" and updates He/Hr %
-<br>Auto Maps grabs prestige before doing void maps
-<br>Optimization with checking void maps
-<br>**11/1/2017 v2.1.5.6p3**
-<br>Uni's Nurseries pre-Spire now works on Spires 2+
-<br>**10/31/2017 v2.1.5.6p2**
-<br>Add settings to automatically spend/convert nature tokens
-<br>Stop AT from forcing game setting "Wait to travel", allows "Auto Abandon"
-<br>**10/4/2017 v2.1.5.6p1**
-<br>Added new masteries' attack bonuses and fixed challenge<sup>2</sup> combat bonus.
-<br>Added settings: Enable Patience, Min Spire for AT, Max Map Bonus for Spire.
-<br>Fixed problem with He/Hr AutoPortal delay tooltip.
