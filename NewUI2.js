@@ -1028,7 +1028,6 @@ addbreedTimerContainer.setAttribute('style', 'padding-right: 0;');
 +addbreedTimerContainer.setAttribute("onmouseover", 'tooltip(\"Hidden Next Group Breed Timer\", \"customText\", event, \"How long your next army has been breeding for, or how many anticipation stacks you will have if you send a new army now. This number is what BetterAutoFight #4 refers to when it says NextGroupBreedTimer.\")');
 addbreedTimerContainer.setAttribute("onmouseout", 'tooltip("hide")');
 var addbreedTimerInside = document.createElement("DIV");
-addbreedTimerInside.id = 'turkimpBuff';
 addbreedTimerInside.setAttribute('style', 'display: block;');
 var addbreedTimerInsideIcon = document.createElement("SPAN");
 addbreedTimerInsideIcon.setAttribute('class', "icomoon icon-clock");
