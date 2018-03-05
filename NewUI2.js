@@ -566,9 +566,12 @@ function automationMenuInit() {
     fightButtonCol.appendChild(newContainer);
 
     //create automaps status
+    var mapAtZoneStatus;
+    if (game.options.menu.mapAtZone.enabled) mapAtZoneStatus = game.options.menu.mapAtZone.setZone;
+    else mapAtZoneStatus = 'Disabled';
     newContainer = document.createElement("DIV");
     newContainer.setAttribute("style", "display: block; font-size: 1.1vw; text-align: center; background-color: rgba(0,0,0,0.3);");
-    newContainer.setAttribute("onmouseover", 'tooltip(\"Health to Damage ratio\", \"customText\", event, \"This status box displays the current mode Automaps is in. The number usually shown here during Farming or Want more Damage modes is the \'HDratio\' meaning EnemyHealth to YourDamage Ratio (in X stance). Above 16 will trigger farming, above 4 will trigger going for Map bonus up to 10 stacks. If the number is not shown, hovering will display it below.<p><b>enoughHealth: </b>\" + enoughHealth + \"<br><b>enoughDamage: </b>\" + enoughDamage +\"<br><b>shouldFarm: </b>\" + shouldFarm +\"<br><b>H:D ratio = </b>\" + HDratio + \"<br>\")');
+    newContainer.setAttribute("onmouseover", 'tooltip(\"Health to Damage ratio\", \"customText\", event, \"This displays the current mode that Automaps is in. H:D ratio means estimated enemy health vs your current damage.<p><b>enoughHealth: </b>\" + enoughHealth + \"<br><b>enoughDamage: </b>\" + enoughDamage +\"<br><b>shouldFarm: </b>\" + shouldFarm +\"<br><b>MapAtZone: </b>\" + mapAtZoneStatus +\"<br><b>H:D ratio = </b>\" + HDratio + \"<br>\")');
     newContainer.setAttribute("onmouseout", 'tooltip("hide")');
     abutton = document.createElement("SPAN");
     abutton.id = 'autoMapStatus';
