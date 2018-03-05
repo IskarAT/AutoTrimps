@@ -126,7 +126,9 @@ function autoMap() {
 //START CALCULATING DAMAGE:
     // Start: Preparation for rewrite
     /*if (game.global.lastClearedCell) {
-    var actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true); // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
+    var actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, false, true); // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
+    // I'm doing false/true instead true/true because then it would return string of mindmg-maxdmg, like in trimp stats
+    
     var WorldCell = game.global.gridArray[game.global.lastClearedCell + 1];
     var actualEnemyHealth = WorldCell.maxHealth;
     debug('Trimp Attack: ' + actualTrimpDamage + ' Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
