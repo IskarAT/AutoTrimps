@@ -125,7 +125,7 @@ function autoMap() {
 
 //START CALCULATING DAMAGE:
     // Start: Preparation for rewrite
-    if (game.global.lastClearedCell) {
+    /*if (game.global.lastClearedCell) {
     var actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true); // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
     var WorldCell = game.global.gridArray[game.global.lastClearedCell + 1];
     var actualEnemyHealth = WorldCell.maxHealth;
@@ -136,7 +136,8 @@ function autoMap() {
     WorldCell = game.global.gridArray[99];
     debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
     WorldCell = game.global.gridArray[100];
-    debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
+    debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');*/
+    // this crap still doesn't want to work properly, especially Get of HP on fixed cell number, so I cannot get Omnipotrimp HP on cell 99
     // var actualEnemyDamange; // we do not need it just yet
     }
     // Stop: Preparation for rewrite
