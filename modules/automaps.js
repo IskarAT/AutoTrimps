@@ -130,7 +130,13 @@ function autoMap() {
     var WorldCell = game.global.gridArray[game.global.lastClearedCell + 1];
     var actualEnemyHealth = WorldCell.maxHealth;
     debug('Trimp Attack: ' + actualTrimpDamage + ' Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
-    //debug('Grid length: ' + game.global.gridArray.length, "other", '*upload3'); // of course it is 100...
+    debug('Cell: ' + game.global.lastClearedCell, "other", '*upload3');
+    WorldCell = game.global.gridArray[98];
+    debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
+    WorldCell = game.global.gridArray[99];
+    debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
+    WorldCell = game.global.gridArray[100];
+    debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
     // var actualEnemyDamange; // we do not need it just yet
     }
     // Stop: Preparation for rewrite
