@@ -127,8 +127,8 @@ function autoMap() {
   // Start: Preparation for rewrite
   if (game.global.gridArray.length > 0) {
   var actualTrimpDamage = game.global.soldierCurrentAttack; // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
-  var actualEnemyHealth = game.global.gridArray[99].maxHealth;
-  debug('Trimp Attack: ' + actualTrimpDamage + 'Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
+  var actualEnemyHealth = game.global.gridArray[90].maxHealth;
+  debug('Trimp Attack: ' + actualTrimpDamage + ' Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
   debug('Grid length: ' + game.global.gridArray.length, "other", '*upload3');
   // var actualEnemyDamange; // we do not need it just yet
   }
