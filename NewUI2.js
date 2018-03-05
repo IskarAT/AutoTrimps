@@ -566,9 +566,9 @@ function automationMenuInit() {
     fightButtonCol.appendChild(newContainer);
 
     //create automaps status
-    var mapAtZoneStatus;
+    var mapAtZoneStatus = 0;
     if (game.options.menu.mapAtZone.enabled) mapAtZoneStatus = game.options.menu.mapAtZone.setZone;
-    else mapAtZoneStatus = 'Disabled';
+    else mapAtZoneStatus = 0;
     newContainer = document.createElement("DIV");
     newContainer.setAttribute("style", "display: block; font-size: 1.1vw; text-align: center; background-color: rgba(0,0,0,0.3);");
     newContainer.setAttribute("onmouseover", 'tooltip(\"Health to Damage ratio\", \"customText\", event, \"This displays the current mode that Automaps is in. H:D ratio means estimated enemy health vs your current damage.<p><b>enoughHealth: </b>\" + enoughHealth + \"<br><b>enoughDamage: </b>\" + enoughDamage +\"<br><b>shouldFarm: </b>\" + shouldFarm +\"<br><b>MapAtZone: </b>\" + mapAtZoneStatus +\"<br><b>H:D ratio = </b>\" + HDratio + \"<br>\")');
