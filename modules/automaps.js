@@ -778,7 +778,7 @@ function updateAutoMapsStatus() {
     else if (doVoids && voidCheckPercent == 0) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps + ' remaining';
     else if (stackingTox) status.innerHTML = 'Getting Tox Stacks';
     else if (game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone == game.global.world) status.innerHTML = 'Map at Z reached!';
-    else if (needToVoid && !doVoids && game.global.totalVoidMaps >1 0) status.innerHTML = 'Prepping for Voids';
+    else if (needToVoid && !doVoids && game.global.totalVoidMaps >1) status.innerHTML = 'Prepping for Voids';
     else if (doVoids && voidCheckPercent > 0) status.innerHTML = 'Farming to do Voids: ' + voidCheckPercent + '%';
     else if (shouldFarm && !doVoids) status.innerHTML = 'Farming: ' + HDratio.toFixed(4) + 'x';
     else if (scryerStuck) status.innerHTML = 'Scryer Got Stuck, Farming';
