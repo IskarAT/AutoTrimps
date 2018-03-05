@@ -202,26 +202,9 @@ function autoMap() {
     enoughHealth = (baseHealth/FORMATION_MOD_1 > customVars.numHitsSurvived * (enemyDamage - baseBlock/FORMATION_MOD_1 > 0 ? enemyDamage - baseBlock/FORMATION_MOD_1 : enemyDamage * pierceMod));
     enoughDamage = (ourBaseDamage * customVars.enoughDamageCutoff > enemyHealth);
 
-    //remove this in the meantime until it works for everyone.
-/*     if (!wantToScry) {
-        //enough health if we can survive 8 hits in D stance (health/2 and block/2)
-        enoughHealth = (baseHealth/2 > 8 * (enemyDamage - baseBlock/2 > 0 ? enemyDamage - baseBlock/2 : enemyDamage * pierceMod));
-        //enough damage if we can one-shot the enemy in D (ourBaseDamage*4)
-        enoughDamage = (ourBaseDamage * 4) > enemyHealth;
-        scryerStuck = false;
-    } else {
-        //enough health if we can pass all the tests in autostance2 under the best of the worst conditions.
-        //enough damage if we can one-shot the enemy in S (ourBaseDamage/2)
-        var result = autoStanceCheck(true);
-        enoughHealth = result[0];
-        enoughDamage = result[1];
-        scryerStuck = !enoughHealth;
-    } */
-
     //Health:Damage ratio: (status)
     HDratio = enemyHealth / ourBaseDamage;
     updateAutoMapsStatus();    //refresh the UI status (10x per second)
-    //var enoughHealth2enoughDamage2 = autoStanceCheck(false);
 
 //BEGIN AUTOMAPS DECISIONS:
     //variables for doing maps
@@ -355,12 +338,18 @@ function autoMap() {
         shouldDoMaps = true;
         shouldDoWatchMaps = true; //TODO coding: this is overloaded - not ideal.
     }
+  
     //MaxMapBonusAfterZone (idea from awnv)
     var maxMapBonusZ = getPageSetting('MaxMapBonusAfterZone');
     doMaxMapBonus = false;
     if (maxMapBonusZ >= 0 && game.global.mapBonus < customVars.maxMapBonusAfterZ && game.global.world >= maxMapBonusZ) {
         shouldDoMaps = true;
         doMaxMapBonus = true;
+    }
+  
+    // Map  at zone xxx
+    if (game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone == game.global.world) {
+       shouldDoMaps = true;
     }
 
     //Dynamic Siphonology section (when necessary)
@@ -795,6 +784,7 @@ function updateAutoMapsStatus() {
     else if (!enoughHealth && !enoughDamage) status.innerHTML = 'Want Health & Damage';
     else if (!enoughDamage) status.innerHTML = 'Want ' + HDratio.toFixed(4) + 'x &nbspmore damage';
     else if (!enoughHealth) status.innerHTML = 'Want more health';
+    else if (game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone == game.global.world) status.innerHTML = 'Map at Z reached!';
     else if (enoughHealth && enoughDamage) status.innerHTML = 'Advancing';
 
     if (skippedPrestige) // Show skipping prestiges
