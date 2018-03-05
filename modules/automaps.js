@@ -137,6 +137,11 @@ function autoMap() {
     WorldCell = game.global.gridArray[99];
     actualEnemyHealth = WorldCell.maxHealth;
     debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
+    
+    var NewCell = 99;  
+    WorldCell = game.global.gridArray[NewCell];
+    actualEnemyHealth = WorldCell.maxHealth;
+    debug('Omnipotrimp HP: ' + actualEnemyHealth + ', cell number: ' + NewCell, "other", '*upload3');
     // this crap still doesn't want to work properly, especially Get of HP on fixed cell number, so I cannot get Omnipotrimp HP on cell 99
     // var actualEnemyDamange; // we do not need it just yet
     }
