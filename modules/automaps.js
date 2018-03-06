@@ -123,19 +123,19 @@ function autoMap() {
 //START CALCULATING DAMAGE:
     // Start: Preparation for rewrite
     actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true); // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
-    debug('Trimp Attack: ' + actualTrimpDamage + ' Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
-    debug('HD: ' + (actualEnemyHealth/actualTrimpDamage).toFixed(3), "other", '*upload3');
+    //debug('Trimp Attack: ' + actualTrimpDamage + ' Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
+    //debug('HD: ' + (actualEnemyHealth/actualTrimpDamage).toFixed(3), "other", '*upload3');
   
     //var WorldCell = game.global.gridArray[game.global.lastClearedCell + 1];
-    if(game.global.lastClearedCell < 1 && !game.global.mapsActive) { // when entering new zone, calculate Health for cell 100 Omnipotr.; eventually add liquimps and improbs below magma
+    if(game.global.lastClearedCell == -1 && !game.global.mapsActive) { // when entering new zone, calculate Health for cell 100 Omnipotr.; eventually add liquimps and improbs below magma
       //var actualEnemyHealth = WorldCell.maxHealth;
-      actualEnemyHealth = getEnemyHealth(100, "Omnipotrimp", false);
-      debug('Trimp Attack: ' + actualTrimpDamage + ' Cumputed Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
+      actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp", false);
+      //debug('Trimp Attack: ' + actualTrimpDamage + ' Cumputed Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
     }
     else {
       if (actualEnemyHealth == 0) {
-          actualEnemyHealth = game.global.gridArray[0].maxHealth;
-          debug('Trimp Attack: ' + actualTrimpDamage + ' Get of current HP: ' + actualEnemyHealth, "other", '*upload3');
+          actualEnemyHealth = game.global.gridArray[0].maxHealth; // if nothing is set, get a temporary value
+          //debug('Trimp Attack: ' + actualTrimpDamage + ' Get of current HP: ' + actualEnemyHealth, "other", '*upload3');
         }
     }
     
