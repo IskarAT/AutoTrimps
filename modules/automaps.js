@@ -6,11 +6,7 @@ MODULES["automaps"].numHitsSurvived = 8;    //survive X hits in D stance or not 
 MODULES["automaps"].LeadfarmingCutoff = 10; //lead has its own farmingCutoff
 MODULES["automaps"].NomfarmingCutoff = 10;  //nom has its own farmingCutoff
 MODULES["automaps"].NurseryMapLevel = 50;   //with blacksmithery, run map for nursery on this level
-//if FarmWhenNomStacks7 setting is on   = [x, y, z];
 MODULES["automaps"].NomFarmStacksCutoff = [7,30,100];
-//[x] get maxMapBonus (10) if we go above (7) stacks on Improbability (boss)
-//[y] go into maps on (30) stacks on Improbability (boss), farm until we fall under the 'NomfarmingCutoff' (10)
-//[z] restarts your voidmap if you hit (100) stacks
 MODULES["automaps"].MapTierZone = [72,47,16];    //descending order for these.
 //                 .MapTier?Sliders = [size,difficulty,loot,biome];
 MODULES["automaps"].MapTier0Sliders = [9,9,9,'Mountain'];   //Zone 72+ (old: 9/9/9 Metal)
@@ -27,7 +23,6 @@ MODULES["automaps"].SkipNumUnboughtPrestiges = 2;   //exceeding this number of u
 MODULES["automaps"].UnearnedPrestigesRequired = 2;
 MODULES["automaps"].maxMapBonusAfterZ = MODULES["automaps"].maxMapBonus;   //Max Map Bonus After Zone uses this many stacks 
                                                                  //- init as default value (10). user can set if they want.
-
 
 //Initialize Global Vars (dont mess with these ones, nothing good can come from it).
 var stackingTox = false;
@@ -47,13 +42,15 @@ var preSpireFarming = false;
 var spireMapBonusFarming = false;
 var spireTime = 0;
 var doMaxMapBonus = false;
+// new variables
+var actualEnemyHealth = 0;
+var actualTrimpDamage = 0;
 
 //AutoMap - function originally created by Belaith (in 1971)
 //anything/everything to do with maps.
 function autoMap() {
     var customVars = MODULES["automaps"];
-    //allow script to handle abandoning
-    // if(game.options.menu.alwaysAbandon.enabled == 1) toggleSetting('alwaysAbandon');
+
     //if we are prestige mapping, force equip first mode
     var prestige = autoTrimpSettings.Prestige.selected;
     if(prestige != "Off" && game.options.menu.mapLoot.enabled != 1) toggleSetting('mapLoot');
@@ -125,26 +122,24 @@ function autoMap() {
 
 //START CALCULATING DAMAGE:
     // Start: Preparation for rewrite
-    /*if (game.global.lastClearedCell) {
-    var actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true); // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
-    var WorldCell = game.global.gridArray[game.global.lastClearedCell + 1];
-    var actualEnemyHealth = WorldCell.maxHealth;
-    debug('Trimp Attack: ' + actualTrimpDamage + ' Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
-    debug('Cell: ' + game.global.lastClearedCell, "other", '*upload3');
-    WorldCell = game.global.gridArray[98];
-    actualEnemyHealth = WorldCell.maxHealth;
-    debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
-    WorldCell = game.global.gridArray[99];
-    actualEnemyHealth = WorldCell.maxHealth;
-    debug('Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
-    
-    var NewCell = 99;  
-    WorldCell = game.global.gridArray[NewCell];
-    actualEnemyHealth = WorldCell.maxHealth;
-    debug('Omnipotrimp HP: ' + actualEnemyHealth + ', cell number: ' + NewCell, "other", '*upload3');
-    // this crap still doesn't want to work properly, especially Get of HP on fixed cell number, so I cannot get Omnipotrimp HP on cell 99
-    // var actualEnemyDamange; // we do not need it just yet
-    }*/
+    if (true) // I know, I know... let's do it like this for now. Function is definitely not final {
+      actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true); // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
+      
+  
+      //var WorldCell = game.global.gridArray[game.global.lastClearedCell + 1];
+      if(game.global.lastClearedCell == -1 && !game.global.mapsActive) { // when entering new zone, calculate Health for cell 100 Omnipotr.; eventually add liquimps and improbs below magma
+        //var actualEnemyHealth = WorldCell.maxHealth;
+        actualEnemyHealth = getEnemyHealth(100, "Omnipotrimp", false);
+      }
+      else {
+        if (actualEnemyHealth == 0)
+          actualEnemyHealth = game.global.gridArray[0].maxHealth;
+      }
+      
+      debug('Trimp Attack: ' + actualTrimpDamage + ' Omnipotrimp HP: ' + actualEnemyHealth, "other", '*upload3');
+      debug('HD: ' + (actualEnemyHealth/actualTrimpDamage).toFixed(3), "other", '*upload3');
+      // var actualEnemyDamange; // we do not need it just yet
+    }
     // Stop: Preparation for rewrite
   
     //calculate crits (baseDamage was calced in function autoStance)    this is a weighted average of nonCrit + Crit. (somewhere in the middle)
