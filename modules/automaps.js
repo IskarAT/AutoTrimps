@@ -127,12 +127,10 @@ function autoMap() {
     // Challenge modifier reset, until we get a function for it
     challengeHPmod = 1;
     
-    // this function gets MAX damage, not average
+    // this function gets MAX damage, not average; It already has map bonus in it
     actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true);
     // Now we estimate how this changes with crit damage
     actualTrimpDamange = (actualTrimpDamage * (1-getPlayerCritChance()) + (actualTrimpDamage * getPlayerCritChance() * getPlayerCritDamageMult()));
-    // Now we add map bonus; We only care about world damage, not dmg in maps
-    actualTrimpDamange *= 1 + (0.20*game.global.mapBonus);
   
     // possible optimization: Compute when entering new zone or upon loading
     actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp"); // use default function for Omnipotrimp
@@ -145,7 +143,7 @@ function autoMap() {
     // add else ifs to handle all challenge mods
     actualEnemyHealth *= challengeHPmod;
   
-    // Now that we have both HP and Damage, we know how many hits on average mob will survive (not counting in poison ticks)
+    // Now that we have both HP and Damage, we know how many hits on average will survive Omnipotrimp at the end of the zone (not counting in poison ticks)
     newHDratio = actualEnemyHealth/actualTrimpDamange;
     
     // var actualEnemyDamange; // we do not need it just yet
