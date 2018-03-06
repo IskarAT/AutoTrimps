@@ -127,15 +127,25 @@ function autoMap() {
     // Challenge modifier reset, until we get a function for it
     challengeHPmod = 1;
     
-    // this function gets MAX damage, not average; It already has map bonus in it
+    // Damage section; calculates max damage, not average; then we remove stance modifiers
     actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true);
-    // Now we estimate how this changes with crit damage
     actualTrimpDamange = (actualTrimpDamage * (1-getPlayerCritChance()) + (actualTrimpDamage * getPlayerCritChance() * getPlayerCritDamageMult()));
+    if (game.global.formation == 0) {
+      // Do nothing, X stance
+    } else if (game.global.formation == 2) {
+      // Dominance
+      actualTrimpDamange /= 4;
+    } else {
+      // Heap, Barrier, Scryer
+      actualTrimpDamange *= 2;
+    }
   
+    // Health section; computes Omnipotrimp at cell 100, unless stated otherwise
     // possible optimization: Compute when entering new zone or upon loading
-    actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp"); // use default function for Omnipotrimp
+    actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp");
     actualEnemyHealth *= mutations.Corruption.statScale(10); // because Omnipotrimps are considered as corrupted for HP/attack; cannot call corrupted health function directly because it ignores Bad Guy stats
   
+    // Challenge modifier section
     if (game.global.challengeActive == "Daily" && 
         dailyModifiers.badHealth.getMult(game.global.dailyChallenge.badHealth.strength) !== 'undefined') { // If daily doesn't affect HP, it is undefined
       challengeHPmod = dailyModifiers.badHealth.getMult(game.global.dailyChallenge.badHealth.strength);
@@ -145,6 +155,7 @@ function autoMap() {
   
     // Now that we have both HP and Damage, we know how many hits on average will survive Omnipotrimp at the end of the zone (not counting in poison ticks)
     newHDratio = actualEnemyHealth/actualTrimpDamange;
+    //newHDratio.toFixed(2) // print nice output when needed
     
     // var actualEnemyDamange; // we do not need it just yet
     
