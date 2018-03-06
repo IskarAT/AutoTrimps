@@ -123,6 +123,9 @@ function autoMap() {
 
 //START CALCULATING DAMAGE:
     // Start: Preparation for rewrite
+    // Challenge modifier reset, until we get a function for it
+    challengeHPmod = 1;
+  
     actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true); // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
     
     // possible optimization: Compute when entering new zone or upon loading
