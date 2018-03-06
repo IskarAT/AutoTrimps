@@ -45,6 +45,7 @@ var doMaxMapBonus = false;
 // new variables
 var actualEnemyHealth = 0;
 var actualTrimpDamage = 0;
+var newHDratio = 0;
 var challengeHPmod = 1;
 
 //AutoMap - function originally created by Belaith (in 1971)
@@ -125,9 +126,14 @@ function autoMap() {
     // Start: Preparation for rewrite
     // Challenge modifier reset, until we get a function for it
     challengeHPmod = 1;
-  
-    actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true); // we'll eventually need to add stance controls, because otherwise this will fluctuate depending on stance, which we do NOT want
     
+    // this function gets MAX damage, not average
+    actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true);
+    // Now we estimate how this changes with crit damage
+    actualTrimpDamange = (actualTrimpDamage * (1-getPlayerCritChance()) + (actualTrimpDamage * getPlayerCritChance() * getPlayerCritDamageMult()));
+    // Now we add map bonus; We only care about world damage, not dmg in maps
+    actualTrimpDamange *= 1 + (0.20*game.global.mapBonus);
+  
     // possible optimization: Compute when entering new zone or upon loading
     actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp"); // use default function for Omnipotrimp
     actualEnemyHealth *= mutations.Corruption.statScale(10); // because Omnipotrimps are considered as corrupted for HP/attack; cannot call corrupted health function directly because it ignores Bad Guy stats
@@ -138,6 +144,9 @@ function autoMap() {
     }
     // add else ifs to handle all challenge mods
     actualEnemyHealth *= challengeHPmod;
+  
+    // Now that we have both HP and Damage, we know how many hits on average mob will survive (not counting in poison ticks)
+    newHDratio = actualEnemyHealth/actualTrimpDamange;
     
     // var actualEnemyDamange; // we do not need it just yet
     
