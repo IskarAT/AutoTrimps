@@ -139,8 +139,13 @@ function autoMap() {
       // Heap, Barrier, Scryer
       actualTrimpDamage *= 2;
     }
-    if (game.global.titimpLeft > 0) actualTrimpDamage /= 2; //remove titimp, since it's map only
     if(getEmpowerment() == "Poison") actualTrimpDamage *= (1 + (game.empowerments.Poison.level / 100) * (game.empowerments.Poison.retainLevel / 50)); // Magic with poison, no real science or math behind it. Just made it to roughly stick to my current dmg increase and could be improved later
+    // Map handler
+    if (game.global.mapsActive) {
+      if (game.global.titimpLeft > 0) actualTrimpDamage /= 2;
+      actualTrimpDamage *= (1 + game.global.mapBonus * 0.2);
+      // add handling of void power buff
+    }
   
     // Health section; computes Omnipotrimp at cell 100, unless stated otherwise
     // possible optimization: Compute when entering new zone or upon loading
