@@ -129,17 +129,18 @@ function autoMap() {
     
     // Damage section; calculates max damage, not average; then we remove stance modifiers
     actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true);
-    actualTrimpDamange = (actualTrimpDamage * (1-getPlayerCritChance()) + (actualTrimpDamage * getPlayerCritChance() * getPlayerCritDamageMult()));
+    actualTrimpDamage = (actualTrimpDamage * (1-getPlayerCritChance()) + (actualTrimpDamage * getPlayerCritChance() * getPlayerCritDamageMult()));
     if (game.global.formation == 0) {
       // Do nothing, X stance
     } else if (game.global.formation == 2) {
       // Dominance
-      actualTrimpDamange /= 4;
+      actualTrimpDamage /= 4;
     } else {
       // Heap, Barrier, Scryer
-      actualTrimpDamange *= 2;
+      actualTrimpDamage *= 2;
     }
-    if (game.global.titimpLeft > 0) actualTrimpDamange /= 2; //remove titimp, since it's map only
+    if (game.global.titimpLeft > 0) actualTrimpDamage /= 2; //remove titimp, since it's map only
+    //if(getEmpowerment() == "Poison") actualTrimpDamage *= ;
   
     // Health section; computes Omnipotrimp at cell 100, unless stated otherwise
     // possible optimization: Compute when entering new zone or upon loading
@@ -155,7 +156,7 @@ function autoMap() {
     actualEnemyHealth *= challengeHPmod;
   
     // Now that we have both HP and Damage, we know how many hits on average will survive Omnipotrimp at the end of the zone (not counting in poison ticks)
-    newHDratio = actualEnemyHealth/actualTrimpDamange;
+    newHDratio = actualEnemyHealth/actualTrimpDamage;
     //newHDratio.toFixed(2) // print nice output when needed
     
     // var actualEnemyDamange; // we do not need it just yet
