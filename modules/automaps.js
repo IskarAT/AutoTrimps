@@ -139,6 +139,7 @@ function autoMap() {
       // Heap, Barrier, Scryer
       actualTrimpDamange *= 2;
     }
+    if (game.global.titimpLeft > 0) actualTrimpDamange /= 2; //remove titimp, since it's map only
   
     // Health section; computes Omnipotrimp at cell 100, unless stated otherwise
     // possible optimization: Compute when entering new zone or upon loading
@@ -831,5 +832,5 @@ function updateAutoMapsStatus() {
     var area51 = document.getElementById('hiderStatus');
     var getPercent = (game.stats.heliumHour.value() / (game.global.totalHeliumEarned - (game.global.heliumLeftover + game.resources.helium.owned)))*100;
     var lifetime = (game.resources.helium.owned / (game.global.totalHeliumEarned-game.resources.helium.owned))*100;
-    area51.innerHTML = 'He/hr: ' + getPercent.toFixed(3) + '%<br>&nbsp;&nbsp;&nbsp;He: ' + lifetime.toFixed(3) +'%' + '<br> H/D: ' + newHDratio.toFixed(2);
+    area51.innerHTML = 'H/D: ' + newHDratio.toFixed(2) + '<br>He/hr: ' + getPercent.toFixed(3) + '%<br>&nbsp;&nbsp;&nbsp;He: ' + lifetime.toFixed(3) +'%';
 }
