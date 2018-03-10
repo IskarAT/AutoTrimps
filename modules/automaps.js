@@ -167,6 +167,12 @@ function autoMap() {
     }
     // add else ifs to handle all challenge mods
     actualEnemyHealth *= challengeHPmod;
+    
+    // Spire override
+    if (game.global.spireActive) {
+      var spireHealth = game.global.gridArray[game.global.lastClearedCell+1].maxHealth;
+      if (spireHealth > actualEnemyHealth) actualEnemyHealth = spireHealth;
+    }
   
     // Now that we have both HP and Damage, we know how many hits on average will survive Omnipotrimp at the end of the zone (not counting in poison ticks)
     newHDratio = actualEnemyHealth/actualTrimpDamage;
