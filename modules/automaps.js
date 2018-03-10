@@ -381,7 +381,7 @@ function autoMap() {
     const ignoreWindSpire = getPageSetting('WindSpire');
     var skipSpire = ignoreWindSpire && game.global.spireActive;
     
-    if(!skipSpire && forceWind && windModifier > Math.floor(newHDratio)) {
+    if(getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > Math.floor(newHDratio)) {
       shouldDoMaps = false;
       //debug("Disabled map farming to stack wind", "other");
     }
