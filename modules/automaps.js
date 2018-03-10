@@ -144,14 +144,22 @@ function autoMap() {
     if (game.global.mapsActive) {
       if (game.global.titimpLeft > 0) actualTrimpDamage /= 2;
       actualTrimpDamage *= (1 + game.global.mapBonus * 0.2);
-      // add handling of void power buff
+      // Handling of void power
+      if (game.talents.voidPower.purchased && game.global.voidBuff){
+        var voidBonus = (game.talents.voidPower2.purchased) ? ((game.talents.voidPower3.purchased) ? 65 : 35) : 15;
+        actualTrimpDamage *= (100 / voidBonus);
+      }
     }
   
     // Health section; computes Omnipotrimp at cell 100, unless stated otherwise
     // possible optimization: Compute when entering new zone or upon loading
-    actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp");
-    actualEnemyHealth *= mutations.Corruption.statScale(10); // because Omnipotrimps are considered as corrupted for HP/attack; cannot call corrupted health function directly because it ignores Bad Guy stats
-  
+    if (!game.global.mapsActive) {
+      actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp") * mutations.Corruption.statScale(10); // because Omnipotrimps are considered as corrupted for HP/attack; cannot call corrupted health function directly because it ignores Bad Guy stats
+    } else {
+      // We have loaded the game while in a map; getEnemyHealth while in maps computes it from map level, which was causing weird behavior. This safeguard is to approximate H:D ratior before we fix it in world
+      if (actualEnemyHealth == 0) game.global.getEnemyHealth(100, "Omnipotrimp") * mutations.Corruption.statScale(10);
+    }
+     
     // Challenge modifier section
     if (game.global.challengeActive == "Daily" && 
         dailyModifiers.badHealth.getMult(game.global.dailyChallenge.badHealth.strength) !== 'undefined') { // If daily doesn't affect HP, it is undefined
