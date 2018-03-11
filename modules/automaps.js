@@ -161,7 +161,7 @@ function autoMap() {
     }
      
     // Challenge modifier section
-    if (game.global.challengeActive == "Daily" && game.global.dailyChallenge.badHealth.strength !== 'undefined' &&
+    if (game.global.challengeActive == "Daily" && game.global.dailyChallenge.badHealth !== 'undefined' &&
         dailyModifiers.badHealth.getMult(game.global.dailyChallenge.badHealth.strength) !== 'undefined') { // If daily doesn't affect HP, it is undefined
       challengeHPmod = dailyModifiers.badHealth.getMult(game.global.dailyChallenge.badHealth.strength);
     }
