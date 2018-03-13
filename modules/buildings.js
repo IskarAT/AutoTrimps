@@ -201,7 +201,7 @@ function buyBuildings() {
                 skipGym = true;
         }
         //still buy gyms if we are farming for voids
-        if (doVoids && voidCheckPercent > 0)
+        if (doVoids)
             skipGym = false;
         //(unless gymwall; thats why its after. debateable.)
         var gymwallpct = getPageSetting('GymWall');
