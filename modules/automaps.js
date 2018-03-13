@@ -66,6 +66,8 @@ function autoMap() {
     var skipSpire = ignoreWindSpire && game.global.spireActive;
     
     //FIND VOID MAPS LEVEL:
+    needToVoid = false;
+    doVoids = false;
     var voidMapLevelSetting = getPageSetting('VoidMaps');
     var voidsuntil = getPageSetting('RunNewVoidsUntil');
     //decimal void maps are possible, using string function to avoid false float precision (0.29999999992). javascript can compare ints to strings anyway.
@@ -139,13 +141,17 @@ function autoMap() {
     // Check for prestiges
     var prestigeList = ['Supershield','Dagadder','Megamace','Polierarm','Axeidic','Greatersword','Harmbalest','Bootboost','Hellishmet','Pantastic','Smoldershoulder','Bestplate','GambesOP'];
     var numUnbought = 0;
+    needPrestige = false;
+    doMaxMapBonus = false;
     for (var i=0,len=prestigeList.length; i < len; i++) {
       var p = prestigeList[i];
       if (game.upgrades[p].allowed - game.upgrades[p].done > 0)
         numUnbought++;
     }
     if (numUnbought > 0) {
-      needPrestige = true; // We have prestiges available -> Get 'em
+      if (game.talents.blacksmith3.purchased && game.global.world < Math.floor((game.global.highestLevelCleared + 1) * 0.9)) {
+	  needPrestige = false;
+        } else needPrestige = true; // We have prestiges available -> Get 'em
     }
     else if (game.global.mapBonus < customVars.maxMapBonus) { // No prestiges are needed, max map bonus
       if (newHDratio > customVars.worldCutoff && !game.global.mapsActive && !game.global.preMapsActive) { // We are in world, so cutoff is 6; Later: Replace with custom variable
