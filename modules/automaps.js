@@ -287,7 +287,11 @@ function autoMap() {
             }
           }
         }
-        if (doMaxMapBonus && game.global.mapBonus >= 9) repeatButton = false;
+        if (doMaxMapBonus && game.global.mapBonus >= 9) {
+	  repeatButton = false;
+	  doMaxMapBonus = false;
+	  shouldDoMaps = false;
+	}
         
         if(pickedMap != getCurrentMapObject()) repeatButton = false; // Fixes loading AT into unwanted map, so that we can run desired one instead
         
