@@ -209,15 +209,15 @@ function autoMap() {
       var pickedMap = "none";
       if (getCurrentMapObject() === undefined) {
         for (var i = 0; i < game.global.mapsOwnedArray.length; i++) {
-          if (game.global.MapsOwnedArray[i].noRecycle) {
-            if (doVoids && game.global.MapsOwnedArray[i].location == "Void") {
-              pickedMap = game.global.MapsOwnedArray[i];
+          if (game.global.mapsOwnedArray[i].noRecycle) {
+            if (doVoids && game.global.mapsOwnedArray[i].location == "Void") {
+              pickedMap = game.global.mapsOwnedArray[i];
               break; // We found a voidmap and we want to run it, let's break
             }
             continue; // found unique map; While we could run them, they are way bigger and have more HP than created ones -> nope
           }
-          if (game.global.MapsOwnedArray[i].level == desiredMapLevel) {
-            pickedMap = game.global.MapsOwnedArray[i];
+          if (game.global.mapsOwnedArray[i].level == desiredMapLevel) {
+            pickedMap = game.global.mapsOwnedArray[i];
             break; // We found our map, let's break
           }
         }
