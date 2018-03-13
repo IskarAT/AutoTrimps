@@ -298,8 +298,12 @@ function autoMap() {
         if (mapAtZoneReached) repeatButton = true;
         // Don't forget to check/click the repeat button as we want it!
         if (game.global.repeatMap && !repeatButton) {
-          repeatClicked();
-        } else if (!game.global.repeatMap && repeatButton) repeatClicked();
+          debug("Repeat clicked: " + game.global.repeatMap + " " + repeatButton, "maps", 'th-large');
+	  repeatClicked();
+        } else if (!game.global.repeatMap && repeatButton) {
+	  debug("Repeat clicked: " + game.global.repeatMap + " " + repeatButton, "maps", 'th-large');
+	  repeatClicked();
+	}
       }
       else if (game.global.preMapsActive) {
         // Handle recycling/abandoning of current but unfinished map
@@ -333,7 +337,7 @@ function updateAutoMapsStatus() {
     }
     else if (spireMapBonusFarming) status.innerHTML = 'Getting Spire Map Bonus';
     else if (windStacking) status.innerHTML = 'Windstacking with H:D: ' + newHDratio.toFixed(2);
-    else if (doMaxMapBonus) status.innerHTML = 'Max Map Bonus After Zone';
+    else if (doMaxMapBonus) status.innerHTML = 'Mapping for bonus';
     else if (!game.global.mapsUnlocked) status.innerHTML = '&nbsp;';
     else if (needPrestige && !doVoids) status.innerHTML = 'Prestige';
     else if (doVoids) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps + ' remaining';
