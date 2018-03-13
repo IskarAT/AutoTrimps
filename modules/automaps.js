@@ -116,7 +116,7 @@ function autoMap() {
       actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp") * mutations.Corruption.statScale(10); // because Omnipotrimps are considered as corrupted for HP/attack; cannot call corrupted health function directly because it ignores Bad Guy stats
     } else {
       // We have loaded the game while in a map; getEnemyHealth while in maps computes it from map level, which was causing weird behavior. This safeguard is to approximate H:D ratior before we fix it in world
-      if (actualEnemyHealth == 0) game.global.getEnemyHealth(100, "Omnipotrimp") * mutations.Corruption.statScale(10);
+      if (actualEnemyHealth == 0) actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp") * mutations.Corruption.statScale(10);
     }
      
     // Challenge modifier section
