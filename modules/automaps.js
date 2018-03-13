@@ -307,6 +307,8 @@ function autoMap() {
         // We are in world; no need to check shouldDoMaps because we know it is true in this part of code
         mapsClicked();
         }
+    } else {
+      if (game.global.preMapsActive) mapsClicked(); // maybe add flag resetting here instead?
     }
 }
   
