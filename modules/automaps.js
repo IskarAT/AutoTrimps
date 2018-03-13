@@ -12,6 +12,7 @@ var doMaxMapBonus = false;
 var needToVoid = false;
 var doVoids = false;
 var mapAtZoneReached = false;
+var windStacking = false;
 
 // Biome, difficulty, extra levels, loot, perfect sliders, size, special modifier; We default into Perfect slider gardens with Prestigious mod and no extra levels
 var defaultMapPreset = {
@@ -74,9 +75,11 @@ function autoMap() {
         voidMapLevelSettingMap = 90;  // Run voids at cell 90, if not defined by user otherwise
     if (voidMapLevelSettingMap.length == 1) voidMapLevelSettingMap += "0";  //entering 187.70 becomes 187.7, this will bring it back to 187.70
     if (game.global.totalVoidMaps > 0 && (game.global.world == voidMapLevelSettingZone || (game.global.world > voidMapLevelSettingZone && game.global.world < voidsuntil))) needToVoid = true; // We reached void map level or are still inside the Until setting; Todo: Add setting for "Only run on poison" and handle it here
-    // Stop: Map initialization
     
     updateAutoMapsStatus();
+    windStacking = false;
+    // Stop: Map initialization
+    
 	
     // Start: HD ratio initialization
     // Challenge modifier reset, until we get a function for it
@@ -170,7 +173,10 @@ function autoMap() {
   
     // If we are on a wind zone and HD ratio is less than set modifier -> don't map; This will also stop prestige mode but for now we want this!
     if(getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > Math.floor(newHDratio)) {
-      if (!doVoids) shouldDoMaps = false; // OK, in theory we could set Voids to a wind zone... this should run them properly
+      if (!doVoids) {
+	shouldDoMaps = false; // OK, in theory we could set Voids to a wind zone... this should run them properly
+        windStacking = true;
+      }
     }
   
     //MaxMapBonusAfterZone (idea from awnv)
@@ -314,6 +320,7 @@ function updateAutoMapsStatus() {
         status.innerHTML = 'Farming for Spire ' + spiretimeStr + ' left';
     }
     else if (spireMapBonusFarming) status.innerHTML = 'Getting Spire Map Bonus';
+    else if (windStacking) status.innerHTML = 'Windstacking with H:D: ' + newHDratio.toFixed(2);
     else if (doMaxMapBonus) status.innerHTML = 'Max Map Bonus After Zone';
     else if (!game.global.mapsUnlocked) status.innerHTML = '&nbsp;';
     else if (needPrestige && !doVoids) status.innerHTML = 'Prestige';
@@ -326,5 +333,5 @@ function updateAutoMapsStatus() {
     var area51 = document.getElementById('hiderStatus');
     var getPercent = (game.stats.heliumHour.value() / (game.global.totalHeliumEarned - (game.global.heliumLeftover + game.resources.helium.owned)))*100;
     var lifetime = (game.resources.helium.owned / (game.global.totalHeliumEarned-game.resources.helium.owned))*100;
-    area51.innerHTML = '<br>He/hr: ' + getPercent.toFixed(3) + '%<br>&nbsp;&nbsp;&nbsp;He: ' + lifetime.toFixed(3) +'%';
+    area51.innerHTML = 'He/hr: ' + getPercent.toFixed(3) + '%<br>&nbsp;&nbsp;&nbsp;He: ' + lifetime.toFixed(3) +'%';
 }
