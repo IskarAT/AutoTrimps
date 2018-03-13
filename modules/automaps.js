@@ -275,7 +275,7 @@ function autoMap() {
       var repeatButton = false; // Let's prevent repeat button flickering, am I right?
       if (game.global.mapsActive) {
         // We are running a map, handle repeat button
-        if (shouldDoMaps && !game.global.repeatMap && !getCurrentMapObject().noRecycle) repeatButton = true; // We want to do maps on repeat but it wasn't on; except when running non-recyclables; this is the default option and will get overwritten if we want to turn it off
+        if (shouldDoMaps && !getCurrentMapObject().noRecycle) repeatButton = true; // We want to do maps on repeat but it wasn't on; except when running non-recyclables; this is the default option and will get overwritten if we want to turn it off
         if (needPrestige) {
           if (numUnbought < 2 || getCurrentMapObject().level != game.global.world) {
             // We have repeat button ON and either not running correct level or unbought prestiges is either 1 or none -> no repeat
