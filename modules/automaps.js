@@ -317,6 +317,7 @@ function autoMap() {
         }
     } else {
       if (game.global.preMapsActive) mapsClicked(); // maybe add flag resetting here instead?
+      if (game.global.repeatMap) repeatClicked();
     }
 }
   
