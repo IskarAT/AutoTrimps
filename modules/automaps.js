@@ -293,7 +293,7 @@ function autoMap() {
       }
       else if (game.global.preMapsActive) {
         // Handle recycling/abandoning of current but unfinished map
-        recycleMap(getMapIndex(game.global.lookingAtMap));
+        if (!game.global.currentMapId == "") recycleMap(getMapIndex(game.global.lookingAtMap));
         // Run selected map
         selectMap(pickedMap.id);
         runMap();
