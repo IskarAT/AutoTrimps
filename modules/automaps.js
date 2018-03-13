@@ -76,6 +76,8 @@ function autoMap() {
     if (game.global.totalVoidMaps > 0 && (game.global.world == voidMapLevelSettingZone || (game.global.world > voidMapLevelSettingZone && game.global.world < voidsuntil))) needToVoid = true; // We reached void map level or are still inside the Until setting; Todo: Add setting for "Only run on poison" and handle it here
     // Stop: Map initialization
     
+    updateAutoMapsStatus();
+	
     // Start: HD ratio initialization
     // Challenge modifier reset, until we get a function for it
     challengeHPmod = 1;
