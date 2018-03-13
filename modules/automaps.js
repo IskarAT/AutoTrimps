@@ -145,7 +145,7 @@ function autoMap() {
     doMaxMapBonus = false;
     for (var i=0,len=prestigeList.length; i < len; i++) {
       var p = prestigeList[i];
-      if (game.upgrades[p].allowed - game.upgrades[p].done > 0)
+      if (game.mapUnlocks[p].last <= game.global.world - 5)
         numUnbought++;
     }
     if (numUnbought > 0) {
