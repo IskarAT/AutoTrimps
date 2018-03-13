@@ -275,7 +275,7 @@ function autoLevelEquipment() {
     var valid_min = game.global.world >= min_zone;
     var valid_max = max_zone <= 0 || game.global.world < max_zone;
     //asks if we can survive x number of hits in either D stance or X stance.
-    enoughHealthE = !(doVoids && voidCheckPercent > 0) &&
+    enoughHealthE = !(doVoids) &&
         (baseHealth/FORMATION_MOD_1 > numHits * (enemyDamage - baseBlock/FORMATION_MOD_1 > 0 ? enemyDamage - baseBlock/FORMATION_MOD_1 : enemyDamage * pierceMod)) &&
         (!(valid_min && valid_max) || (baseHealth/2 > numHitsScry * (enemyDamage - baseBlock/2 > 0 ? enemyDamage - baseBlock/2 : enemyDamage * pierceMod)));
     enoughDamageE = (baseDamage * MODULES["equipment"].enoughDamageCutoff > enemyHealth);
