@@ -213,7 +213,7 @@ function autoMap() {
       }
       // Now let's go through map array and see if we find our map
       var pickedMap = "none";
-      if (getCurrentMapObject() === undefined) {
+      if (/*getCurrentMapObject() === undefined*/true) {
         for (var i = 0; i < game.global.mapsOwnedArray.length; i++) {
           if (game.global.mapsOwnedArray[i].noRecycle) {
             if (doVoids && game.global.mapsOwnedArray[i].location == "Void") {
@@ -227,9 +227,6 @@ function autoMap() {
             break; // We found our map, let's break
           }
         }
-      }
-      else {
-        pickedMap = getCurrentMapObject(); // we are running something already, so why bother doing a find, right?
       }
       // Create map, if no suitable is found
       if (pickedMap == "none") {
