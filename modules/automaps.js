@@ -222,7 +222,7 @@ function autoMap() {
             }
             continue; // found unique map; While we could run them, they are way bigger and have more HP than created ones -> nope
           }
-          if (game.global.mapsOwnedArray[i].level == desiredMapLevel) {
+          if (!doVoids && game.global.mapsOwnedArray[i].level == desiredMapLevel) {
             pickedMap = game.global.mapsOwnedArray[i];
             break; // We found our map, let's break
           }
