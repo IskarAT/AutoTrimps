@@ -225,6 +225,13 @@ function autoLevelEquipment() {
     if (!(baseDamage > 0)) return;  //if we have no damage, why bother running anything? (this fixes weird bugs)
     //if((game.jobs.Miner.locked && game.global.challengeActive != 'Metal') || (game.jobs.Scientist.locked && game.global.challengeActive != "Scientist"))
         //return;
+    
+    // Get Wind farm settings; cannot move to global vars in case user changes them
+    const forceWind = getPageSetting('ForceWind');
+    const windModifier = getPageSetting('WindModifier');
+    const ignoreWindSpire = getPageSetting('WindSpire');
+    var skipSpire = ignoreWindSpire && game.global.spireActive;
+    
     resourcesNeeded = {"food": 0, "wood": 0, "metal": 0, "science": 0, "gems": 0};  //list of amount of resources needed for stuff we want to afford
     Best = {};
     var keys = ['healthwood', 'healthmetal', 'attackmetal', 'blockwood'];
@@ -381,7 +388,7 @@ function autoLevelEquipment() {
             }
             // If we're considering an attack item, we want to buy weapons if we don't have enough damage, or if we don't need health (so we default to buying some damage)
             if (getPageSetting('BuyWeapons') && DaThing.Stat == 'attack') {
-                if (DaThing.Equip && !Best[stat].Wall && canAffordBuilding(eqName, null, null, true)) {
+                if (DaThing.Equip && !Best[stat].Wall && canAffordBuilding(eqName, null, null, true) && !(getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > 3 * Math.floor(newHDratio))) {
                     debug('Leveling equipment ' + eqName, "equips", '*upload3');
                     buyEquipment(eqName, null, true);
                 }
