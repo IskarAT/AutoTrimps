@@ -3,6 +3,11 @@ var upgradeList = ['Miners', 'Scientists', 'Coordination', 'Speedminer', 'Speedl
 
 //Buys all available non-equip upgrades listed in var upgradeList
 function buyUpgrades() {
+    // Get Wind farm settings; cannot move to global vars in case user changes them
+    const forceWind = getPageSetting('ForceWind');
+    const windModifier = getPageSetting('WindModifier');
+    const ignoreWindSpire = getPageSetting('WindSpire');
+    var skipSpire = ignoreWindSpire && game.global.spireActive;
     for (var upgrade in upgradeList) {
         upgrade = upgradeList[upgrade];
         var gameUpgrade = game.upgrades[upgrade];
