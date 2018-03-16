@@ -427,6 +427,7 @@ function autoLevelEquipment() {
                         averageWeaponLevel += game.equipment.Arbalest.level;
                         averageWeaponLevel = Math.floor((averageWeaponLevel / 6) - gearLevelCutoff);
                     }
+                    if (averageWeaponLevel < 0) averageWeaponLevel = 0;
                     
                     if (game.equipment[eqName].level < averageWeaponLevel) {
                         buyEquipment(eqName, null, true);
