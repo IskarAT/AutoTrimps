@@ -62,6 +62,10 @@ function getBattleStats(what,form,crit) {
         var geneticistStrength = Math.pow(1.01, game.global.lastLowGen);
         currentCalc  *= geneticistStrength;
     }
+    //Add Gators
+    if (what == "health" && game.jobs.Amalgamator.owned) {
+        currentCalc *= Math.pow(40,game.jobs.Amalgamator.owned);
+    }
     //Add Anticipation
     var anticipation = game.portal.Anticipation;
     if (anticipation.level > 0 && what == "attack"){
