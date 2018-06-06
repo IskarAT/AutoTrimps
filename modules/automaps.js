@@ -88,7 +88,15 @@ function autoMap() {
     challengeHPmod = 1;
     // Damage section; calculates max damage, not average; then we remove stance modifiers
     actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true);
-    actualTrimpDamage = (actualTrimpDamage * (1-getPlayerCritChance()) + (actualTrimpDamage * getPlayerCritChance() * getPlayerCritDamageMult()));
+    var playerCritChance = getPlayerCritChance();
+    var additionalCritMulti = (playerCritChance > 2) ? 25 : 5;
+
+    if (playerCritChance > 1) {
+     actualTrimpDamage = actualTrimpDamage * playerCritChance * getPlayerCritDamageMult() * (playerCritChance-1) * additionalCritMulti;
+     } else {
+     actualTrimpDamage = (actualTrimpDamage * (1-playerCritChance) + (actualTrimpDamage * playerCritChance * getPlayerCritDamageMult()));
+    }
+	
     if (game.global.formation == 0) {
       // Do nothing, X stance
     } else if (game.global.formation == 2) {
