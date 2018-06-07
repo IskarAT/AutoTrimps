@@ -1,48 +1,3 @@
-
-function calcBaseDamageinX() {
-    //baseDamage
-    baseDamage = game.global.soldierCurrentAttack * (1 + (game.global.achievementBonus / 100)) * ((game.global.antiStacks * game.portal.Anticipation.level * game.portal.Anticipation.modifier) + 1) * (1 + (game.global.roboTrimpLevel * 0.2));
-    if (game.global.challengeActive == "Daily"){
-        if (typeof game.global.dailyChallenge.weakness !== 'undefined'){
-            baseDamage *= dailyModifiers.weakness.getMult(game.global.dailyChallenge.weakness.strength, game.global.dailyChallenge.weakness.stacks);
-        }
-        if (typeof game.global.dailyChallenge.oddTrimpNerf !== 'undefined' && ((game.global.world % 2) == 1)){
-            baseDamage *= dailyModifiers.oddTrimpNerf.getMult(game.global.dailyChallenge.oddTrimpNerf.strength);
-        }
-        if (typeof game.global.dailyChallenge.evenTrimpBuff !== 'undefined' && ((game.global.world % 2) == 0)){
-            baseDamage *= dailyModifiers.evenTrimpBuff.getMult(game.global.dailyChallenge.evenTrimpBuff.strength);
-        }
-        if (typeof game.global.dailyChallenge.rampage !== 'undefined'){
-            baseDamage *= dailyModifiers.rampage.getMult(game.global.dailyChallenge.rampage.strength, game.global.dailyChallenge.rampage.stacks);
-        }
-    }
-    //baseBlock
-    baseBlock = game.global.soldierCurrentBlock;
-    //baseHealth
-    baseHealth = game.global.soldierHealthMax;
-
-    //if (game.global.soldierHealth <= 0) return; //dont calculate stances when dead, cause the "current" numbers are not updated when dead.
-
-    //D stance
-    if (game.global.formation == 2)
-        baseDamage /= 4;
-    else if (game.global.formation != "0")
-        baseDamage *= 2;
-
-    //B stance
-    if (game.global.formation == 3)
-        baseBlock /= 4;
-    else if (game.global.formation != "0")
-        baseBlock *= 2;
-
-    //H stance
-    if (game.global.formation == 1)
-        baseHealth /= 4;
-    else if (game.global.formation != "0")
-        baseHealth *= 2;
-    //S stance is accounted for (combination of all the above's else clauses)
-}
-
 function calcBaseDamageinX2() {
     //baseDamage
     baseDamage = calcOurDmg(game.global.soldierCurrentAttack,false);
@@ -52,199 +7,106 @@ function calcBaseDamageinX2() {
     baseHealth = getBattleStats("health");
     //stances are not needed, if you do need it, call the function with (,true)
 }
+
 //Autostance - function originally created by Belaith (in 1971)
 //Automatically swap formations (stances) to avoid dying
 function autoStance() {
-    //get back to a baseline of no stance (X)
-    calcBaseDamageinX();
-    //no need to continue
-    if (game.global.gridArray.length === 0) return;
-    if (game.global.soldierHealth <= 0) return; //dont calculate stances when dead, cause the "current" numbers are not updated when dead.
-    if (!getPageSetting('AutoStance')) return;
-    if (!game.upgrades.Formations.done) return;
-
-    //start analyzing autostance
-    var missingHealth = game.global.soldierHealthMax - game.global.soldierHealth;
-    var newSquadRdy = game.resources.trimps.realMax() <= game.resources.trimps.owned + 1;
-    var dHealth = baseHealth/2;
-    var xHealth = baseHealth;
-    var bHealth = baseHealth/2;
-    var enemy;
-    var corrupt = game.global.world >= mutations.Corruption.start();
-    if (!game.global.mapsActive && !game.global.preMapsActive) {
-        enemy = getCurrentEnemy();
-        var enemyFast = game.global.challengeActive == "Slow" || ((((game.badGuys[enemy.name].fast || enemy.mutation == "Corruption") && game.global.challengeActive != "Nom") && game.global.challengeActive != "Coordinate"));
-        var enemyHealth = enemy.health;
-        var enemyDamage = enemy.attack * 1.2;
-        enemyDamage = calcDailyAttackMod(enemyDamage); //daily mods: badStrength,badMapStrength,bloodthirst
-        //check for world Corruption
-        if (enemy && enemy.mutation == "Corruption"){
-            enemyHealth *= getCorruptScale("health");
-            enemyDamage *= getCorruptScale("attack");
-        }
-        if (enemy && enemy.corrupted == 'corruptStrong') {
-            enemyDamage *= 2;
-        }
-        if (enemy && enemy.corrupted == 'corruptTough') {
-            enemyHealth *= 5;
-        }
-        if (enemy && game.global.challengeActive == "Nom" && typeof enemy.nomStacks !== 'undefined'){
-            enemyDamage *= Math.pow(1.25, enemy.nomStacks);
-        }
-        if (game.global.challengeActive == 'Lead') {
-            enemyDamage *= (1 + (game.challenges.Lead.stacks * 0.04));
-        }
-        if (game.global.challengeActive == 'Watch') {
-            enemyDamage *= 1.25;
-        }
-        var pierceMod = getPierceAmt();
-        var dDamage = enemyDamage - baseBlock / 2 > enemyDamage * pierceMod ? enemyDamage - baseBlock / 2 : enemyDamage * pierceMod;
-        var xDamage = enemyDamage - baseBlock > enemyDamage * pierceMod ? enemyDamage - baseBlock : enemyDamage * pierceMod;
-        var bDamage = enemyDamage - baseBlock * 4 > enemyDamage * pierceMod ? enemyDamage - baseBlock * 4 : enemyDamage * pierceMod;
-
-    } else if (game.global.mapsActive && !game.global.preMapsActive) {
-        enemy = getCurrentEnemy();
-        var enemyFast = game.global.challengeActive == "Slow" || ((((game.badGuys[enemy.name].fast || enemy.mutation == "Corruption") && game.global.challengeActive != "Nom") || game.global.voidBuff == "doubleAttack") && game.global.challengeActive != "Coordinate");
-        var enemyHealth = enemy.health;
-        var enemyDamage = enemy.attack * 1.2;
-        enemyDamage = calcDailyAttackMod(enemyDamage); //daily mods: badStrength,badMapStrength,bloodthirst
-        //check for voidmap Corruption
-        if (getCurrentMapObject().location == "Void" && corrupt) {
-            enemyDamage *= getCorruptScale("attack");
-            enemyHealth *= getCorruptScale("health");
-            //halve if magma is not active (like it was before)
-            if (!mutations.Magma.active()) {
-                enemyDamage /= 2;
-                enemyHealth /= 2;
-            }
-        }
-        //check for z230 magma map corruption
-        else if (getCurrentMapObject().location != "Void" && mutations.Magma.active()) {
-            enemyHealth *= (getCorruptScale("health") / 2);
-            enemyDamage *= (getCorruptScale("attack") / 2);
-        }
-        if (enemy && enemy.corrupted == 'corruptStrong') {
-            enemyDamage *= 2;
-        }
-        if (enemy && enemy.corrupted == 'corruptTough') {
-            enemyHealth *= 5;
-        }
-        if (enemy && game.global.challengeActive == "Nom" && typeof enemy.nomStacks !== 'undefined'){
-            enemyDamage *= Math.pow(1.25, enemy.nomStacks);
-        }
-        if (game.global.challengeActive == 'Lead') {
-            enemyDamage *= (1 + (game.challenges.Lead.stacks * 0.04));
-        }
-        if (game.global.challengeActive == 'Watch') {
-            enemyDamage *= 1.25;
-        }
-        var dDamage = enemyDamage - baseBlock / 2 > 0 ? enemyDamage - baseBlock / 2 : 0;
-        var dVoidCritDamage = enemyDamage*5 - baseBlock / 2 > 0 ? enemyDamage*5 - baseBlock / 2 : 0;
-        var xDamage = enemyDamage - baseBlock > 0 ? enemyDamage - baseBlock : 0;
-        var xVoidCritDamage = enemyDamage*5 - baseBlock > 0 ? enemyDamage*5 - baseBlock : 0;
-        var bDamage = enemyDamage - baseBlock * 4 > 0 ? enemyDamage - baseBlock * 4 : 0;
+    // Function init a premature exits
+    if (game.global.gridArray.length === 0) return true;
+    if (!getPageSetting('AutoStance')) return true;
+    if (!game.upgrades.Formations.done) return true;
+    
+    // If we are dead, go to D. When not unlocked, just use X for eternity
+    if (game.upgrades.Dominance.done) {
+     if (game.global.soldierHealth <= 0) {
+      setFormation(2);
+      return;
+     }    
+    } else {
+     setFormation("0");
+     return;
     }
-
-    var drainChallenge = game.global.challengeActive == 'Nom' || game.global.challengeActive == "Toxicity";
-    var dailyPlague = game.global.challengeActive == 'Daily' && (typeof game.global.dailyChallenge.plague !== 'undefined');
-    var dailyBogged = game.global.challengeActive == 'Daily' && (typeof game.global.dailyChallenge.bogged !== 'undefined');
-
-    if (game.global.challengeActive == "Electricity" || game.global.challengeActive == "Mapocalypse") {
-        dDamage+= dHealth * game.global.radioStacks * 0.1;
-        xDamage+= xHealth * game.global.radioStacks * 0.1;
-        bDamage+= bHealth * game.global.radioStacks * 0.1;
-    } else if (drainChallenge) {
-        dDamage += dHealth/20;
-        xDamage += xHealth/20;
-        bDamage += bHealth/20;
-        var drainChallengeOK = dHealth - missingHealth > dHealth/20;
-    } else if (dailyPlague) {
-        drainChallenge = true;
-        var hplost = dailyModifiers.plague.getMult(game.global.dailyChallenge.plague.strength, 1 + game.global.dailyChallenge.plague.stacks);
-        //x% of TOTAL health;
-        dDamage += dHealth * hplost;
-        xDamage += xHealth * hplost;
-        bDamage += bHealth * hplost;
-        var drainChallengeOK = dHealth - missingHealth > dHealth * hplost;
-    } else if (dailyBogged) {
-        drainChallenge = true;
-        // 1 + was added to the stacks to anticipate the next stack ahead of time.
-        var hplost = dailyModifiers.bogged.getMult(game.global.dailyChallenge.bogged.strength);
-        //x% of TOTAL health;
-        dDamage += dHealth * hplost;
-        xDamage += xHealth * hplost;
-        bDamage += bHealth * hplost;
-        var drainChallengeOK = dHealth - missingHealth > dHealth * hplost;
-    } else if (game.global.challengeActive == "Crushed") {
-        if(dHealth > baseBlock /2)
-            dDamage = enemyDamage*5 - baseBlock / 2 > 0 ? enemyDamage*5 - baseBlock / 2 : 0;
-        if(xHealth > baseBlock)
-            xDamage = enemyDamage*5 - baseBlock > 0 ? enemyDamage*5 - baseBlock : 0;
+    
+    // Initialize variables
+    var enemy = getCurrentEnemy();
+    if (typeof enemy === 'undefined') return true;
+    var enemyHealth = enemy.health;
+    var enemyDamage = 6 * enemy.attack; // then there would be a huge-ass if to add maxHP% bleeds, criticals, reflects and stuff like that; for now, I can live with a magic number of 6
+    
+    // Some special cases, where we want to force a stance
+    // If no challenge is active and we are deep in magma (so block >> HP), just force D stance in Void maps because we cannot die anyway
+    // If a challenge is active, just follow normal stance-dance (I was too lazy to check for bleed cases)
+    if (game.global.currentMapId) {
+     var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
+     if (game.upgrades.Dominance.done && mapLocation == "Void" && game.global.challengeActive == "") {
+      if (enemyDamage < game.global.soldierCurrentBlock) {
+       setFormation(2);
+       return true;
+      }
+     }
     }
-    //^dont attach^.
-    if (game.global.voidBuff == "bleed" || (enemy && enemy.corrupted == 'corruptBleed')) {
-        dDamage += game.global.soldierHealth * 0.2;
-        xDamage += game.global.soldierHealth * 0.2;
-        bDamage += game.global.soldierHealth * 0.2;
+    
+    // Start empowerments overrides
+    var activeEmpowerment = getEmpowerment();
+    const forceIce = getPageSetting('ForceIce');
+    const forceWind = getPageSetting('ForceWind');
+    const ignoreWindSpire = getPageSetting('WindSpire');
+    var skipSpire = ignoreWindSpire && game.global.spireActive;
+    
+    // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
+    if (activeEmpowerment == "Ice" && game.empowerments.Ice.level > 30 && forceIce) {
+        setFormation(2);
+        return;
     }
-    baseDamage *= (game.global.titimpLeft > 0 ? 2 : 1); //consider titimp
-    //double attack is OK if the buff isn't double attack, or we will survive a double attack. see main.js @ 7197-7217 https://puu.sh/ssVNP/95f699a879.png (cant prevent the 2nd hit)
-    var isDoubleAttack = game.global.voidBuff == 'doubleAttack' || (enemy && enemy.corrupted == 'corruptDbl');
-    // quality bugfix by uni @ 2.1.5.4u5
-    var doubleAttackOK = true; // !isDoubleAttack || ((newSquadRdy && dHealth > dDamage * 2) || dHealth - missingHealth > dDamage * 2);
-    //lead attack ok if challenge isn't lead, or we are going to one shot them, or we can survive the lead damage
-    var leadDamage = game.challenges.Lead.stacks * 0.0003;
-    var leadAttackOK = game.global.challengeActive != 'Lead' || enemyHealth <= baseDamage || ((newSquadRdy && dHealth > dDamage + (dHealth * leadDamage)) || (dHealth - missingHealth > dDamage + (dHealth * leadDamage)));
-    //added voidcrit.
-    //voidcrit is OK if the buff isn't crit-buff, or we will survive a crit, or we are going to one-shot them (so they won't be able to crit)
-    const ignoreCrits = getPageSetting('IgnoreCrits'); // or if ignored
-    var isCritVoidMap = ignoreCrits == 2 ? false : (!ignoreCrits && game.global.voidBuff == 'getCrit') || (enemy && enemy.corrupted == 'corruptCrit');
-    var voidCritinDok = !isCritVoidMap || (!enemyFast ? enemyHealth <= baseDamage : false) || (newSquadRdy && dHealth > dVoidCritDamage) || (dHealth - missingHealth > dVoidCritDamage);
-    var voidCritinXok = !isCritVoidMap || (!enemyFast ? enemyHealth <= baseDamage : false) || (newSquadRdy && xHealth > xVoidCritDamage) || (xHealth - missingHealth > xVoidCritDamage);
-
-    if (!game.global.preMapsActive && game.global.soldierHealth > 0) {
-        if (!enemyFast && game.upgrades.Dominance.done && enemyHealth <= baseDamage && (newSquadRdy || (dHealth - missingHealth > 0 && !drainChallenge) || (drainChallenge && drainChallengeOK))) {
-            setFormation(2);
-            //use D stance if: new army is ready&waiting / can survive void-double-attack or we can one-shot / can survive lead damage / can survive void-crit-dmg
-        } else if (game.upgrades.Dominance.done && ((newSquadRdy && dHealth > dDamage) || dHealth - missingHealth > dDamage) && doubleAttackOK && leadAttackOK && voidCritinDok ) {
-            setFormation(2);
-            //if CritVoidMap, switch out of D stance if we cant survive. Do various things.
-        } else if (isCritVoidMap && !voidCritinDok) {
-            //if we are already in X and the NEXT potential crit would take us past the point of being able to return to D/B, switch to B.
-            if (game.global.formation == "0" && game.global.soldierHealth - xVoidCritDamage < game.global.soldierHealthMax/2){
-                if (game.upgrades.Barrier.done && (newSquadRdy || (missingHealth < game.global.soldierHealthMax/2)) )
-                    setFormation(3);
+    
+    // Force B in Wind world zones (not maps!) to achieve max wind stacks
+    // Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
+    if (forceWind && activeEmpowerment == "Wind" && !game.global.mapsActive && game.empowerments.Wind.currentDebuffPower < game.empowerments.Wind.maxStacks && !skipSpire) {
+        // if we are in X/H stance, switch to H to avoid trimp death, else B stance
+        if (game.global.formation == "0" || game.global.formation == 1) {
+            // If we got killed by omnipotrimp in X/H stance, new one was not calculated yet. So, check HP and go B if we safely can
+            if (10*game.global.soldierHealth >= 9*game.global.soldierHealthMax) {
+                setFormation(3);
+                return;
             }
-                //else if we can totally block all crit damage in X mode, OR we can't survive-crit in D, but we can in X, switch to X.
-                // NOTE: during next loop, the If-block above may immediately decide it wants to switch to B.
-            else if (xVoidCritDamage == 0 || ((game.global.formation == 2 || game.global.formation == 4) && voidCritinXok)){
-                setFormation("0");
-            }
-                //otherwise, stuff:
-            else {
-                if (game.global.formation == "0"){
-                    if (game.upgrades.Barrier.done && (newSquadRdy || (missingHealth < game.global.soldierHealthMax/2)) )
-                        setFormation(3);
-                    else
-                        setFormation(1);
-                }
-                else if (game.upgrades.Barrier.done && (game.global.formation == 2 || game.global.formation == 4))
-                    setFormation(3);
-            }
-        } else if (game.upgrades.Formations.done && ((newSquadRdy && xHealth > xDamage) || xHealth - missingHealth > xDamage)) {
-            //in lead challenge, switch to H if about to die, so doesn't just die in X mode without trying
-            if ((game.global.challengeActive == 'Lead') && (xHealth - missingHealth < xDamage + (xHealth * leadDamage)))
-                setFormation(1);
-            else
-                setFormation("0");
-        } else if (game.upgrades.Barrier.done && ((newSquadRdy && bHealth > bDamage) || bHealth - missingHealth > bDamage)) {
-            setFormation(3);    //does this ever run?
-        } else if (game.upgrades.Formations.done) {
             setFormation(1);
-        } else
-            setFormation("0");
+            return;
+        } else {
+            // Check if we're about to die on the next hit in B and if yes, go to H
+            if (5*game.global.soldierHealth < enemyDamage) {
+                setFormation(1);
+                return;
+            } else {
+                setFormation(3);
+                return;
+            }
+        }
     }
-    baseDamage /= (game.global.titimpLeft > 0 ? 2 : 1); //unconsider titimp :P
+    
+    // Overrides are over, let's start math
+    // game.global.soldierHealthMax and game.global.soldierHealth;
+        
+    // If we are in X/H stance, verify we have enough health for swap higher damage stance; It's not optimal but I do not have to calculate "Do I survive the next hit?"
+    if (game.global.formation == 1 && (game.global.soldierHealth/game.global.soldierHealthMax) > 0.9) setFormation("0");
+    if (game.global.formation == "0" && (game.global.soldierHealth/game.global.soldierHealthMax) > 0.7) setFormation(2);    
+
+    // Now the stance dance; For now very simple D force, no scryer. Might expand later
+    // Of course ideal whould be what I did in Automaps for repeat button - put stance as a variable, then go through the function and at the end just call setFormation against it
+    if (game.global.formation == 2 || game.global.formation == 3 || game.global.formation == 4) {
+     if(enemyDamage >= game.global.soldierHealth) {
+      // Barrier, Scryer or Dominance and next hit kills us
+      setFormation("0");
+     } else setFormation(2);
+    } else if (game.global.formation == "0") {
+     if(enemyDamage >= game.global.soldierHealth) {
+      setFormation(1);
+     }
+    } else if (((game.jobs.Amalgamator.owned > 0) ? Math.floor((new Date().getTime() - game.global.lastSoldierSentAt) / 1000) : Math.floor(game.global.lastBreedTime / 1000)) > 45
+               && !game.global.spireActive) {
+     // I'm in H, which is next to none damage. Let's trimpicide when breed time over 45 and we are NOT in spire
+     setFormation(2);
+    } 
+    return true;
 }
 
 function autoStance2() {
