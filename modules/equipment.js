@@ -222,7 +222,7 @@ var resourcesNeeded;
 var Best;
 //autoLevelEquipment = "Buy Armor", "Buy Armor Upgrades", "Buy Weapons", "Buy Weapons Upgrades"
 function autoLevelEquipment() {
-    if (!(baseDamage > 0)) return;  //if we have no damage, why bother running anything? (this fixes weird bugs)
+    if (!(game.global.soldierCurrentAttack > 0)) return;  //if we have no damage, why bother running anything? (this fixes weird bugs)
     //if((game.jobs.Miner.locked && game.global.challengeActive != 'Metal') || (game.jobs.Scientist.locked && game.global.challengeActive != "Scientist"))
         //return;
     
