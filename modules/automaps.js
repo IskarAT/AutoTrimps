@@ -136,6 +136,8 @@ function autoMap() {
      var oblitZoneModifier = Math.floor(game.global.world / 10);
      hpOblitMult *= Math.pow(10, oblitZoneModifier);
      challengeHPmod *= hpOblitMult;
+    } else if (game.global.challengeActive == "Coordinate") {
+     challengeHPmod *= getBadCoordLevel();       
     }
     // add else ifs to handle all challenge mods
     actualEnemyHealth *= challengeHPmod;
