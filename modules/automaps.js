@@ -131,7 +131,7 @@ function autoMap() {
     if (game.global.challengeActive == "Daily" && game.global.dailyChallenge.badHealth !== undefined) { // If daily doesn't affect HP, it is undefined
       if (dailyModifiers.badHealth.getMult(game.global.dailyChallenge.badHealth.strength) !== undefined)
       challengeHPmod = dailyModifiers.badHealth.getMult(game.global.dailyChallenge.badHealth.strength);
-    } else if (game.global.challengeActive = "Obliterated") {
+    } else if (game.global.challengeActive == "Obliterated") {
      var hpOblitMult = 1e12;
      var oblitZoneModifier = Math.floor(game.global.world / 10);
      hpOblitMult *= Math.pow(10, oblitZoneModifier);
