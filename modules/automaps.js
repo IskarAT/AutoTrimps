@@ -1,7 +1,7 @@
 MODULES["automaps"] = {};
 //These can be changed (in the console) if you know what you're doing:
-MODULES["automaps"].mapCutoff = 2;                                        //
-MODULES["automaps"].worldCutoff = 6;                                      //above this the game will farm.
+MODULES["automaps"].mapCutoff = 3;                                        //
+MODULES["automaps"].worldCutoff = 9;                                      //above this the game will farm.
 MODULES["automaps"].maxMapBonus = 10;                                     // Max map stacks
 MODULES["automaps"].maxMapBonusAfterZ = MODULES["automaps"].maxMapBonus;  //Max Map Bonus After Zone uses this many stacks; starts at 10
 
@@ -106,7 +106,14 @@ function autoMap() {
       // Heap, Barrier, Scryer
       actualTrimpDamage *= 2;
     }
-    if(getEmpowerment() == "Poison") actualTrimpDamage *= (1 + (game.empowerments.Poison.level / 100) * (game.empowerments.Poison.retainLevel / 50)); // Magic with poison, no real science or math behind it. Just made it to roughly stick to my current dmg increase and could be improved later
+	
+    // Add empowerements
+    if(getEmpowerment() == "Poison") actualTrimpDamage *= (1 + (game.empowerments.Poison.level / 70) * (game.empowerments.Poison.retainLevel / 40)); // Magic with poison, no real science or math behind it. Just made it to roughly stick to my current dmg increase and could be improved later
+    if(getEmpowerment() == "Ice") actualTrimpDamage *= 2; // I mean... screw this, just double it
+	
+    // Add plaguebringer as a rough estimation
+    if(game.heirlooms.Shield.plaguebringer !== undefined) actualTrimpDamage *= (1 + game.heirlooms.Shield.plaguebringer.currentBonus/100);
+	
     // Map handler
     if (game.global.mapsActive) {
       if (game.global.titimpLeft > 0) actualTrimpDamage /= 2;
