@@ -31,7 +31,31 @@ function autoStance() {
     var enemy = getCurrentEnemy();
     if (typeof enemy === 'undefined') return true;
     var enemyHealth = enemy.health;
-    var enemyDamage = 6 * enemy.attack; // then there would be a huge-ass if to add maxHP% bleeds, criticals, reflects and stuff like that; for now, I can live with a magic number of 6
+    var enemyDamage = 0; // Eventually total sum of maxBadDamage and bonusDamage
+    var prettifiedDmg = calculateDamage(enemy.attack, true, false, false, enemy).split("-"); // bad guy standalone damage
+    var minBadDamage = Number(prettifiedDmg[0]); // Technically we neither need or use it. But what the hell, might as well have it...
+    var maxBadDamage = Number(prettifiedDmg[1]) * 1.05; // we will add 5% on top as extra due to precision of returned number  
+    var bonusDmg = 0; // %based damage from bleeds, reflects etc.
+    
+    // Apply bonus damage from mutations, if applicable; for example strong enemies do not count, damage is already returned multiplied, double attack does apply because they attack twice
+    if (enemy.corrupted == 'corruptCrit') maxBadDamage *= 5;
+    else if (enemy.corrupted == 'healthyCrit') maxBadDamage *= 7;
+    else if (enemy.corrupted == 'corruptDbl' || enemy.corrupted == 'healthyDbl') maxBadDamage *= 2;
+    else if (enemy.corrupted == 'corruptBleed') bonusDmg += (game.global.soldierHealth * 0.2);
+    else if (enemy.corrupted == 'healthyBleed') bonusDmg += (game.global.soldierHealth * 0.3);
+
+    // Now apply challenge/daily section
+    // Awesome daily bleed% and dmg increase/reflect code as += bonusDmg; as usual, TBD
+        
+    // Now apply block and broken planet pierce
+    if (maxBadDamage < game.global.soldierCurrentBlock) {
+        if (!game.global.mapsActive && !game.global.preMapsActive) (game.talents.pierce.purchased ? maxBadDamage *= 0.15 : maxBadDamage *= 0.20);
+        else maxBadDamage = 0; // We are in maps, so no pierce  
+    } // Imaginary else clause; While technically I should now subtract block from damage, it has a couple special cases I'd have to handle and net gain is 0.00000nothing
+    
+    // Bad guy max dmg and bonus damage from other source computed, so time to do a total sum
+    enemyDamage = maxBadDamage + bonusDmg;
+    
     
     // Some special cases, where we want to force a stance
     // If no challenge is active and we are deep in magma (so block >> HP), just force D stance in Void maps because we cannot die anyway
