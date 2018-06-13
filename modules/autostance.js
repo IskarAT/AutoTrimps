@@ -49,7 +49,7 @@ function autoStance() {
         
     // Now apply block and broken planet pierce
     if (maxBadDamage < game.global.soldierCurrentBlock) {
-        if (!game.global.mapsActive && !game.global.preMapsActive) (game.talents.pierce.purchased ? maxBadDamage *= 0.15 : maxBadDamage *= 0.20);
+        if (!game.global.mapsActive && !game.global.preMapsActive) (game.talents.pierce.purchased ? maxBadDamage *= 0.015 : maxBadDamage *= 0.020);
         else maxBadDamage = 0; // We are in maps, so no pierce  
     } // Imaginary else clause; While technically I should now subtract block from damage, it has a couple special cases I'd have to handle and net gain is 0.00000nothing
     
