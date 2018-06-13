@@ -3,27 +3,23 @@ MODULES["autofight"] = {};
 MODULES["autofight"].breedTimerCutoff1 = 2;
 MODULES["autofight"].breedTimerCutoff2 = 0.5;
 
-//old: Handles manual fighting automatically, in a different way.
 function betterAutoFight() {
+    // So yeah, first go at an improved Autofight; it's pretty crude but handles what I want OK-ish
     var customVars = MODULES["autofight"];
     if (game.global.autoBattle && !game.global.pauseFight)
         pauseFight(); //Disable built-in autofight
     if (game.global.gridArray.length === 0 || game.global.preMapsActive || !game.upgrades.Battle.done) return;  //sanity check. stops error message on z1 right after portal
-    var targetBreed = getPageSetting('GeneticistTimer');
-    var breeding = (game.resources.trimps.owned - game.resources.trimps.employed);
-    var newSquadRdy = game.resources.trimps.realMax() <= game.resources.trimps.owned + 1;
-    var lowLevelFight = game.resources.trimps.maxSoldiers < breeding * 0.5 && breeding > game.resources.trimps.realMax() * 0.1 && game.global.world < 5;
-    //Manually fight instead of using builtin auto-fight
+    var targetBreed = (game.global.spireActive ? 45 : 5); // So this is a first hot-fix to Spire instakills, as well as enforcing at least 5 seconds worth of breeding
+    if (game.global.world < 230) targetBreed = 0; // Aaaand just in case we put this in for reflect dailies and shit
+    var currentBreedTime = (game.jobs.Amalgamator.owned > 0) ? Math.floor((new Date().getTime() - game.global.lastSoldierSentAt) / 1000) : Math.floor(game.global.lastBreedTime / 1000);
+    var newSquadRdy = false;
+    if (targetBreed < currentBreedTime) newSquadRdy = true;
+    else 
+    //Manually click fight instead of using builtin auto-fight
     if (!game.global.fighting) {
-        if (newSquadRdy || game.global.soldierHealth > 0 || lowLevelFight || game.global.challengeActive == 'Watch') {
+        if (newSquadRdy || game.global.soldierHealth > 0) {
             fightManual();
         }
-        //Click Fight if we are dead and already have enough for our breed timer, and fighting would not add a significant amount of time
-        else if (getBreedTime() < customVars.breedTimerCutoff1 && (game.global.lastBreedTime/1000) > targetBreed && game.global.soldierHealth == 0)
-            fightManual();
-        //AutoFight will now send Trimps to fight if it takes less than 0.5 seconds to create a new group of soldiers, if we havent bred fully yet
-        else if (getBreedTime() <= customVars.breedTimerCutoff2)
-            fightManual();
     }
 }
 
