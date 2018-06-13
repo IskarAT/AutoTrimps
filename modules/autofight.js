@@ -13,8 +13,7 @@ function betterAutoFight() {
     if (game.global.world < 230) targetBreed = 0; // Aaaand just in case we put this in for reflect dailies and shit
     var currentBreedTime = (game.jobs.Amalgamator.owned > 0) ? Math.floor((new Date().getTime() - game.global.lastSoldierSentAt) / 1000) : Math.floor(game.global.lastBreedTime / 1000);
     var newSquadRdy = false;
-    if (targetBreed < currentBreedTime) newSquadRdy = true;
-    else 
+    if (targetBreed < currentBreedTime) newSquadRdy = true; 
     //Manually click fight instead of using builtin auto-fight
     if (!game.global.fighting) {
         if (newSquadRdy || game.global.soldierHealth > 0) {
