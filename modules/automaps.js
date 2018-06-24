@@ -32,6 +32,8 @@ var spireTime = 0;
 var actualEnemyHealth = 0;
 var actualTrimpDamage = 0;
 var newHDratio = 0;
+var spireHD = 0;
+var spireHealth = 1;
 var challengeHPmod = 1;
 
 //AutoMap - function originally created by Belaith (in 1971)
@@ -151,12 +153,12 @@ function autoMap() {
     
     // Spire health override
     if (game.global.spireActive) {
-      var spireHealth = game.global.gridArray[game.global.lastClearedCell+1].maxHealth;
-      if (spireHealth > actualEnemyHealth) actualEnemyHealth = spireHealth;
+      spireHealth = game.global.gridArray[game.global.lastClearedCell+1].maxHealth;
     }
   
     // Now that we have both HP and Damage, we know how many hits on average will survive Omnipotrimp at the end of the zone (not counting in poison ticks)
     newHDratio = actualEnemyHealth/actualTrimpDamage;
+    spireHD = spireHealth/actualTrimpDamage;
     // Stop: HD ratio initialization
     
     // Start: Decide map mode
@@ -363,6 +365,7 @@ function updateAutoMapsStatus() {
     else if (doVoids) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps + ' remaining';
     else if (game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone == game.global.world) status.innerHTML = 'Map at Z reached!';
     else if (newHDratio < 0.01) status.innerHTML = 'Overkilling';
+    else if (game.global.spireActive) status.innerHTML = 'Spire H/D: ' + spireHD.toFixed(2);
     else status.innerHTML = 'H/D: ' + newHDratio.toFixed(2);
 
     //hider he/hr% status
