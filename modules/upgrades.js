@@ -14,7 +14,7 @@ function buyUpgrades() {
         var available = (gameUpgrade.allowed > gameUpgrade.done && canAffordTwoLevel(gameUpgrade));
         // Coordinations behavior; Do not buy on wind when under specific H:D, hold coords to get more 'gators when really safely overkilling or do not buy at all
         if (upgrade == 'Coordination' && (((getPageSetting('HoldCoords') == 1 || !canAffordCoordinationTrimps()))
-            || (getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > 3 * Math.floor(newHDratio)) || (getPageSetting('HoldCoords') == 2 && newHDratio < 0.0000000001))) continue;
+            || (getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > 3 * Math.floor(newHDratio)) || (getPageSetting('HoldCoords') == 2 && newHDratio < 0.00000001))) continue;
         if (upgrade == 'Shieldblock' && !getPageSetting('BuyShieldblock')) continue;
         if (upgrade == 'Gigastation' && (game.global.lastWarp ? game.buildings.Warpstation.owned < (Math.floor(game.upgrades.Gigastation.done * getPageSetting('DeltaGigastation')) + getPageSetting('FirstGigastation')) : game.buildings.Warpstation.owned < getPageSetting('FirstGigastation'))) continue;
         //skip bloodlust during scientist challenges and while we have autofight enabled.
