@@ -364,8 +364,8 @@ function updateAutoMapsStatus() {
     else if (needPrestige && !doVoids) status.innerHTML = 'Prestige';
     else if (doVoids) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps + ' remaining';
     else if (game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone == game.global.world) status.innerHTML = 'Map at Z reached!';
+    else if (game.global.spireActive && spireHD > 1) status.innerHTML = 'Spire H/D: ' + spireHD.toFixed(2);
     else if (newHDratio < 0.01) status.innerHTML = 'Overkilling';
-    else if (game.global.spireActive) status.innerHTML = 'Spire H/D: ' + spireHD.toFixed(2);
     else status.innerHTML = 'H/D: ' + newHDratio.toFixed(2);
 
     //hider he/hr% status
