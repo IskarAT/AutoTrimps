@@ -97,7 +97,7 @@ function initializeAllTabs() {
     createTabs("Uni", "Uni's mods");
     createTabs("Scryer", "Scryer Stance");
     createTabs("Magma", "Dimensional Generator");
-    createTabs("Golden", "Golden Upgrade Strategies");
+    createTabs("Golden", "Golden Upgrade Strategies and other special settings");
     createTabs("Nature", "Nature");
     createTabs("Spam", "Controls AutoTrimps message Spam");
     createTabs("Import Export", "Import Export Settings");
@@ -288,7 +288,8 @@ function initializeAllSettings() {
     createSetting('goldStrat', 'goldStrat', 'VOID ONLY: After max void golden upgrades, alternate between buying helium and battle upgrades. Or Choose a Zone to switch over completely at.', 'dropdown', 'Off', ["Off", "Alternating", "Zone"], 'Golden');
     createSetting('goldAlternating', 'goldAlternating', 'Buy a helium upgrade after X-1 battle upgrades have been purchased', 'value', '2', null, 'Golden');
     createSetting('goldZone', 'goldZone', 'Buy a helium upgrade until zone X, then buy battle upgrades.', 'value', '200', null, 'Golden');
-
+    createSetting('HoldCoords', ['Do not buy coords', 'Buy coords', 'Hold when overkilling'], 'Define behavior for coordinations. Buy + not buy are simple, Hold only buys coords when we go below "safe" threshold in H:D ratio.', 'multitoggle', 1, null, "Golden");
+    
 // Nature settings:
     createSetting('AutoNatureTokens', 'Spend Nature Tokens', '<b>MASTER BUTTON</b> Automatically spend or convert nature tokens.', 'boolean', false, null, 'Nature');
     createSetting('AutoPoison', 'Poison', 'Spend/convert Poison tokens', 'dropdown', 'Off', ['Off', 'Empowerment', 'Transfer', 'Convert to Wind', 'Convert to Ice'], 'Nature');
