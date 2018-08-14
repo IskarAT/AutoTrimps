@@ -205,6 +205,7 @@ function autoMap() {
     if(getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > Math.floor(newHDratio)) {
       if (!doVoids) {
 	doMaxMapBonus = false;
+	needPrestige = false;
 	shouldDoMaps = false; // OK, in theory we could set Voids to a wind zone... this should run them properly
         windStacking = true;
       }
