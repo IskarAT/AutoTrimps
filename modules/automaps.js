@@ -204,6 +204,7 @@ function autoMap() {
     // If we are on a wind zone and HD ratio is less than set modifier -> don't map; This will also stop prestige mode but for now we want this!
     if(getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > Math.floor(newHDratio)) {
       if (!doVoids) {
+	doMaxMapBonus = false;
 	shouldDoMaps = false; // OK, in theory we could set Voids to a wind zone... this should run them properly
         windStacking = true;
       }
