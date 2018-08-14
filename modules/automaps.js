@@ -157,8 +157,12 @@ function autoMap() {
     }
   
     // Now that we have both HP and Damage, we know how many hits on average will survive Omnipotrimp at the end of the zone (not counting in poison ticks)
-    newHDratio = actualEnemyHealth/actualTrimpDamage;
-    spireHD = spireHealth/actualTrimpDamage;
+    if (game.global.soldierHealth == 0 && newHDratio !== undefined) 
+    {/* we are dead so do nothing because it screws up with damage calculation */}
+    else {
+     newHDratio = actualEnemyHealth/actualTrimpDamage;
+     spireHD = spireHealth/actualTrimpDamage;
+    }
     // Stop: HD ratio initialization
     
     // Start: Decide map mode
