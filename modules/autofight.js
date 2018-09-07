@@ -11,7 +11,7 @@ function betterAutoFight() {
     if (game.global.autoBattle && !game.global.pauseFight)
         pauseFight(); //Disable built-in autofight
     if (game.global.gridArray.length === 0 || game.global.preMapsActive || !game.upgrades.Battle.done) return;  //sanity check. stops error message on z1 right after portal
-    if (skipFight == 0 && game.global.lastClearedCell < 0 && game.global.world%5 == 1 && !game.global.fighting && !(game.global.mapsActive || game.global.preMapsActive)) {mapsClicked(); skipFight++; return;} // Stop killing another group after omnipotrimp if fight cycle happens before automaps
+    if (game.global.mapsUnlocked && game.global.skipFight == 0 && game.global.lastClearedCell < 0 && game.global.world%5 == 1 && !game.global.fighting && !(game.global.mapsActive || game.global.preMapsActive)) {mapsClicked(); skipFight++; return;} // Stop killing another group after omnipotrimp if fight cycle happens before automaps
     var targetBreed = (game.global.spireActive ? 45 : 5); // So this is a first hot-fix to Spire instakills, as well as enforcing at least 5 seconds worth of breeding
     if (game.global.world < 230 || getCurrentEnemy().name == "Liquimp") targetBreed = 0; // Aaaand just in case we put this in for reflect dailies and shit
     var currentBreedTime = (game.jobs.Amalgamator.owned > 0) ? Math.floor((new Date().getTime() - game.global.lastSoldierSentAt) / 1000) : Math.floor(game.global.lastBreedTime / 1000);
