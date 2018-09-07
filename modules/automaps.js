@@ -91,7 +91,10 @@ function autoMap() {
     // Damage section; calculates max damage, not average; then we remove stance modifiers
     actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true);
     var playerCritChance = getPlayerCritChance();
-    var additionalCritMulti = (playerCritChance > 2) ? 25 : 5;
+    var baseMulti = 5;
+    if (game.talents.crit.purchased) baseMulti++;
+    if (Fluffy.isRewardActive("megaCrit")) baseMulti += 2;
+    var additionalCritMulti = (playerCritChance > 2) ? baseMulti * baseMulti : baseMulti;
 
     if (playerCritChance > 1) {
      actualTrimpDamage = actualTrimpDamage * playerCritChance * getPlayerCritDamageMult() * (playerCritChance-1) * additionalCritMulti;
