@@ -13,6 +13,7 @@ var needToVoid = false;
 var doVoids = false;
 var mapAtZoneReached = false;
 var windStacking = false;
+var spireMapBonusOverride = false;
 
 // Biome, difficulty, extra levels, loot, perfect sliders, size, special modifier; We default into Perfect slider gardens with Prestigious mod and no extra levels
 var defaultMapPreset = {
@@ -202,22 +203,25 @@ function autoMap() {
       else if (newHDratio > customVars.mapCutoff && (game.global.mapsActive || game.global.preMapsActive)) { // We are in maps or premaps, so activate grace period to get better bonus since our next army is very likely still breeding
         doMaxMapBonus = true;
       }
+      else if (spireMapBonusOverride) doMaxMapBonus = true;
     }
     // Map bonus is maxed, only thing to do now are voids after reaching set cell; it's not an else because we could be missing max map bonus, which would break the logic
     if (needToVoid) {
       if (game.global.lastClearedCell+1 >= voidMapLevelSettingMap) doVoids = true;
     }
     // Variables are initialized, let's set map mode, then apply overrides if triggered
-    shouldDoMaps = needPrestige || doMaxMapBonus || doVoids;
+    shouldDoMaps = needPrestige || doMaxMapBonus || doVoids || spireMapBonusOverride;
     
     // Override section for special cases
     //Farm X Minutes Before Spire:
     //preSpireFarming = game.global.spireActive && newHDratio > 0.0001 && (spireTime = (new Date().getTime() - game.global.zoneStarted) / 1000 / 60) < getPageSetting('MinutestoFarmBeforeSpire');
     spireMapBonusFarming = game.global.spireActive && getPageSetting('MaxStacksForSpire') && game.global.mapBonus < customVars.maxMapBonus && (newHDratio > 0.0001 || spireHD > 1); // Only get map bonus if we lack damage    
-    if (/*preSpireFarming ||*/ spireMapBonusFarming) {
+    if (/*preSpireFarming ||*/ spireMapBonusFarming && !game.global.fighting) {
         shouldDoMaps = true;
+	spireMapBonusOverride = true;
         if (game.global.mapBonus < customVars.maxMapBonus) doMaxMapBonus = true;
     }
+    if (spireMapBonusOverride && !game.global.spireActive) spireMapBonusOverride = false;
   
     // If we are on a wind zone and HD ratio is less than set modifier -> don't map; This will also stop prestige mode but for now we want this!
     if(getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > Math.floor(newHDratio)) {
