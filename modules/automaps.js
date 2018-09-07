@@ -94,12 +94,23 @@ function autoMap() {
     var baseMulti = 5;
     if (game.talents.crit.purchased) baseMulti++;
     if (Fluffy.isRewardActive("megaCrit")) baseMulti += 2;
-    var additionalCritMulti = (playerCritChance > 2) ? baseMulti * baseMulti : baseMulti;
-
-    if (playerCritChance > 1) {
-     actualTrimpDamage = actualTrimpDamage * playerCritChance * getPlayerCritDamageMult() * (playerCritChance-1) * additionalCritMulti;
-     } else {
+    
+    // Math incoming
+    if (playerCritChance < 1) {
+     // Normal crit calculation
      actualTrimpDamage = (actualTrimpDamage * (1-playerCritChance) + (actualTrimpDamage * playerCritChance * getPlayerCritDamageMult()));
+    } else {
+     // We have over 100% crit chance, so multiply the damage with crit multiplier
+     actualTrimpDamage *= getPlayerCritDamageMult();
+     // Now let's calculate how many additional dmg tiers we have
+     var tier = 0;
+     for(playerCritChance;playerCritChance>1;playerCritChance--, tier++) {
+      // Empty for? I mean... sure, we do increments in the cycle itself :D
+     }
+     // Now let's multiply damage by the crit base per each tier that is guaranteed (compounding)
+     actualTrimpDamage *= Math.pow(baseMulti,tier-1);
+     // Now apply the crit formula, as usual but with baseMulti instead; also remember, that crit chance is now between <0;1)
+     actualTrimpDamage = (actualTrimpDamage * (1-playerCritChance) + (actualTrimpDamage * playerCritChance * baseMulti));
     }
 	
     if (game.global.formation == 0) {
