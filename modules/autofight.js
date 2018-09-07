@@ -3,22 +3,26 @@ MODULES["autofight"] = {};
 MODULES["autofight"].breedTimerCutoff1 = 2;
 MODULES["autofight"].breedTimerCutoff2 = 0.5;
 
+var skipFight = 0;
+
 function betterAutoFight() {
     // So yeah, first go at an improved Autofight; it's pretty crude but handles what I want OK-ish
     var customVars = MODULES["autofight"];
     if (game.global.autoBattle && !game.global.pauseFight)
         pauseFight(); //Disable built-in autofight
     if (game.global.gridArray.length === 0 || game.global.preMapsActive || !game.upgrades.Battle.done) return;  //sanity check. stops error message on z1 right after portal
+    if (if skipFight == 0 && game.global.lastClearedCell < 0 && game.global.world%5 == 1 && !game.global.fighting && !(game.global.mapsActive || game.global.preMapsActive)) {mapsClicked(); skipFight++; return;} // Stop killing another group after omnipotrimp if fight cycle happens before automaps
     var targetBreed = (game.global.spireActive ? 45 : 5); // So this is a first hot-fix to Spire instakills, as well as enforcing at least 5 seconds worth of breeding
     if (game.global.world < 230 || getCurrentEnemy().name == "Liquimp") targetBreed = 0; // Aaaand just in case we put this in for reflect dailies and shit
     var currentBreedTime = (game.jobs.Amalgamator.owned > 0) ? Math.floor((new Date().getTime() - game.global.lastSoldierSentAt) / 1000) : Math.floor(game.global.lastBreedTime / 1000);
     var newSquadRdy = false;
-    if (targetBreed < currentBreedTime) newSquadRdy = true; 
+    if (targetBreed <= currentBreedTime) newSquadRdy = true; 
     //Manually click fight instead of using builtin auto-fight
     if (!game.global.fighting) {
         if (newSquadRdy || game.global.soldierHealth > 0) {
             fightManual();
         }
+    skipFight = 0;
     }
 }
 
