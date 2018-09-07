@@ -221,7 +221,7 @@ function autoMap() {
 	spireMapBonusOverride = true;
         if (game.global.mapBonus < customVars.maxMapBonus) doMaxMapBonus = true;
     }
-    if (spireMapBonusOverride && !game.global.spireActive) spireMapBonusOverride = false;
+    if (spireMapBonusOverride && (!game.global.spireActive || game.global.mapBonus >= 9)) spireMapBonusOverride = false;
   
     // If we are on a wind zone and HD ratio is less than set modifier -> don't map; This will also stop prestige mode but for now we want this!
     if(getEmpowerment() == "Wind" && !skipSpire && forceWind && windModifier > Math.floor(newHDratio)) {
