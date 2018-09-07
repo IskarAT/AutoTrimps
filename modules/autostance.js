@@ -62,13 +62,16 @@ function autoStance() {
     // If a challenge is active, just follow normal stance-dance (I was too lazy to check for bleed cases)
     if (game.global.currentMapId) {
      var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
-     if (game.upgrades.Dominance.done && mapLocation == "Void" && game.global.challengeActive == "") {
-      if (enemyDamage < game.global.soldierCurrentBlock) {
-       setFormation(2);
+     if (mapLocation == "Void" && (game.global.challengeActive == "" || game.global.challengeActive == "Daily")) {
+      if (game.talents.scry2.purchased) {
+       setFormation(4); // Force S in voids; later add control for that (when I overhaul scryer UI)
        return true;
+      } else {
+       setFormation(2);
+       return true;   
       }
      }
-    }
+    } 
     
     // Start empowerments overrides
     var activeEmpowerment = getEmpowerment();
