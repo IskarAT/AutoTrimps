@@ -212,9 +212,9 @@ function autoMap() {
     
     // Override section for special cases
     //Farm X Minutes Before Spire:
-    preSpireFarming = game.global.spireActive && newHDratio > 0.001 && (spireTime = (new Date().getTime() - game.global.zoneStarted) / 1000 / 60) < getPageSetting('MinutestoFarmBeforeSpire');
-    spireMapBonusFarming = game.global.spireActive && getPageSetting('MaxStacksForSpire') && game.global.mapBonus < customVars.maxMapBonus && newHDratio > 0.001; // Only get map bonus if we lack damage    
-    if (preSpireFarming || spireMapBonusFarming) {
+    //preSpireFarming = game.global.spireActive && newHDratio > 0.0001 && (spireTime = (new Date().getTime() - game.global.zoneStarted) / 1000 / 60) < getPageSetting('MinutestoFarmBeforeSpire');
+    spireMapBonusFarming = game.global.spireActive && getPageSetting('MaxStacksForSpire') && game.global.mapBonus < customVars.maxMapBonus && (newHDratio > 0.0001 || spireHD > 1); // Only get map bonus if we lack damage    
+    if (/*preSpireFarming ||*/ spireMapBonusFarming) {
         shouldDoMaps = true;
         if (game.global.mapBonus < customVars.maxMapBonus) doMaxMapBonus = true;
     }
