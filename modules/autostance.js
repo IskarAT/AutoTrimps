@@ -16,9 +16,9 @@ function autoStance() {
     if (!getPageSetting('AutoStance')) return true;
     if (!game.upgrades.Formations.done) return true;
     
-    // If we are dead, go to D. When not unlocked, just use X for eternity
+    // If we are dead, go to D (except when running void maps in S). When not unlocked, just use X for eternity
     if (game.upgrades.Dominance.done) {
-     if (game.global.soldierHealth <= 0) {
+     if (game.global.soldierHealth <= 0 && !(game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location == "Void" && game.talents.scry2.purchased)) {
       setFormation(2);
       return;
      }    
