@@ -164,7 +164,7 @@ function autoMap() {
      challengeHPmod *= getBadCoordLevel();       
     } else if (game.global.challengeActive == "Eradicated") {
      var eradicZoneModifier = Math.floor(game.global.world / 2);
-     var hpEradicMult *= Math.pow(3, eradicZoneModifier);
+     var hpEradicMult = Math.pow(3, eradicZoneModifier);
      challengeHPmod *= game.challenges.Eradicated.scaleModifier * hpEradicMult;
     }
     // add else ifs to handle all challenge mods
