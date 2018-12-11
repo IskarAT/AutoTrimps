@@ -162,6 +162,8 @@ function autoMap() {
      challengeHPmod *= hpOblitMult;
     } else if (game.global.challengeActive == "Coordinate") {
      challengeHPmod *= getBadCoordLevel();       
+    } else if (game.global.challengeActive == "Eradicated") {
+     challengeHPmod *= game.challenges.Eradicated.scaleModifier;
     }
     // add else ifs to handle all challenge mods
     actualEnemyHealth *= challengeHPmod;
