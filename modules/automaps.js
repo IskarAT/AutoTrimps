@@ -357,7 +357,13 @@ function autoMap() {
       else if (game.global.preMapsActive) {
         // Handle recycling/abandoning of current but unfinished map
         if (!game.global.currentMapId == "") recycleMap(getMapIndex(game.global.lookingAtMap));
-        // Run selected map
+        // If we are about to run voidmaps, wait for 45s breed
+	if(doVoids && game.global.soldierHealth == 0) {
+	 var currentBreedTime = (game.jobs.Amalgamator.owned > 0) ? Math.floor((new Date().getTime() - game.global.lastSoldierSentAt) / 1000) : Math.floor(game.global.lastBreedTime / 1000);
+	 if(currentBreedTime < 45) return;
+	}
+	      
+	// Run selected map
         selectMap(pickedMap.id);
         runMap();
       } else {
