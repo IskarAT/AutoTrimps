@@ -33,6 +33,7 @@ function betterAutoFight() {
      oldWolrdZone = currentWorldZone;
     }
     targetBreed += 2*deathsThisZone; // +2s per death
+    targetBreed = (targetBreed>genBreedTime ? genBreedTime : targetBreed); // Set anything over GenBreed back down a notch
     
     if (targetBreed <= currentBreedTime) newSquadRdy = true; 
     //Manually click fight instead of using builtin auto-fight
