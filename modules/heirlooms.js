@@ -154,7 +154,9 @@ function autoHeirlooms() {
             }
         }
         if (game.global.heirloomsCarried.length < game.global.maxCarriedHeirlooms){
-            if(worth.Shield.length > 0)
+            if(worth.Core.length > 0)
+                selectHeirloom(worth.Core[0], 'heirloomsExtra');
+            else if(worth.Shield.length > 0)
                 selectHeirloom(worth.Shield[0], 'heirloomsExtra');
             else if(worth.Staff.length > 0)
                 selectHeirloom(worth.Staff[0], 'heirloomsExtra');
