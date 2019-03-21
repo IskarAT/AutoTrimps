@@ -5,9 +5,9 @@
 
 //OLD:
 //renamed from sortHeirlooms to worthOfHeirlooms
-var worth = {'Shield': {}, 'Staff': {}};
+var worth = {'Shield': {}, 'Staff': {}, 'Core': {}};
 function worthOfHeirlooms(){
-    worth = {'Shield': {}, 'Staff': {}};
+    worth = {'Shield': {}, 'Staff': {}, 'Core': {}};
     for (var loom in game.global.heirloomsExtra) {
         var theLoom = game.global.heirloomsExtra[loom];
         worth[theLoom.type][loom] = theLoom.rarity;
