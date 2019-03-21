@@ -92,7 +92,8 @@ function autoStance() {
     
     // Force B in Wind world zones (not maps!) to achieve max wind stacks
     // Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
-    if (newHDratio > 0.5 && forceWind && activeEmpowerment == "Wind" && !game.global.mapsActive && game.empowerments.Wind.currentDebuffPower < game.empowerments.Wind.maxStacks && !skipSpire) {
+    // RIP game.empowerments.Wind.maxStacks, may you rest in peace
+    if (newHDratio > 0.5 && forceWind && activeEmpowerment == "Wind" && !game.global.mapsActive && game.empowerments.Wind.currentDebuffPower < 200 && !skipSpire) {
         // if we are in X/H stance, switch to H to avoid trimp death, else B stance
         if (game.global.formation == "0" || game.global.formation == 1) {
             // If we got killed by omnipotrimp in X/H stance, new one was not calculated yet. So, check HP and go B if we safely can
