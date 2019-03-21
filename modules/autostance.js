@@ -17,9 +17,8 @@ function autoStance() {
     if (!game.upgrades.Formations.done) return true;
     
     // If we are dead, go to D (except when running void maps in S). When not unlocked, just use X for eternity
-    var mapCheck = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)] && game.talents.scry2.purchased;
-    if((typeof (game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)] && game.talents.scry2.purchased) === 'undefined')
-      || (game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location != "Void")) {
+    var mapCheck = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
+    if(typeof (mapCheck) === 'undefined' || mapCheck != "Void") {
       mapCheck = 1; // We are not in a void map; or the map is in fact undefined
      } else {
       mapCheck = 0;
