@@ -18,7 +18,7 @@ function autoStance() {
     
     // If we are dead, go to D (except when running void maps in S). When not unlocked, just use X for eternity
     var mapCheck = 1;
-    if(game.global.currentMapId) != "" && game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location == "Void") {
+    if(game.global.currentMapId != "" && game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location == "Void") {
       mapCheck = 0;
      }
     if (game.upgrades.Dominance.done) {
