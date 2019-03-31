@@ -111,14 +111,11 @@ function doPortal(challenge) {
         debug("Error encountered in AutoMagmiteSpender: " + err.message,"general");
     }
     // From mainLoop
-    if (getPageSetting('AutoHeirlooms2')) autoHeirlooms2(); //"Auto Heirlooms 2" (heirlooms.js)
-    else if (getPageSetting('AutoHeirlooms')) autoHeirlooms();//"Auto Heirlooms"      (")
-    if (getPageSetting('AutoUpgradeHeirlooms') && !heirloomsShown) autoNull();  //"Auto Upgrade Heirlooms" (heirlooms.js)
+    if (getPageSetting('AutoHeirlooms')) autoHeirlooms();//"Auto Heirlooms"      (")
     //Go into portal screen
     portalClicked();
     //AutoPerks: do this first, because it reflashes the screen.
-    if (getPageSetting('AutoAllocatePerks'))
-        AutoPerks.clickAllocate();
+
     //Auto Start Daily:
     if (getPageSetting('AutoStartDaily')) {
         selectChallenge('Daily');
@@ -139,6 +136,17 @@ function doPortal(challenge) {
             getDailyChallenge(lastUndone);
             debug("Portaling into Daily for: " + getDailyTimeString(lastUndone, true) + " now!");
         }
+    }
+    //Auto-start daily if it is about to expire
+    else if(getPageSetting('NoWasteDaily')) {
+       selectChallenge('Daily');
+       checkCompleteDailies();
+       if(game.global.recentDailies.indexOf(getDailyTimeString(-6)) == -1) {
+           // Checks if daily from 6 days ago is completed and if not, runs it. If yes, then run normal challenge
+           getDailyChallenge(-6);
+          } else {
+           selectChallenge(challenge || 0);
+          }
     }
     //Regular Challenge:
     else if(challenge) {
