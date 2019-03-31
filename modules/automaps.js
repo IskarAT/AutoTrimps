@@ -67,11 +67,12 @@ function autoMap() {
     const windModifier = getPageSetting('WindModifier');
     const ignoreWindSpire = getPageSetting('WindSpire');
     var skipSpire = ignoreWindSpire && game.global.spireActive;
+    var VoidDailyOffset = getPageSetting('VoidDailyOffset');
     
     //FIND VOID MAPS LEVEL:
     needToVoid = false;
     doVoids = false;
-    var voidMapLevelSetting = getPageSetting('VoidMaps');
+    var voidMapLevelSetting = getPageSetting('VoidMaps') + VoidDailyOffset;
     var voidsuntil = getPageSetting('RunNewVoidsUntil');
     //decimal void maps are possible, using string function to avoid false float precision (0.29999999992). javascript can compare ints to strings anyway.
     var voidMapLevelSettingZone = (voidMapLevelSetting+"").split(".")[0];
