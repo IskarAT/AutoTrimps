@@ -79,10 +79,12 @@ function autoStance() {
     
     // Start empowerments overrides
     var activeEmpowerment = getEmpowerment();
+    var activeEnlight = getUberEmpowerment();
     const forceIce = getPageSetting('ForceIce');
     const forceWind = getPageSetting('ForceWind');
     const ignoreWindSpire = getPageSetting('WindSpire');
     var skipSpire = ignoreWindSpire && game.global.spireActive;
+    var startWindStance = getPageSetting('WindZone');
     
     // Force D when Ice empowerment is active with > 35 power (= healthy sharpie cannot kill us)
     if (activeEmpowerment == "Ice" && game.empowerments.Ice.level > 30 && forceIce) {
@@ -90,10 +92,17 @@ function autoStance() {
         return;
     }
     
+    // Start Enlightenment if we are in a daily and none is selected
+    //if(getUberEmpowerment() == 'Nothing' && game.global.dailyChallenge)
+    
+    // Another lovely override for an override. YO DAWG. But seriously, if we have Wind active, no stance dance
+    if(getUberEmpowerment() == 'Wind' && startWindStance <= game.global.world) {
+       setFormation(5);
+    }
     // Force B in Wind world zones (not maps!) to achieve max wind stacks
     // Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
     // RIP game.empowerments.Wind.maxStacks, may you rest in peace
-    if (newHDratio > 0.5 && forceWind && activeEmpowerment == "Wind" && !game.global.mapsActive && game.empowerments.Wind.currentDebuffPower < 200 && !skipSpire) {
+    else if (newHDratio > 0.5 && forceWind && activeEmpowerment == "Wind" && !game.global.mapsActive && game.empowerments.Wind.currentDebuffPower < 200 && !skipSpire) {
         // if we are in X/H stance, switch to H to avoid trimp death, else B stance
         if (game.global.formation == "0" || game.global.formation == 1) {
             // If we got killed by omnipotrimp in X/H stance, new one was not calculated yet. So, check HP and go B if we safely can
