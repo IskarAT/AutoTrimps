@@ -140,7 +140,7 @@ function mainCleanup() {
         lastHeliumZone = 0;
         zonePostpone = 0;
         //for the dummies like me who always forget to turn automaps back on after portaling
-        if(getPageSetting('RunUniqueMaps') && !game.upgrades.Battle.done && autoTrimpSettings.AutoMaps.enabled == false)
+        if(!game.upgrades.Battle.done && autoTrimpSettings.AutoMaps.enabled == false)
             settingChanged("AutoMaps");
         return true; // Do other things
     }
@@ -154,16 +154,14 @@ function mainLoop() {
     if (ATrunning == false) return;
     ATrunning = true;
     if(game.options.menu.showFullBreed.enabled != 1) toggleSetting("showFullBreed");    //more detail
-    addbreedTimerInsideText.innerHTML = ((game.jobs.Amalgamator.owned > 0) ? Math.floor((new Date().getTime() - game.global.lastSoldierSentAt) / 1000) : Math.floor(game.global.lastBreedTime / 1000)) + 's'; //add breed time for next army;
+    //addbreedTimerInsideText.innerHTML = ((game.jobs.Amalgamator.owned > 0) ? Math.floor((new Date().getTime() - game.global.lastSoldierSentAt) / 1000) : Math.floor(game.global.lastBreedTime / 1000)) + 's'; //add breed time for next army;
     if (armycount.className != "tooltipadded") addToolTipToArmyCount();
     if (mainCleanup() // Z1 new world
             || portalWindowOpen // in the portal screen (for manual portallers)
             || (!heirloomsShown && heirloomFlag) // closed heirlooms screen
             || (heirloomCache != game.global.heirloomsExtra.length)) { // inventory size changed (a drop appeared)
             // also pre-portal: portal.js:111
-        if (getPageSetting('AutoHeirlooms2')) autoHeirlooms2(); //"Auto Heirlooms 2" (heirlooms.js)
-        else if (getPageSetting('AutoHeirlooms')) autoHeirlooms();//"Auto Heirlooms"      (")
-        if (getPageSetting('AutoUpgradeHeirlooms') && !heirloomsShown) autoNull();  //"Auto Upgrade Heirlooms" (heirlooms.js)
+        if (getPageSetting('AutoHeirlooms')) autoHeirlooms();//"Auto Heirlooms"      (")
 
         heirloomCache = game.global.heirloomsExtra.length;
     }
@@ -193,24 +191,20 @@ function mainLoop() {
 
     //EXECUTE CORE LOGIC
     if (getPageSetting('ExitSpireCell') >0) exitSpireCell(); //"Exit Spire After Cell" (other.js)
-    if (getPageSetting('WorkerRatios')) workerRatios(); //"Auto Worker Ratios"  (jobs.js)
     if (getPageSetting('BuyUpgrades')) buyUpgrades();   //"Buy Upgrades"       (upgrades.js)
     autoGoldenUpgradesAT();
     if (getPageSetting('BuyStorage'))
         buyStorage();     //"Buy Storage"     (buildings.js)
     if (getPageSetting('BuyBuildings')) buyBuildings(); //"Buy Buildings"   (buildings.js)
     needGymystic = false;   //reset this after buyBuildings
-    if (getPageSetting('BuyJobs')) buyJobs();           //"Buy Jobs"    (jobs.js)
     if (getPageSetting('ManualGather2')<=2) manualLabor();  //"Auto Gather/Build"           (gather.js)
     else if (getPageSetting('ManualGather2')==3) manualLabor2();  //"Auto Gather/Build #2"     (")
     if (getPageSetting('AutoMaps')) autoMap();          //"Auto Maps"   (automaps.js)
     else updateAutoMapsStatus();
-    if (getPageSetting('GeneticistTimer') >= 0) autoBreedTimer(); //"Geneticist Timer" / "Auto Breed Timer"     (autobreedtimer.js)
     if (autoTrimpSettings.AutoPortal.selected != "Off") autoPortal();   //"Auto Portal" (hidden until level 40) (portal.js)
 
     if (getPageSetting('TrapTrimps') && game.global.trapBuildAllowed && game.global.trapBuildToggled == false) toggleAutoTrap(); //"Trap Trimps"
     if (aWholeNewWorld && getPageSetting('AutoRoboTrimp')) autoRoboTrimp();   //"AutoRoboTrimp" (other.js)
-    if (aWholeNewWorld && getPageSetting('FinishC2')>0 && game.global.runningChallengeSquared) finishChallengeSquared(); // "Finish Challenge2" (other.js)
     autoLevelEquipment();           //"Buy Armor", "Buy Armor Upgrades", "Buy Weapons", "Buy Weapons Upgrades"  (equipment.js)
 
     BAFsetting = getPageSetting('BetterAutoFight');
@@ -221,13 +215,9 @@ function mainLoop() {
     else if (BAFsetting==0 && !game.global.autoBattle && game.global.soldierHealth == 0) betterAutoFight();   //use BAF as a backup for pre-Battle situations
     oldBAFsetting = BAFsetting;                                            //enables built-in autofight once when disabled  
   
-    if (getPageSetting('UseScryerStance'))  useScryerStance();  //"Use Scryer Stance"   (scryer.js)
-    else if (getPageSetting('AutoStance')<=1) autoStance();    //"Auto Stance"      (autostance.js)
+    if (getPageSetting('AutoStance')<=1) autoStance();    //"Auto Stance"      (autostance.js)
     else if (getPageSetting('AutoStance')==2) autoStance2();   //"Auto Stance #2"       (")
     if (getPageSetting('UseAutoGen')) autoGenerator(); // "Auto Generator ON" (magma.js)
-
-    if (getPageSetting('DynamicPrestige2')>0&&((getPageSetting('ForcePresZ')<0)||(game.global.world<getPageSetting('ForcePresZ')))) prestigeChanging2(); //"Dynamic Prestige" (dynprestige.js)
-    else autoTrimpSettings.Prestige.selected = document.getElementById('Prestige').value; //if we dont want to, just make sure the UI setting and the internal setting are aligned.
 
     //Auto Magmite Spender
     try {
