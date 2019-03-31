@@ -221,7 +221,7 @@ function initializeAllSettings() {
     createSetting('UsePatience', 'Enable Patience', 'Sets the default breed timer to 45 seconds if you have the Patience mastery.', 'boolean', true, null, 'genBTC');
     createSetting('SpireLimit', 'Min Spire for AT', 'Spires below this value are treated as normal zones. e.g. Set to 3 and most AT Spire-specific settings only take effect on Spire III and later.<br>Does not work with Run Bionic Before Spire.', 'value', 1, null, 'genBTC');
 if (game.worldUnlocks.easterEgg)
-        createSetting('AutoEggs', 'AutoEggs', 'Click easter egg if it exists, upon entering a new zone. Warning: Quite overpowered. Please solemnly swear that you are up to no good.', 'boolean', false, null, 'Uni');
+        createSetting('AutoEggs', 'AutoEggs', 'Click easter egg if it exists, upon entering a new zone. Warning: Quite overpowered. Please solemnly swear that you are up to no good.', 'boolean', false, null, 'genBTC');
 
 // Dimensional Generator settings:
     createSetting('UseAutoGen', ['Auto Generator OFF', 'Auto Generator ON'], '<b>MASTER BUTTON</b> Dynamically switch generator modes. Required for the following mode management configurations to work. The Dimensional Generator is a building unlocked in The Magma, from z230.', 'multitoggle', 0, null, 'Magma');
