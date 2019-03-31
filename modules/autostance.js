@@ -97,7 +97,7 @@ function autoStance() {
     }
     
     // Start Enlightenment if we are in a daily and none is selected
-    //if(getUberEmpowerment() == 'Nothing' && game.global.challengeActive == "Daily")
+    //if(getPageSetting('AutoEmpowerments') && getUberEmpowerment() == 'Nothing' && game.global.challengeActive == "Daily")
     
     // Another lovely override for an override. YO DAWG. But seriously, if we have Wind active, no stance dance
     if(getUberEmpowerment() == 'Wind' && startWindStance <= game.global.world) {
