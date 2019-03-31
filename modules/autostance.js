@@ -97,10 +97,10 @@ function autoStance() {
     }
     
     // Start Enlightenment if we are in a daily and none is selected
-    //if(getPageSetting('AutoEmpowerments') && getUberEmpowerment() == 'Nothing' && game.global.challengeActive == "Daily")
+    //if(getPageSetting('AutoEmpowerments') && activeEnlight == 'Nothing' && game.global.challengeActive == "Daily")
     
-    // Another lovely override for an override. YO DAWG. But seriously, if we have Wind active, no stance dance
-    if(getUberEmpowerment() == 'Wind' && startWindStance <= game.global.world) {
+    // Another lovely override for an override. YO DAWG. But seriously, if we have Wind active, no stance dance in wind wolrd zones
+    if(activeEnlight == 'Wind' && startWindStance <= game.global.world && !game.global.mapsActive && newHDratio < 999) {
        setFormation(5);
     }
     // Force B in Wind world zones (not maps!) to achieve max wind stacks
