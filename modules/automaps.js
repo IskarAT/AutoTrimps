@@ -67,7 +67,7 @@ function autoMap() {
     const windModifier = getPageSetting('WindModifier');
     const ignoreWindSpire = getPageSetting('WindSpire');
     var skipSpire = ignoreWindSpire && game.global.spireActive;
-    var VoidDailyOffset = getPageSetting('VoidDailyOffset');
+    var VoidDailyOffset = (game.global.challengeActive == "Daily")?getPageSetting('VoidDailyOffset'):0; // During a daily, add offset to voidmaps
     
     //FIND VOID MAPS LEVEL:
     needToVoid = false;
