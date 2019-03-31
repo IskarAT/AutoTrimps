@@ -67,8 +67,12 @@ function autoStance() {
     if (game.global.currentMapId) {
      var mapLocation = game.global.mapsOwnedArray[getMapIndex(game.global.currentMapId)].location;
      if (mapLocation == "Void" && (game.global.challengeActive == "" || game.global.challengeActive == "Daily")) {
-      if (game.talents.scry2.purchased) {
-       setFormation(4); // Force S in voids; later add control for that (when I overhaul scryer UI)
+      if (game.talents.scry2.purchased || getEmpowerment() == 'Wind') {
+       if(getEmpowerment() == 'Wind' && game.global.wolrd > 250) {
+        setFormation(5);
+       } else {
+        setFormation(4); // Force S in voids; later add control for that (when I overhaul scryer UI)
+       } 
        return true;
       } else {
        setFormation(2);
@@ -93,7 +97,7 @@ function autoStance() {
     }
     
     // Start Enlightenment if we are in a daily and none is selected
-    //if(getUberEmpowerment() == 'Nothing' && game.global.dailyChallenge)
+    //if(getUberEmpowerment() == 'Nothing' && game.global.challengeActive == "Daily")
     
     // Another lovely override for an override. YO DAWG. But seriously, if we have Wind active, no stance dance
     if(getUberEmpowerment() == 'Wind' && startWindStance <= game.global.world) {
