@@ -97,7 +97,15 @@ function autoStance() {
     }
     
     // Start Enlightenment if we are in a daily and none is selected
-    //if(getPageSetting('AutoEmpowerments') && activeEnlight == 'Nothing' && game.global.challengeActive == "Daily")
+    if(getPageSetting('AutoEmpowerments') && activeEnlight == "" && game.global.challengeActive == "Daily") {
+     if(game.empowerments.Wind.nextUberCost == 0) {
+       naturePurchase("uberEmpower", "Wind")
+     } else if (game.empowerments.Ice.nextUberCost == 0) {
+       naturePurchase("uberEmpower", "Ice")
+     } else if (game.empowerments.Poison.nextUberCost == 0) {
+       naturePurchase("uberEmpower", "Poison")
+     }
+    }
     
     // Another lovely override for an override. YO DAWG. But seriously, if we have Wind active, no stance dance in wind wolrd zones
     if(activeEnlight == 'Wind' && activeEmpowerment == 'Wind' && startWindStance <= game.global.world && !game.global.mapsActive && newHDratio < 999) {
