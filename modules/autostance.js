@@ -110,6 +110,7 @@ function autoStance() {
     // Another lovely override for an override. YO DAWG. But seriously, if we have Wind active, no stance dance in wind wolrd zones
     if(activeEnlight == 'Wind' && activeEmpowerment == 'Wind' && startWindStance <= game.global.world && !game.global.mapsActive && newHDratio < 999) {
        setFormation(5);
+       return;
     }
     // Force B in Wind world zones (not maps!) to achieve max wind stacks
     // Note: We'll use barrier instead of health because we want to go D stance after, if possible. Also scryer is useless in high zones because of stance-dancing -> no additional looot or DE
