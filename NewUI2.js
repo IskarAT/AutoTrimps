@@ -247,6 +247,7 @@ if (game.worldUnlocks.easterEgg)
     createSetting('goldAlternating', 'goldAlternating', 'Buy a helium upgrade after X-1 battle upgrades have been purchased', 'value', '2', null, 'Golden');
     createSetting('goldZone', 'goldZone', 'Buy a helium upgrade until zone X, then buy battle upgrades.', 'value', '200', null, 'Golden');
     createSetting('HoldCoords', ['Normal AT behavior', 'Fully manual coords', 'Hold when overkilling'], 'Define behavior for coordinations. Buy + not buy are simple, Hold only buys coords when we go below more or less safe threshold in H:D ratio.', 'multitoggle', 1, null, "Golden");
+    createSetting('SpireNurse', 'Spire Nurseries', 'Builds set number of nurseries at zone 600 because I am lazy to write an effective way to handle it', 'value', '-1', null, "Golden");
     
 // Nature settings:
     createSetting('AutoNatureTokens', 'Spend Nature Tokens', '<b>MASTER BUTTON</b> Automatically spend or convert nature tokens.', 'boolean', false, null, 'Nature');
