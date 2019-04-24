@@ -312,7 +312,7 @@ function autoMap() {
 	  if(game.global.spireActive) {
 	    advExtraLevelSelect.value = 5; // Spire is always a MOD 0 zone (200, 300 ... xx00)
 	  } else {
-	    advExtraLevelSelect.value = (15-game.global.world%10); // This should always make it raid a MOD 5 zone
+	    advExtraLevelSelect.value = ((5-game.global.world%10)>=0)?(5-game.global.world%10):(0); // This should always make it raid a MOD 5 zone
 	  }
 	}
         // document.getElementById('advExtraLevelSelect').value;
