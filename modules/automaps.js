@@ -259,10 +259,13 @@ function autoMap() {
     if (shouldDoMaps) {
       var siphonLevel = game.portal.Siphonology.level;
       var desiredMapLevel = 0;
+      var extraLevels = 0;
       if (needPrestige || doVoids) { // Technically we shouldn't need doVoids here but who knows how I'll write the find function :)
         desiredMapLevel = game.global.world;
-      }
-      else {
+      } else if(powerRaiding == 2 && (game.global.spireActive || needToVoid)) {
+	extraLevels = ((5-game.global.world%10)>=0)?(5-game.global.world%10):(0); // Same as selecting extra levels for power raiding
+        desiredMapLevel = game.global.world;
+      } else {
         desiredMapLevel = (game.global.world - siphonLevel);
       }
       // Now let's go through map array and see if we find our map
@@ -276,7 +279,7 @@ function autoMap() {
             }
             continue; // found unique map; While we could run them, they are way bigger and have more HP than created ones -> nope
           }
-          if (!doVoids && game.global.mapsOwnedArray[i].level == desiredMapLevel) {
+          if (!doVoids && game.global.mapsOwnedArray[i].level == (desiredMapLevel + extraLevels)) { // During power raiding, look for higher lvl map without changing the variable; outside of power raiding, it is 0
             pickedMap = game.global.mapsOwnedArray[i];
             break; // We found our map, let's break
           }
