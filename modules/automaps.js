@@ -209,7 +209,7 @@ function autoMap() {
       else if (newHDratio > customVars.mapCutoff && (game.global.mapsActive || game.global.preMapsActive)) { // We are in maps or premaps, so activate grace period to get better bonus since our next army is very likely still breeding
         doMaxMapBonus = true;
       }
-      else if (spireMapBonusOverride) doMaxMapBonus = true;
+      else if (spireMapBonusOverride || (needToVoid && game.global.world%10 == 0)) doMaxMapBonus = true; // If we are in MOD 0 map and preparing to run voids, just grab full map bonus first; It gives resources and enables power raiding even below HD cutoff
     }
     // Map bonus is maxed, only thing to do now are voids after reaching set cell; it's not an else because we could be missing max map bonus, which would break the logic
     if (needToVoid) {
