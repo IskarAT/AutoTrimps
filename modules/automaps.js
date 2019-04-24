@@ -62,13 +62,14 @@ function autoMap() {
     // Use map presets
     var useMapPresets = true; // for now true, later we'll make it into a setting
     
-    // Get Wind farm settings; cannot move to global vars in case user changes them
+    // Get Wind farm and other settings; cannot move to global vars in case user changes them
     const forceWind = getPageSetting('ForceWind');
     const windModifier = getPageSetting('WindModifier');
     const ignoreWindSpire = getPageSetting('WindSpire');
     var skipSpire = ignoreWindSpire && game.global.spireActive;
     var VoidDailyOffset = (game.global.challengeActive == "Daily")?getPageSetting('VoidDailyOffset'):0; // During a daily, add offset to voidmaps
-    
+    var powerRaiding = getPageSetting('MaxStacksForSpire');
+	
     //FIND VOID MAPS LEVEL:
     needToVoid = false;
     doVoids = false;
@@ -305,7 +306,15 @@ function autoMap() {
         biomeAdvMapsSelect.value = tempMapPreset.biome;
         advSpecialSelect.value = tempMapPreset.specMod;
         advPerfectCheckbox.checked = tempMapPreset.perf;
-        // We will not be bothering with extra map levels, even if we know it leads to increased He gain when used properly; However I'll put it here for good measure
+        // Power raiding for Spire and Void maps, if applicable
+	if(powerRaiding == 2 && (game.global.spireActive || needToVoid)) {
+	  document.getElementById("mapLevelInput").value = game.global.world; // Shitty override is shitty, I know
+	  if(game.global.spireActive) {
+	    advExtraLevelSelect.value = 5; // Spire is always a MOD 0 zone (200, 300 ... xx00)
+	  } else {
+	    advExtraLevelSelect.value = (15-game.global.world%10); // This should always make it raid a MOD 5 zone
+	  }
+	}
         // document.getElementById('advExtraLevelSelect').value;
         
         // Presets are loaded, now let's get map cost
