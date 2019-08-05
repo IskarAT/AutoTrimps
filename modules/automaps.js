@@ -198,7 +198,7 @@ function autoMap() {
         numUnbought++;
     }
     if (numUnbought > 0) {
-      if (game.talents.blacksmith3.purchased && game.global.world < Math.floor((game.global.highestLevelCleared + 1) * 0.9)) {
+      if (game.talents.blacksmith3.purchased && game.global.world < Math.floor((getHighestLevelCleared(false, true) + 1) * 0.9)) {
 	  needPrestige = false;
         } else needPrestige = true; // We have prestiges available -> Get 'em
     }
