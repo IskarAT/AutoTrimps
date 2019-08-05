@@ -73,7 +73,7 @@ function autoMap() {
     //FIND VOID MAPS LEVEL:
     needToVoid = false;
     doVoids = false;
-    var voidMapLevelSetting = getPageSetting('VoidMaps') + VoidDailyOffset;
+    var voidMapLevelSetting = (game.global.universe == 1)?getPageSetting('VoidMaps')getPageSetting('VoidMapsU2'): + VoidDailyOffset;
     var voidsuntil = getPageSetting('RunNewVoidsUntil');
     //decimal void maps are possible, using string function to avoid false float precision (0.29999999992). javascript can compare ints to strings anyway.
     var voidMapLevelSettingZone = (voidMapLevelSetting+"").split(".")[0];
