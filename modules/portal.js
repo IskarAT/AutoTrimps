@@ -59,8 +59,8 @@ function autoPortal() {
                             document.getElementById('finishDailyBtnContainer').style.display = 'none';
                         }
                         //
-                        if (autoTrimpSettings.HeliumHourChallenge.selected != 'None')
-                            doPortal(autoTrimpSettings.HeliumHourChallenge.selected);
+                        if ((game.global.universe == 1)?autoTrimpSettings.HeliumHourChallenge.selected:autoTrimpSettings.RadonHourChallenge.selected != 'None')
+                            (game.global.universe == 1)?doPortal(autoTrimpSettings.HeliumHourChallenge.selected):doPortal(autoTrimpSettings.RadonHourChallenge.selected);
                         else
                             doPortal();
                     },MODULES["portal"].timeout+100);
@@ -68,7 +68,7 @@ function autoPortal() {
             }
             break;
         case "Custom":
-            if ((game.global.world > getPageSetting('CustomAutoPortal')+autoFinishDailyZone) &&
+            if ((game.global.world > (game.global.universe == 1)?getPageSetting('CustomAutoPortal'):getPageSetting('CustomAutoPortalU2')+autoFinishDailyZone) &&
                 (!game.global.challengeActive || autoFinishDaily)) {
                 if (autoFinishDaily) {
                     abandonDaily();
