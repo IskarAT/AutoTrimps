@@ -313,7 +313,7 @@ function autoMap() {
         advSpecialSelect.value = tempMapPreset.specMod;
         advPerfectCheckbox.checked = tempMapPreset.perf;
         // Power raiding for Spire and Void maps, if applicable
-	if(powerRaiding == 2 && (game.global.spireActive || needToVoid)) {
+	if(powerRaiding == 2 && (game.global.spireActive || needToVoid) && game.global.world > 50) {
 	  document.getElementById("mapLevelInput").value = game.global.world; // Shitty override is shitty, I know
 	  if(game.global.spireActive) {
 	    advExtraLevelSelect.value = 5; // Spire is always a MOD 0 zone (200, 300 ... xx00)
