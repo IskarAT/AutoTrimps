@@ -192,6 +192,8 @@ function buyBuildings() {
         safeBuyBuilding('Wormhole');
     }
     //Buy non-housing buildings:
+    // Smithy (U2)
+    if(!game.buildings.Smithy.locked) safeBuyBuilding('Smithy');
     //Gyms:
     if (!game.buildings.Gym.locked && (getPageSetting('MaxGym') > game.buildings.Gym.owned || getPageSetting('MaxGym') == -1)) {
         var skipGym = false;
