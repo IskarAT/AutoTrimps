@@ -138,7 +138,7 @@ function doPortal(challenge) {
         }
     }
     //Auto-start daily if it is about to expire
-    else if(getPageSetting('NoWasteDaily')) {
+    else if(getPageSetting('NoWasteDaily') && game.global.world > 30) {
        selectChallenge('Daily');
        checkCompleteDailies();
        if(game.global.recentDailies.indexOf(getDailyTimeString(-6)) == -1) {
@@ -151,7 +151,7 @@ function doPortal(challenge) {
     //Regular Challenge:
     else if(challenge) {
         selectChallenge(challenge);
-    }
+    } else selectChallenge(0);
     //Push He Data:
     pushData();
     //Actually Portal.
