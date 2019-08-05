@@ -856,7 +856,7 @@ function updateCustomButtons() {
     else
         document.getElementById("autoMapBtn").setAttribute("class", "btn fightBtn btn-danger");
     //auto portal setting, hide until player has unlocked the balance challenge
-    (game.challenges.Balance.filter()) ? turnOn("AutoPortal") : turnOff("AutoPortal");
+    //(game.challenges.Balance.filter()) ? turnOn("AutoPortal") : turnOff("AutoPortal");
     //auto Daily settings, hide until player has unlocked the Daily challenges
     (game.challenges.Daily.filter()) ? turnOn("AutoStartDaily") : turnOff("AutoStartDaily");
     (game.challenges.Daily.filter()) ? turnOn("AutoFinishDaily") : turnOff("AutoFinishDaily");
