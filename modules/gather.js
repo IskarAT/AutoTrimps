@@ -156,7 +156,7 @@ function manualLabor2() {
             setGather('buildings');
         return;
     }
-    else if (trapTrimpsOK && (breedingTrimps < 50000 || trapperTrapUntilFull || watchJumpstartTraps) && game.buildings.Trap.owned > 0) {
+    else if (trapTrimpsOK && (breedingTrimps < 50000 || trapperTrapUntilFull || watchJumpstartTraps) && game.resources.trimps.owned < 0.95*game.resources.trimps.realMax() && game.buildings.Trap.owned > 0) {
         setGather('trimps');
         if (trapperTrapUntilFull && (game.global.buildingsQueue.length == 0 || game.buildings.Trap.owned == 1) && !game.global.trapBuildAllowed  && canAffordBuilding('Trap'))
             safeBuyBuilding('Trap'); //get ahead on trap building since it is always needed for Trapper
