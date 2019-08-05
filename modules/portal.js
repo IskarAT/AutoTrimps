@@ -68,7 +68,7 @@ function autoPortal() {
             }
             break;
         case "Custom":
-            if ((game.global.world > (game.global.universe == 1)?getPageSetting('CustomAutoPortal'):getPageSetting('CustomAutoPortalU2')+autoFinishDailyZone) &&
+            if ((game.global.world > ((game.global.universe == 1)?getPageSetting('CustomAutoPortal'):getPageSetting('CustomAutoPortalU2'))+autoFinishDailyZone) &&
                 (!game.global.challengeActive || autoFinishDaily)) {
                 if (autoFinishDaily) {
                     abandonDaily();
