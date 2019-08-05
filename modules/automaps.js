@@ -257,7 +257,7 @@ function autoMap() {
     
     // Big-ass map section - sort, check, create and run them; Will encompass this in if statement for performance reasons because why calculate stuff when mapping is turned off?
     if (shouldDoMaps) {
-      var siphonLevel = game.portal.Siphonology.level;
+      var siphonLevel = (game.global.universe == 1)?(game.portal.Siphonology.level):0;
       var desiredMapLevel = 0;
       var extraLevels = 0;
       if (needPrestige || doVoids) { // Technically we shouldn't need doVoids here but who knows how I'll write the find function :)
