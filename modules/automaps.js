@@ -325,12 +325,28 @@ function autoMap() {
         // Handle too costly map
         /* awesome cost handle code */
         
+	var mapErrCode;
         // Attempt to buy the map, recycle all if too many and retry
-        if (buyMap() == -2) {
+	mapErrCode = buyMap();
+        if (mapErrCode == -2) {
           recycleBelow(true);
           debug("Too many maps, recycling now: ", "maps", 'th-large');
           buyMap();
-        }
+        } else if (mapErrCode == -3) {
+	  // We can't afford the map, so let's tick some shit off to decrease price
+	  advPerfectCheckbox.checked = false;
+	  advSpecialSelect.value = "";
+	  biomeAdvMapsSelect.value = "Random";
+	  // Try again
+	  mapErrCode = buyMap();
+	  while(mapErrCode == -3 && (sizeAdvMapsRange.value !=0 || lootAdvMapsRange.value != 0 || difficultyAdvMapsRange.value != 0)) {
+	   // Removing more costly options did not help, so let's fiddle with sliders
+	   sizeAdvMapsRange.value -= 1;
+	   lootAdvMapsRange.value -= 1;
+	   difficultyAdvMapsRange.value -= 1;
+	   mapErrCode = buyMap();
+	}
+       }
       }
       
       // Run Maps Logic section
