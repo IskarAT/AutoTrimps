@@ -133,7 +133,8 @@ function initializeAllSettings() {
     createSetting('RadonHourChallenge', 'Challenge list for U2 portal', 'Automatically portal into this challenge when using helium per hour or custom autoportal.', 'dropdown', 'None', ['None', 'Something'], "Core");
     document.getElementById("HeliumHourChallengeLabel").innerHTML = "Helium:";
     document.getElementById("RadonHourChallengeLabel").innerHTML = "Radon:";
-    createSetting('CustomAutoPortal', 'Custom Portal', 'Automatically portal AFTER clearing this level.(ie: setting to 200 would portal when you first reach level 201)', 'value', '200', null, "Core");
+    createSetting('CustomAutoPortal', 'Custom Portal U1', 'Automatically portal AFTER clearing this level.(ie: setting to 200 would portal when you first reach level 201)', 'value', '200', null, "Core");
+    createSetting('CustomAutoPortalU2', 'Custom Portal U2', 'Automatically portal AFTER clearing this level.(ie: setting to 200 would portal when you first reach level 201)', 'value', '20', null, "Core");
     createSetting('HeHrDontPortalBefore', 'He/Hr Dont Portal Before', 'Do NOT allow Helium per Hour AutoPortal setting to portal BEFORE this level is reached. It is an additional check that prevents drops in helium/hr from triggering autoportal. Set to 0 or -1 to completely disable this check.', 'value', '200', null, "Core");
     createSetting('HeliumHrBuffer', 'He/Hr Portal Buffer %', 'IMPORTANT SETTING. When using the He/Hr Autoportal, it will portal if your He/Hr drops by this amount of % lower than your best for current run, default is 0% (ie: set to 5 to portal at 95% of your best). Now with stuck protection - Allows portaling midzone if we exceed set buffer amount by 5x. (ie a normal 2% buffer setting would now portal mid-zone you fall below 10% buffer).', 'value', '0', null, 'Core');
     
