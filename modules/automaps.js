@@ -263,6 +263,9 @@ function autoMap() {
       if (needPrestige || doVoids) { // Technically we shouldn't need doVoids here but who knows how I'll write the find function :)
         desiredMapLevel = game.global.world;
       } else if(powerRaiding == 2 && (game.global.spireActive || needToVoid)) {
+	if(game.global.world < 50)
+	extraLevels = 0;
+	else
 	extraLevels = ((5-game.global.world%10)>=0)?(5-game.global.world%10):(0); // Same as selecting extra levels for power raiding
         desiredMapLevel = game.global.world;
       } else {
