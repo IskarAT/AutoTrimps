@@ -863,6 +863,7 @@ function updateCustomButtons() {
     (game.challenges.Daily.filter() && getPageSetting('AutoFinishDaily')) ? turnOn("AutoFinishDailyZone") : turnOff("AutoFinishDailyZone");
     //if custom auto portal is not selected, remove the custom value settingsbox
     (autoTrimpSettings.AutoPortal.selected == "Custom") ? turnOn("CustomAutoPortal") : turnOff("CustomAutoPortal");
+    (autoTrimpSettings.AutoPortal.selected == "Custom") ? turnOn("CustomAutoPortalU2") : turnOff("CustomAutoPortalU2");
     //if HeHr is not selected, remove HeliumHourChallenge settingsbox
     (autoTrimpSettings.AutoPortal.selected == "Helium Per Hour" || autoTrimpSettings.AutoPortal.selected == "Custom") ? turnOn("HeliumHourChallenge") : turnOff("HeliumHourChallenge");
     (autoTrimpSettings.AutoPortal.selected == "Helium Per Hour" || autoTrimpSettings.AutoPortal.selected == "Custom") ? turnOn("RadonHourChallenge") : turnOff("RadonHourChallenge");
