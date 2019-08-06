@@ -343,9 +343,16 @@ function getTotalDarkEssenceCount() {
 
 function pushData() {
     debug('Starting Zone ' + game.global.world,"general");
-    //helium/hour % of totalHE, and currentRun/totalLifetime HE
-    var getPercent = (game.stats.heliumHour.value() / (game.global.totalHeliumEarned - (game.global.heliumLeftover + game.resources.helium.owned)))*100;
-    var lifetime = (game.resources.helium.owned / (game.global.totalHeliumEarned-game.resources.helium.owned))*100;
+    //helium/hour % of totalHE, and currentRun/totalLifetime HE or Ra
+    var getPercent;
+    var lifetime;
+    if (game.global.universe == 1) {
+    getPercent = (game.stats.heliumHour.value() / (game.global.totalHeliumEarned - (game.global.heliumLeftover + game.resources.helium.owned)))*100;
+    lifetime = (game.resources.helium.owned / (game.global.totalHeliumEarned-game.resources.helium.owned))*100;
+    } else {
+    getPercent = (game.stats.heliumHour.value() / (game.global.totalRadonEarned - (game.global.radonLeftover + game.resources.radon.owned)))*100;
+    lifetime = (game.resources.radon.owned / (game.global.totalRadonEarned-game.resources.radon.owned))*100;
+    }
 
     allSaveData.push({
         totalPortals: game.global.totalPortals,
