@@ -193,7 +193,9 @@ function buyBuildings() {
     }
     //Buy non-housing buildings:
     // Smithy (U2)
-    if(!game.buildings.Smithy.locked) safeBuyBuilding('Smithy');
+    if (!game.buildings.Smithy.locked) safeBuyBuilding('Smithy');
+    //Meteorologist (U2) - also technically a job but I retired that part from AT and it is not in AutoJobs at the moment
+    if (!game.jobs.Meteorologist.locked) safeBuyJob('Meteorologist', 1);
     //Gyms:
     if (!game.buildings.Gym.locked && (getPageSetting('MaxGym') > game.buildings.Gym.owned || getPageSetting('MaxGym') == -1)) {
         var skipGym = false;
