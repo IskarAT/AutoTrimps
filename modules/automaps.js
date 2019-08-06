@@ -279,7 +279,9 @@ function autoMap() {
             if (doVoids && game.global.mapsOwnedArray[i].location == "Void") {
               pickedMap = game.global.mapsOwnedArray[i];
               break; // We found a voidmap and we want to run it, let's break
-            }
+            } else if (game.global.world > 21 && game.global.mapsOwnedArray[i].location == "Prismatic" && game.global.mapsOwnedArray[i].name == "Prismatic Palace" && game.global.mapsOwnedArray[i].clears == 0) {
+	     pickedMap = game.global.mapsOwnedArray[i]; // Run Prismatic Palace once
+	    }
             continue; // found unique map; While we could run them, they are way bigger and have more HP than created ones -> nope
           }
           if (!doVoids && game.global.mapsOwnedArray[i].level == (desiredMapLevel + extraLevels)) { // During power raiding, look for higher lvl map without changing the variable; outside of power raiding, it is 0
