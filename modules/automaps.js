@@ -93,6 +93,8 @@ function autoMap() {
     challengeHPmod = 1;
     // Damage section; calculates max damage, not average; then we remove stance modifiers
     actualTrimpDamage = calculateDamage(game.global.soldierCurrentAttack, true, true, true);
+    
+	/* looks like crit was moved to calculate damage function itself, so no longer needed
     var playerCritChance = getPlayerCritChance();
     var baseMulti = 5;
     if (game.talents.crit.purchased) baseMulti++;
@@ -115,6 +117,7 @@ function autoMap() {
      // Now apply the crit formula, as usual but with baseMulti instead; also remember, that crit chance is now between <0;1)
      actualTrimpDamage = (actualTrimpDamage * (1-playerCritChance) + (actualTrimpDamage * playerCritChance * baseMulti));
     }
+	*/
 	
     if (game.global.formation == 0) {
       // Do nothing, X stance
