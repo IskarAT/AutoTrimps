@@ -195,9 +195,9 @@ function mainLoop() {
     autoGoldenUpgradesAT();
     if (getPageSetting('BuyStorage'))
         buyStorage();     //"Buy Storage"     (buildings.js)
-    if (game.global.lastClearedCell > 96) {
+    if (game.global.lastClearedCell > 88) { // Sadly I removed some settings from AT so things stopped working in AutoPortal etc. :) cell 88 is to work inside voids
       buyBuildings(); //"Buy Buildings"   (buildings.js)
-      autoHeirlooms(); // Carry heirlooms. Sadly I removed the setting from AT (some others too :D) so it stopped working in AutoPortal (heirlooms.js)
+      autoHeirlooms(); // Carry heirlooms (heirlooms.js)
     } 
     needGymystic = false;   //reset this after buyBuildings
     if (getPageSetting('ManualGather2')<=2) manualLabor();  //"Auto Gather/Build"           (gather.js)
