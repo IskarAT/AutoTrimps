@@ -195,7 +195,10 @@ function mainLoop() {
     autoGoldenUpgradesAT();
     if (getPageSetting('BuyStorage'))
         buyStorage();     //"Buy Storage"     (buildings.js)
-    if (getPageSetting('BuyBuildings')) buyBuildings(); //"Buy Buildings"   (buildings.js)
+    if (game.global.lastClearedCell > 96) {
+      buyBuildings(); //"Buy Buildings"   (buildings.js)
+      autoHeirlooms(); // Carry heirlooms. Sadly I removed the setting from AT (some others too :D) so it stopped working in AutoPortal (heirlooms.js)
+    } 
     needGymystic = false;   //reset this after buyBuildings
     if (getPageSetting('ManualGather2')<=2) manualLabor();  //"Auto Gather/Build"           (gather.js)
     else if (getPageSetting('ManualGather2')==3) manualLabor2();  //"Auto Gather/Build #2"     (")
