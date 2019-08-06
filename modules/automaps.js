@@ -147,11 +147,15 @@ function autoMap() {
     // Health section; computes Omnipotrimp at cell 100, unless stated otherwise
     // possible optimization: Compute when entering new zone or upon loading
     if (!game.global.mapsActive) {
-      actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp") * mutations.Corruption.statScale(10); // because Omnipotrimps are considered as corrupted for HP/attack; cannot call corrupted health function directly because it ignores Bad Guy stats
+      actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp"); // Omnipotrimps and Improbabilities have the same stats before corruption
     } else {
       // We have loaded the game while in a map; getEnemyHealth while in maps computes it from map level, which was causing weird behavior. This safeguard is to approximate H:D ratior before we fix it in world
-      if (actualEnemyHealth == 0) actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp") * mutations.Corruption.statScale(10);
+      if (actualEnemyHealth == 0) actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp");
     }
+    
+    // Now add corruption into the mix for U1
+    if (game.global.universe == 1 && game.global.world > 150)
+     actualEnemyHealth *= mutations.Corruption.statScale(10);
      
     // Challenge modifier section
     if (game.global.challengeActive == "Daily" && game.global.dailyChallenge.badHealth !== undefined) { // If daily doesn't affect HP, it is undefined
