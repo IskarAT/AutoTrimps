@@ -448,11 +448,11 @@ function updateAutoMapsStatus() {
     var area51 = document.getElementById('hiderStatus');
     var getPercent = (game.stats.heliumHour.value() / (game.global.totalHeliumEarned - (game.global.heliumLeftover + game.resources.helium.owned)))*100;
     var lifetime = (game.resources.helium.owned / (game.global.totalHeliumEarned-game.resources.helium.owned))*100;
-    area51.innerHTML = 'He/hr: ' + getPercent.toFixed(3) + '%<br>&nbsp;&nbsp;&nbsp;He: ' + lifetime.toFixed(3) +'%';
+    area51.innerHTML = 'He/Hr: ' + getPercent.toFixed(3) + '%<br>&nbsp;&nbsp;&nbsp;He: ' + lifetime.toFixed(3) +'%';
     } else {
     var area51 = document.getElementById('hiderStatus');
     var getPercent = (game.stats.heliumHour.value() / (game.global.totalRadonEarned - (game.global.radonLeftover + game.resources.radon.owned)))*100;
     var lifetime = (game.resources.radon.owned / (game.global.totalRadonEarned-game.resources.radon.owned))*100;
-    area51.innerHTML = 'Ra/hr: ' + getPercent.toFixed(3) + '%<br>&nbsp;&nbsp;&nbsp;He: ' + lifetime.toFixed(3) +'%';
+    area51.innerHTML = 'Ra/Hr: ' + getPercent.toFixed(3) + '%<br>&nbsp;&nbsp;&nbsp;Ra: ' + lifetime.toFixed(3) +'%';
     }
 }
