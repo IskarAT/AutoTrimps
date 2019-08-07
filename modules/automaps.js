@@ -303,11 +303,13 @@ function autoMap() {
         // create a map; creating map selects it, so we can run it after
         
         // If map presets are saved and option is turned on, use map presets; Preset1 until zone xxx, then preset2 until zone yyy, then finally preset3 until zzz; If no preset or option disabled, use default
-        if (useMapPresets) {
+        if (useMapPresets && game.global.universe == 1) {
           tempMapPreset = game.global.mapPresets.p1; // for now only preset 1
+        } else if (useMapPresets && game.global.universe == 2) {
+          tempMapPreset = game.global.mapPresets2.p1;
         } else {
-          tempMapPreset = defaultMapPreset;
-        }
+	  tempMapPreset = defaultMapPreset;   
+	}
         // When in prestige mode, set map level to world level, else use siphonology level
         if (needPrestige) {
           document.getElementById("mapLevelInput").value = desiredMapLevel; //game.global.world;
