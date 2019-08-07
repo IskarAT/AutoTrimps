@@ -364,7 +364,12 @@ function pushData() {
         helife: lifetime.toFixed(4),
         overkill: GraphsVars.OVKcellsInWorld,
         zonetime: GraphsVars.ZoneStartTime,
-        mapbonus: GraphsVars.MapBonus
+        mapbonus: GraphsVars.MapBonus,
+        fluffy: game.global.fluffyExp,
+        scruffy: game.global.fluffyExp2,
+        radonOwned: game.resources.radon.owned,
+        rnhr: RgetPercent.toFixed(4),
+        rnlife: Rlifetime.toFixed(4)
     });
     //only keep 15 portals worth of runs to prevent filling storage
     clearData(15);
