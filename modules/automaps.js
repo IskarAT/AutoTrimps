@@ -87,6 +87,14 @@ function autoMap() {
     windStacking = false;
     // Stop: Map initialization
     
+    // Check Equality and if we use toggling
+    if (game.global.universe == 2 && !game.portal.Equality.radLocked && getPageSetting('Equality')) {
+     if (game.portal.Equality.scalingActive && game.global.world > getPageSetting('EqualityWhen')) {
+      game.portal.Equality.scalingActive = false; // Scaling is active but we want to turn if off
+     } else if (!game.portal.Equality.scalingActive && game.global.world < getPageSetting('EqualityWhen')) {
+      game.portal.Equality.scalingActive = true;
+     }
+    }
 	
     // Start: HD ratio initialization
     // Challenge modifier reset, until we get a function for it
