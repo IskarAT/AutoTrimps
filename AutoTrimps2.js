@@ -195,10 +195,17 @@ function mainLoop() {
     autoGoldenUpgradesAT();
     if (getPageSetting('BuyStorage'))
         buyStorage();     //"Buy Storage"     (buildings.js)
+    
     if (game.global.lastClearedCell > 88) { // Sadly I removed some settings from AT so things stopped working in AutoPortal etc. :) cell 88 is to work inside voids
-      buyBuildings(); //"Buy Buildings"   (buildings.js)
       autoHeirlooms(); // Carry heirlooms (heirlooms.js)
-    } 
+    }
+  
+    // Now let's always buy Meteorologists and Smithy; for now here but code is implemented in buildings.js too, we just do not use it anymore
+    // Smithy (U2)
+    if (!game.buildings.Smithy.locked) safeBuyBuilding('Smithy');
+    //Meteorologist (U2) - also technically a job but I retired that part from AT and it is not in AutoJobs at the moment
+    if (!game.jobs.Meteorologist.locked) safeBuyJob('Meteorologist', 1);
+  
     needGymystic = false;   //reset this after buyBuildings
     if (getPageSetting('ManualGather2')<=2) manualLabor();  //"Auto Gather/Build"           (gather.js)
     else if (getPageSetting('ManualGather2')==3) manualLabor2();  //"Auto Gather/Build #2"     (")
