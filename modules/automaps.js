@@ -294,8 +294,10 @@ function autoMap() {
             if (doVoids && game.global.mapsOwnedArray[i].location == "Void") {
               pickedMap = game.global.mapsOwnedArray[i];
               break; // We found a voidmap and we want to run it, let's break
-            } else if (game.global.world > 21 && game.global.mapsOwnedArray[i].location == "Prismatic" && game.global.mapsOwnedArray[i].name == "Prismatic Palace" && game.global.mapsOwnedArray[i].clears == 0 && game.upgrades.Prismalicious.allowed == 0) {
+            } else if (game.global.world > 21 && game.global.mapsOwnedArray[i].location == "Prismatic" && game.global.mapsOwnedArray[i].name == "Prismatic Palace" && game.upgrades.Prismalicious.allowed == 0) {
 	     pickedMap = game.global.mapsOwnedArray[i]; // Run Prismatic Palace once
+	    } else if (game.global.challengeActive == 'Melt' && game.global.world == 51 && game.global.mapsOwnedArray[i].location == "Melting" && game.global.mapsOwnedArray[i].name == "Melting Point") {
+	     pickedMap = game.global.mapsOwnedArray[i]; // Run xx to end Melt challenge at z51
 	    }
             continue; // found unique map; While we could run them, they are way bigger and have more HP than created ones -> nope
           }
