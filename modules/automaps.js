@@ -262,9 +262,12 @@ function autoMap() {
     }
   
     // Map  at zone xxx
-    if (game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone == game.global.world) {
-       shouldDoMaps = true;
-       mapAtZoneReached = true;
+    if (game.global.universe == 1 && game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone == game.global.world) {
+	shouldDoMaps = true;
+	mapAtZoneReached = true;
+    } else if (game.global.universe == 2 && game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZoneU2 == game.global.world) {
+	shouldDoMaps = true;
+	mapAtZoneReached = true;
     } else {
       mapAtZoneReached = false;
     }
