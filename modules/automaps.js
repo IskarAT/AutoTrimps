@@ -473,7 +473,7 @@ function updateAutoMapsStatus() {
     else if (doMaxMapBonus) status.innerHTML = 'Mapping for bonus';
     else if (!game.global.mapsUnlocked) status.innerHTML = '&nbsp;';
     else if (needPrestige && !doVoids) status.innerHTML = 'Prestige';
-    else if (doVoids) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps + ' remaining';
+    else if (doVoids) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps;
     else if (game.options.menu.mapAtZone.enabled && mapAtZoneReached) status.innerHTML = 'Map at Z reached!';
     else if (game.global.spireActive && spireHD > 1) status.innerHTML = 'Spire H/D: ' + spireHD.toFixed(2);
     else if (newHDratio < 0.01) status.innerHTML = 'Overkilling';
