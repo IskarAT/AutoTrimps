@@ -137,11 +137,19 @@ function autoMap() {
     }
 	
     // Add empowerements
-    if(getEmpowerment() == "Poison") actualTrimpDamage *= (1 + (game.empowerments.Poison.level / 70) * (game.empowerments.Poison.retainLevel / 40)); // Magic with poison, no real science or math behind it. Just made it to roughly stick to my current dmg increase and could be improved later
+    if (getEmpowerment() == "Poison") actualTrimpDamage *= (1 + (game.empowerments.Poison.level / 70) * (game.empowerments.Poison.retainLevel / 40)); // Magic with poison, no real science or math behind it. Just made it to roughly stick to my current dmg increase and could be improved later
     //if(getEmpowerment() == "Ice") actualTrimpDamage *= 2; // Note for self: Chilled from ice goes to Attack, I just did not notice...
 	
     // Add plaguebringer as a rough estimation
-    if(game.heirlooms.Shield.plaguebringer !== undefined) actualTrimpDamage *= (1 + game.heirlooms.Shield.plaguebringer.currentBonus/100);
+    if (game.heirlooms.Shield.plaguebringer !== undefined) actualTrimpDamage *= (1 + game.heirlooms.Shield.plaguebringer.currentBonus/100);
+	
+    // Add Gamma Burst
+    if (game.heirlooms.Shield.plaguebringer !== undefined && game.heirlooms.Shield.gammaBurst.currentBonus) {
+	var gammaBurstDamage = game.heirlooms.Shield.gammaBurst.currentBonus/100;
+	gammaBurstDamage /= 7; // Released every 6th attack but let's give it a little less impact on H:D
+	gammaBurstDamage /= (game.global.universe == 1)?1:10; // U2 has 10% efficiency
+	actualTrimpDamage *= gammaBurstDamage;
+    }
 	
     // Map handler
     if (game.global.mapsActive) {
