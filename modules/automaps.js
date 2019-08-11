@@ -58,7 +58,9 @@ function autoMap() {
         updateAutoMapsStatus();
         return;
     }
-    
+    // Run UI update
+    updateAutoMapsStatus();
+	
     // Use map presets
     var useMapPresets = true; // for now true, later we'll make it into a setting
     
@@ -73,6 +75,7 @@ function autoMap() {
     //FIND VOID MAPS LEVEL:
     needToVoid = false;
     doVoids = false;
+    windStacking = false;
     var voidMapLevelSetting = (game.global.universe == 1)?getPageSetting('VoidMaps'):getPageSetting('VoidMapsU2') + VoidDailyOffset;
     var voidsuntil = getPageSetting('RunNewVoidsUntil');
     //decimal void maps are possible, using string function to avoid false float precision (0.29999999992). javascript can compare ints to strings anyway.
@@ -83,8 +86,6 @@ function autoMap() {
     if (voidMapLevelSettingMap.length == 1) voidMapLevelSettingMap += "0";  //entering 187.70 becomes 187.7, this will bring it back to 187.70
     if (game.global.totalVoidMaps > 0 && (game.global.world == voidMapLevelSettingZone || (game.global.world > voidMapLevelSettingZone && game.global.world < voidsuntil))) needToVoid = true; // We reached void map level or are still inside the Until setting; Todo: Add setting for "Only run on poison" and handle it here
     
-    updateAutoMapsStatus();
-    windStacking = false;
     // Stop: Map initialization
     
     // Check Equality and if we use toggling
