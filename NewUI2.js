@@ -187,7 +187,8 @@ function initializeAllSettings() {
     createSetting('RunNewVoids', 'Run New Voids', 'Run new void maps acquired after the set void map zone. Runs them at Cell 95 by default, unless you set a decimal value indicating the cell, like: 187.75  CAUTION: May severely slow you down by trying to do too-high level voidmaps. Use the adjacent RunNewVoidsUntil setting to limit this.', 'boolean', null, null, 'Maps');
     createSetting('RunNewVoidsUntil', 'New Voids Until', 'Run New Voids Until: Put a cap on what zone new voids will run at, until this zone, inclusive. ', 'value', '-1', null, 'Maps');
     createSetting('VoidDailyOffset', 'Daily offset', 'Value of this field gets added to lvl where we run voidmaps but only during daily. Works with negative too but who cares, right? 0 = no change.', 'value', '0', null, 'Maps');
-
+    createSetting('SmithFree', 'AutoRun SmithFree', 'Automatically run Melting Point for SmithFree before voidmaps, unless we are in Melt challenge.', 'boolean', true, null, "Maps");
+    
 //Settings:
     createSetting('FarmerRatio', 'Farmer Ratio', '', 'value', '1', null, "Settings");
     createSetting('LumberjackRatio', 'Lumberjack Ratio', '', 'value', '1', null, "Settings");
