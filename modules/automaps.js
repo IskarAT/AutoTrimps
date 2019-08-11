@@ -294,6 +294,15 @@ function autoMap() {
       }
       // Now let's go through map array and see if we find our map
       var pickedMap = "none";
+      // Override for running Melting point (free Smithy) before voidmaps
+      if (doVoids && getPageSetting('SmithFree') && game.global.universe == 2 && game.mapUnlocks.SmithFree.canRunOnce && game.global.world > 50 && game.global.challengeActive != 'Melt') {
+       for (var i = 0; i < game.global.mapsOwnedArray.length; i++) {
+        if (game.global.mapsOwnedArray[i].name == 'Melting Point') {
+	 pickedMap = game.global.mapsOwnedArray[i];
+	 break;
+	}
+       }
+      } else
       if (/*getCurrentMapObject() === undefined*/true) {
         for (var i = 0; i < game.global.mapsOwnedArray.length; i++) {
           if (game.global.mapsOwnedArray[i].noRecycle) {
