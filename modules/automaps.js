@@ -150,7 +150,11 @@ function autoMap() {
       // Handling of void power
       if (game.talents.voidPower.purchased && game.global.voidBuff){
         var voidBonus = (game.talents.voidPower2.purchased) ? ((game.talents.voidPower3.purchased) ? 65 : 35) : 15;
-        actualTrimpDamage *= (100 / voidBonus);
+	var voidMaster = 1;
+	if (game.talents.voidMastery.purchased) voidMaster = 5;
+        
+	actualTrimpDamage *= (100 / voidBonus);
+	actualTrimpDamage /= voidMaster;
       }
     }
   
