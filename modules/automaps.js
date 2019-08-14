@@ -197,6 +197,8 @@ function autoMap() {
      challengeHPmod *= game.challenges.Eradicated.scaleModifier * hpEradicMult;
     }
     // add else ifs to handle all challenge mods
+    if (!game.global.mapsActive && !game.global.preMapsActive)
+    // Now add challenge modifier. If we are in maps though, HP is not recalculated so it would cause updating old HP over and over
     actualEnemyHealth *= challengeHPmod;
     
     // Spire health override
