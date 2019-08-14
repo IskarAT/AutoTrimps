@@ -3,6 +3,7 @@ MODULES["automaps"] = {};
 MODULES["automaps"].mapCutoff = 3;                                        //
 MODULES["automaps"].worldCutoff = 9;                                      //above this the game will farm.
 MODULES["automaps"].maxMapBonus = 10;                                     // Max map stacks
+MODULES["automaps"].healthCutoff = 5;					  // HP ratio against cell 100
 MODULES["automaps"].maxMapBonusAfterZ = MODULES["automaps"].maxMapBonus;  //Max Map Bonus After Zone uses this many stacks; starts at 10
 
 //Initialize Global Vars (dont mess with these ones, nothing good can come from it).
@@ -31,8 +32,10 @@ var spireMapBonusFarming = false;
 var spireTime = 0;
 
 var actualEnemyHealth = 0;
+var actualEnemyDamage = 0;
 var actualTrimpDamage = 0;
 var newHDratio = 0;
+var healthRatio = 0;
 var spireHD = 0;
 var spireHealth = 1;
 var challengeHPmod = 1;
@@ -171,9 +174,11 @@ function autoMap() {
     // possible optimization: Compute when entering new zone or upon loading
     if (!game.global.mapsActive) {
       actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp"); // Omnipotrimps and Improbabilities have the same stats before corruption
+      actualEnemyDamage = game.global.getEnemyAttack(100, "Omnipotrimp", false);
     } else {
       // We have loaded the game while in a map; getEnemyHealth while in maps computes it from map level, which was causing weird behavior. This safeguard is to approximate H:D ratior before we fix it in world
       if (actualEnemyHealth == 0) actualEnemyHealth = game.global.getEnemyHealth(100, "Omnipotrimp");
+      if (actualEnemyDamage == 0) actualEnemyDamage = game.global.getEnemyAttack(100, "Omnipotrimp", false);
     }
     
     // Now add corruption into the mix for U1
@@ -196,7 +201,7 @@ function autoMap() {
      var hpEradicMult = Math.pow(3, eradicZoneModifier);
      challengeHPmod *= game.challenges.Eradicated.scaleModifier * hpEradicMult;
     }
-    // add else ifs to handle all challenge mods
+    // add else ifs to handle all challenge mods and later check if we need to add handle to damage buff from challenges
     if (!game.global.mapsActive && !game.global.preMapsActive)
     // Now add challenge modifier. If we are in maps though, HP is not recalculated so it would cause updating old HP over and over
     actualEnemyHealth *= challengeHPmod;
@@ -207,11 +212,12 @@ function autoMap() {
     }
   
     // Now that we have both HP and Damage, we know how many hits on average will survive Omnipotrimp at the end of the zone (not counting in poison ticks)
-    if (game.global.soldierHealth == 0 && newHDratio !== undefined) 
+    if (game.global.soldierHealth == 0 && newHDratio !== undefined && healthRatio !== undefined) 
     {/* we are dead so do nothing because it screws up with damage calculation */}
     else {
      newHDratio = actualEnemyHealth/actualTrimpDamage;
      spireHD = spireHealth/actualTrimpDamage;
+     healthRatio = (game.global.soldierHealthMax + game.global.soldierEnergyShieldMax)/actualEnemyDamage;
     }
     // Stop: HD ratio initialization
     
@@ -232,10 +238,10 @@ function autoMap() {
         } else needPrestige = true; // We have prestiges available -> Get 'em
     }
     else if (game.global.mapBonus < customVars.maxMapBonus) { // No prestiges are needed, max map bonus
-      if (newHDratio > customVars.worldCutoff && !game.global.mapsActive && !game.global.preMapsActive) { // We are in world, so cutoff is 6; Later: Replace with custom variable
+      if ((newHDratio > customVars.worldCutoff || healthRatio < customVars.healthCutoff) && !game.global.mapsActive && !game.global.preMapsActive) { // We are in world, so cutoff is 6; Later: Replace with custom variable
         doMaxMapBonus = true;
       }
-      else if (newHDratio > customVars.mapCutoff && (game.global.mapsActive || game.global.preMapsActive)) { // We are in maps or premaps, so activate grace period to get better bonus since our next army is very likely still breeding
+      else if ((newHDratio > customVars.mapCutoff || healthRatio < customVars.healthCutoff) && (game.global.mapsActive || game.global.preMapsActive)) { // We are in maps or premaps, so activate grace period to get better bonus since our next army is very likely still breeding
         doMaxMapBonus = true;
       }
       else if (spireMapBonusOverride || (needToVoid && game.global.world%10 == 0)) doMaxMapBonus = true; // If we are in MOD 0 map and preparing to run voids, just grab full map bonus first; It gives resources and enables power raiding even below HD cutoff
