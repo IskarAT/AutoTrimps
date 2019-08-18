@@ -217,7 +217,8 @@ function autoMap() {
     else {
      newHDratio = actualEnemyHealth/actualTrimpDamage;
      spireHD = spireHealth/actualTrimpDamage;
-     var effectiveHealth = game.global.soldierHealthMax + (game.global.universe == 2)?game.global.soldierEnergyShieldMax:0;
+     var effectiveHealth = (game.global.universe == 2)?game.global.soldierEnergyShieldMax:0;
+     effectiveHealth += game.global.soldierHealthMax;
      if (game.global.mapsActive && game.talents.mapHealth.purchased) effectiveHealth /=2; // Safe mapping mastery
      healthRatio = effectiveHealth/actualEnemyDamage;
     }
