@@ -484,7 +484,7 @@ function updateAutoMapsStatus() {
     //automaps status
     var status = document.getElementById('autoMapStatus');
     var minSp = getPageSetting('MinutestoFarmBeforeSpire');
-    if (!autoTrimpSettings.AutoMaps.enabled && mapAtZoneReached) status.innerHTML = 'Map at zone reached!';
+    if (!autoTrimpSettings.AutoMaps.enabled && game.options.menu.mapAtZone.enabled && mapAtZoneReached) status.innerHTML = 'Map at zone reached!';
     else if (!autoTrimpSettings.AutoMaps.enabled) status.innerHTML = 'Off';
     else if (game.global.challengeActive == "Mapology" && game.challenges.Mapology.credits < 1) status.innerHTML = 'Out of Map Credits';
     else if (preSpireFarming) {
