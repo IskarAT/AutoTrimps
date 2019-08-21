@@ -76,7 +76,7 @@ function autoMap() {
     // Do things to settings
     if (game.options.menu.mapLoot.enabled != 1) toggleSetting('mapLoot');
     // Control in-map right-side-buttons for people who can't control themselves. If you wish to use these buttons manually, turn off autoMaps temporarily.
-    if (game.options.menu.repeatUntil.enabled == 2) toggleSetting('repeatUntil');
+    if (game.options.menu.repeatUntil.enabled != 0) toggleSetting('repeatUntil');
     if (game.options.menu.exitTo.enabled != 0) toggleSetting('exitTo');
     if (game.options.menu.repeatVoids.enabled != 0) toggleSetting('repeatVoids'); // I'll probably change this
 
