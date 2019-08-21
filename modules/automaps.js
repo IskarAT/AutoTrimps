@@ -45,18 +45,42 @@ var challengeHPmod = 1;
 function autoMap() {
     var customVars = MODULES["automaps"];
     // Start: Map initialization and weird cases handle part
-    // if we are prestige mapping, force equip first mode
+	
+    // Exit and do nothing if we are prior to zone 6 (maps haven't been unlocked):
+    if (!game.global.mapsUnlocked || game.global.soldierCurrentAttack == 0) {   //if we have no damage, why bother running anything? (this fixes weird bugs)
+        updateAutoMapsStatus();
+        return;
+    }
+
+    // Map  at zone xxx, run through the list and if we reached one of the settings, turn OFF before we do things to settings
+    if (game.global.universe == 1 && game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone.length) {
+	for (var i = 0; i < game.options.menu.mapAtZone.setZone.length; i++) {
+	 if (game.global.world == game.options.menu.mapAtZone.setZone[i].world) 
+	 {
+	  autoTrimpSettings.AutoMaps.enabled = false; // We have reached our world, turn off Automaps and let GS Automaps do its thing
+	  mapAtZoneReached = true;
+	  return;
+	 }
+	} 
+    } else if (game.global.universe == 2 && game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZoneU2.length) {
+	for (var i = 0; i < game.options.menu.mapAtZone.setZoneU2.length; i++) {
+	 if (game.global.world == game.options.menu.mapAtZone.setZoneU2[i].world) 
+	 {
+	  autoTrimpSettings.AutoMaps.enabled = false; // We have reached our world, turn off Automaps and let GS Automaps do its thing
+	  mapAtZoneReached = true;
+	  return;
+	 }
+	} 
+    } else mapAtZoneReached = false;
+	
+    // Do things to settings
     if (game.options.menu.mapLoot.enabled != 1) toggleSetting('mapLoot');
     // Control in-map right-side-buttons for people who can't control themselves. If you wish to use these buttons manually, turn off autoMaps temporarily.
     if (game.options.menu.repeatUntil.enabled == 2) toggleSetting('repeatUntil');
     if (game.options.menu.exitTo.enabled != 0) toggleSetting('exitTo');
     if (game.options.menu.repeatVoids.enabled != 0) toggleSetting('repeatVoids'); // I'll probably change this
-    // exit and do nothing if we are prior to zone 6 (maps haven't been unlocked):
-    if (!game.global.mapsUnlocked || game.global.soldierCurrentAttack == 0) {   //if we have no damage, why bother running anything? (this fixes weird bugs)
-        updateAutoMapsStatus();
-        return;
-    }
-    //if we are in mapology and we have no credits, exit
+
+    // If we are in mapology and we have no credits, exit
     if (game.global.challengeActive == "Mapology" && game.challenges.Mapology.credits < 1) {
         updateAutoMapsStatus();
         return;
@@ -284,16 +308,7 @@ function autoMap() {
         doMaxMapBonus = true;
     }
   
-    // Map  at zone xxx
-    if (game.global.universe == 1 && game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZone == game.global.world) {
-	shouldDoMaps = true;
-	mapAtZoneReached = true;
-    } else if (game.global.universe == 2 && game.options.menu.mapAtZone.enabled && game.options.menu.mapAtZone.setZoneU2 == game.global.world) {
-	shouldDoMaps = true;
-	mapAtZoneReached = true;
-    } else {
-      mapAtZoneReached = false;
-    }
+
     // Stop: Decide map mode
     
     // Big-ass map section - sort, check, create and run them; Will encompass this in if statement for performance reasons because why calculate stuff when mapping is turned off?
@@ -469,7 +484,8 @@ function updateAutoMapsStatus() {
     //automaps status
     var status = document.getElementById('autoMapStatus');
     var minSp = getPageSetting('MinutestoFarmBeforeSpire');
-    if (!autoTrimpSettings.AutoMaps.enabled) status.innerHTML = 'Off';
+    if (!autoTrimpSettings.AutoMaps.enabled && mapAtZoneReached) status.innerHTML = 'Map at zone reached!';
+    else if (!autoTrimpSettings.AutoMaps.enabled) status.innerHTML = 'Off';
     else if (game.global.challengeActive == "Mapology" && game.challenges.Mapology.credits < 1) status.innerHTML = 'Out of Map Credits';
     else if (preSpireFarming) {
         var secs = Math.floor(60 - (spireTime*60)%60).toFixed(0)
@@ -485,7 +501,6 @@ function updateAutoMapsStatus() {
     else if (!game.global.mapsUnlocked) status.innerHTML = '&nbsp;';
     else if (needPrestige && !doVoids) status.innerHTML = 'Prestige';
     else if (doVoids) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps;
-    else if (game.options.menu.mapAtZone.enabled && mapAtZoneReached) status.innerHTML = 'Map at Z reached!';
     else if (game.global.spireActive && spireHD > 1) status.innerHTML = 'Spire H/D: ' + spireHD.toFixed(2);
     else if (newHDratio < 0.01) status.innerHTML = 'Overkilling';
     else status.innerHTML = 'H/D: ' + newHDratio.toFixed(2);
