@@ -3,7 +3,7 @@ MODULES["automaps"] = {};
 MODULES["automaps"].mapCutoff = 3;                                        //
 MODULES["automaps"].worldCutoff = 9;                                      //above this the game will farm.
 MODULES["automaps"].maxMapBonus = 10;                                     // Max map stacks
-MODULES["automaps"].healthCutoff = 5;					  // HP ratio against cell 100
+MODULES["automaps"].healthCutoff = 4;					  // HP ratio against cell 100
 MODULES["automaps"].maxMapBonusAfterZ = MODULES["automaps"].maxMapBonus;  //Max Map Bonus After Zone uses this many stacks; starts at 10
 
 //Initialize Global Vars (dont mess with these ones, nothing good can come from it).
