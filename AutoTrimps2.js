@@ -202,7 +202,7 @@ function mainLoop() {
   
     // Now let's always buy Meteorologists and Smithy; for now here but code is implemented in buildings.js too, we just do not use it anymore
     // Smithy (U2)
-    if (!game.buildings.Smithy.locked) safeBuyBuilding('Smithy');
+    if (!game.buildings.Smithy.locked && (game.global.challengeActive != "Quest" || game.global.world > 70)) safeBuyBuilding('Smithy');
     //Meteorologist (U2) - also technically a job but I retired that part from AT and it is not in AutoJobs at the moment
     if (!game.jobs.Meteorologist.locked) safeBuyJob('Meteorologist', 1);
   
