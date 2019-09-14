@@ -39,6 +39,7 @@ var healthRatio = 0;
 var spireHD = 0;
 var spireHealth = 1;
 var challengeHPmod = 1;
+var localQuestID = -2;
 
 //AutoMap - function originally created by Belaith (in 1971)
 //anything/everything to do with maps
@@ -123,6 +124,10 @@ function autoMap() {
       game.portal.Equality.scalingActive = true;
      }
     }
+	
+    // Are we running quest? If so, see which one
+    if (game.global.challengeActive == "Quest") localQuestID = getQuestID();
+     else localQuestID = -2;
 	
     // Start: HD ratio initialization
     // Challenge modifier reset, until we get a function for it
@@ -273,6 +278,40 @@ function autoMap() {
       }
       else if (spireMapBonusOverride || (needToVoid && powerRaiding == 2 && game.global.world%10 == 0)) doMaxMapBonus = true; // If we are in MOD 0 map and preparing to run voids, just grab full map bonus first; It gives resources and enables power raiding even below HD cutoff
     }
+	
+    // Check for Quest in U2
+    if (game.global.universe == 2) {
+    switch(localQuestID) {
+	case -2:
+	case -1:
+	// Nothing to do, just break
+	break;
+	case 5:
+	// No Map quest
+	needPrestige = false;
+	doMaxMapBonus = false;
+	break;
+	case 6:
+	// Smithy quest, so buy a smithy
+	/* buying smithy once, if not queued */
+	break;
+	case 3:
+	// Look at H:D ratio, if overkilling then do nothing, else run maps for stacks
+	if (newHDratio > 0.01) doMaxMapBonus = true;
+	break;
+	case 4:
+	// Look at healthRatio, if above certain value, do nothing. Else maps for HP
+	if (healthRatio < 25) doMaxMapBonus = true;
+	break;
+	case 0:
+	case 1:
+	case 2:
+	// We are getting map stacks/resources, so run maps until completion
+	doMaxMapBonus = true;
+	break;
+	}
+    }
+	
     // Map bonus is maxed, only thing to do now are voids after reaching set cell; it's not an else because we could be missing max map bonus, which would break the logic
     if (needToVoid) {
       if (game.global.lastClearedCell+1 >= voidMapLevelSettingMap) doVoids = true;
@@ -478,7 +517,12 @@ function autoMap() {
       if (game.global.repeatMap) repeatClicked();
     }
 }
-  
+
+function getQuestID() {
+ if (game.challenges.Quest.questComplete) return -1; // Signal that Quest in this one is completed
+ return game.challenges.Quest.questId;
+}
+
 //update the UI with stuff from automaps.
 function updateAutoMapsStatus() {
     //automaps status
