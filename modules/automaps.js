@@ -293,7 +293,7 @@ function autoMap() {
 	break;
 	case 6:
 	// Smithy quest, so buy a smithy
-	/* buying smithy once, if not queued */
+	safeBuyBuilding('Smithy');
 	break;
 	case 3:
 	// Look at H:D ratio, if overkilling then do nothing, else run maps for stacks
