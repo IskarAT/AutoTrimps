@@ -281,9 +281,11 @@ function autoMap() {
 	
     // Check for Quest in U2
     if (game.global.universe == 2) {
-    switch(localQuestID) {
-	case -2:
+     switch(localQuestID) {
 	case -1:
+	// Turn AutoStructure back on, when quests are done
+	if (!game.global.autoStructureSettingU2.enabled) toggleAutoStructure(false);
+	case -2:
 	// Nothing to do, just break
 	break;
 	case 5:
@@ -306,10 +308,12 @@ function autoMap() {
 	case 0:
 	case 1:
 	case 2:
-	// We are getting map stacks/resources, so run maps until completion
+	// We are getting map stacks/resources, so turn off Autostructure and run maps until completion
+	if (game.global.autoStructureSettingU2.enabled) toggleAutoStructure(false);
 	doMaxMapBonus = true;
 	break;
 	}
+     if (game.global.mapBonus == customVars.maxMapBonus) doMaxMapBonus = false;
     }
 	
     // Map bonus is maxed, only thing to do now are voids after reaching set cell; it's not an else because we could be missing max map bonus, which would break the logic
