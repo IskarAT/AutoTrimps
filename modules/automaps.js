@@ -229,6 +229,8 @@ function autoMap() {
      var eradicZoneModifier = Math.floor(game.global.world / 2);
      var hpEradicMult = Math.pow(3, eradicZoneModifier);
      challengeHPmod *= game.challenges.Eradicated.scaleModifier * hpEradicMult;
+    } else if (game.global.challengeActive == "Quest") {
+     actualTrimpDamage /= Math.pow(1.1, game.challenges.Quest.finishedQuests);
     }
     // add else ifs to handle all challenge mods and later check if we need to add handle to damage buff from challenges
     if (!game.global.mapsActive && !game.global.preMapsActive)
