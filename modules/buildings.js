@@ -18,6 +18,7 @@ function safeBuyBuilding(building) {
     //build 2 at a time if we have the mastery for it.
     //Note: Bypasses any "Max" caps by 1 if they are odd numbers and we can afford the 2nd one.
     if (game.talents.doubleBuild.purchased) {
+        if (building != "Smithy")
         game.global.buyAmt = 2;
         if (!canAffordBuilding(building)) {
             game.global.buyAmt = 1;
