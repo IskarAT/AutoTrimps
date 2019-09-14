@@ -307,9 +307,10 @@ function autoMap() {
 	break;
 	case 0:
 	case 1:
-	case 2:
-	// We are getting map stacks/resources, so turn off Autostructure and run maps until completion
+	// We are getting resources, so turn off Autostructure
 	if (game.global.autoStructureSettingU2.enabled) toggleAutoStructure(false);
+	case 2:
+	// Quest for maps or resources, so run maps until completion
 	doMaxMapBonus = true;
 	break;
 	}
