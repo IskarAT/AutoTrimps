@@ -307,8 +307,8 @@ function autoMap() {
 	break;
 	case 0:
 	case 1:
-	// We are getting resources, so turn off Autostructure
-	if (game.global.autoStructureSettingU2.enabled) toggleAutoStructure(false);
+	// We are getting resources, so turn off Autostructure except when getting science
+	if (game.global.autoStructureSettingU2.enabled && game.challenges.Quest.resource != "science") toggleAutoStructure(false);
 	case 2:
 	// Quest for maps or resources, so run maps until completion
 	doMaxMapBonus = true;
