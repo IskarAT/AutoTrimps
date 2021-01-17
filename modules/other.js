@@ -15,9 +15,9 @@ function autoRoboTrimp() {
     if (game.global.roboTrimpCooldown > 0 || !game.global.roboTrimpLevel) return;
     var robotrimpzone = parseInt(getPageSetting('AutoRoboTrimp'));
     //exit if we have the setting set to 0
-    if (robotrimpzone == 0) return;
+    if (robotrimpzone == 0 || game.global.world%5 > 0) return;
     //activate the button when we are above the cutoff zone, and we are out of cooldown (and the button is inactive)
-    if (game.global.world >= robotrimpzone && !game.global.useShriek){
+    if (game.global.world >= robotrimpzone && game.global.useShriek && game.global.universe < 2){
         magnetoShriek();
         debug("Activated Robotrimp MagnetoShriek Ability", "other", '*podcast');
     }
