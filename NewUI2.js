@@ -912,8 +912,8 @@ function updateCustomButtons() {
         autoTrimpSettings.Prestige.selected = "Bestplate";
     }
     //Bionic Before Spire - Auto turns on RunUniqueMaps
-    if (autoTrimpSettings.RunBionicBeforeSpire.enabled && !autoTrimpSettings.RunUniqueMaps.enabled)
-        setPageSetting("RunUniqueMaps",true);
+    /*if (autoTrimpSettings.RunBionicBeforeSpire.enabled && !autoTrimpSettings.RunUniqueMaps.enabled)
+        setPageSetting("RunUniqueMaps",true);*/
     //make sure value buttons are set accurately.
     for (var setting in autoTrimpSettings) {
         if (autoTrimpSettings[setting].type == 'value' || autoTrimpSettings[setting].type == 'valueNegative') {
