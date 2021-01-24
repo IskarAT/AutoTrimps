@@ -434,7 +434,7 @@ function autoMap() {
         advPerfectCheckbox.checked = tempMapPreset.perf;
 	
 	// U2 farmup before voids for extra radon from Tributes, else default from presets
-	if(game.global.universe == 2 && doVoids && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10)
+	if(game.global.universe == 2 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
 	   advSpecialSelect.value = "lsc";
 	else
 	   advSpecialSelect.value = tempMapPreset.specMod;
