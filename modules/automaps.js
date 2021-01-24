@@ -433,9 +433,11 @@ function autoMap() {
         biomeAdvMapsSelect.value = tempMapPreset.biome;
         advPerfectCheckbox.checked = tempMapPreset.perf;
 	
-	// U2 farmup before voids for extra radon from Tributes
+	// U2 farmup before voids for extra radon from Tributes, else default from presets
 	if(game.global.universe == 2 && doVoids && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10)
-	   advSpecialSelect.value = tempMapPreset.specMod == "lsc";
+	   advSpecialSelect.value = "lsc";
+	else
+	   advSpecialSelect.value = tempMapPreset.specMod;
         
         // Power raiding for Spire and Void maps, if applicable
 	if(powerRaiding == 2 && (game.global.spireActive || needToVoid) && game.global.world > 50) {
