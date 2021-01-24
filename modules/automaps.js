@@ -282,7 +282,7 @@ function autoMap() {
     }
 	
     // Check for Quest in U2
-    if (game.global.universe == 2 and localQuestID != -2) {
+    if (game.global.universe == 2 && localQuestID != -2) {
      switch(localQuestID) {
 	case 5:
 	// No Map quest
