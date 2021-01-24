@@ -282,14 +282,8 @@ function autoMap() {
     }
 	
     // Check for Quest in U2
-    if (game.global.universe == 2) {
+    if (game.global.universe == 2 and localQuestID != -2) {
      switch(localQuestID) {
-	case -1:
-	// Turn AutoStructure back on, when quests are done
-	if (!game.global.autoStructureSettingU2.enabled) toggleAutoStructure(false);
-	case -2:
-	// Nothing to do, just break
-	break;
 	case 5:
 	// No Map quest
 	needPrestige = false;
@@ -309,12 +303,22 @@ function autoMap() {
 	break;
 	case 0:
 	case 1:
-	// We are getting resources, so turn off Autostructure except when getting science
-	if (game.global.autoStructureSettingU2.enabled && game.challenges.Quest.resource != "science") toggleAutoStructure(false);
+	// We are getting resources, so turn off Autostructure/Autoequip except when getting science
+	if (game.global.autoStructureSettingU2.enabled && game.challenges.Quest.resource != "science") {
+		toggleAutoStructure(false);
+		toggleAutoEquip(false);
+		}
 	case 2:
 	// Quest for maps or resources, so run maps until completion
 	doMaxMapBonus = true;
 	break;
+	case -1:
+	default:
+	// Turn AutoStructure/Autoequip back on, when quests are done or failed
+	if (!game.global.autoStructureSettingU2.enabled) {
+		toggleAutoStructure(false);
+		toggleAutoEquip(false);
+		}
 	}
      if (game.global.mapBonus == customVars.maxMapBonus) doMaxMapBonus = false;
     }
