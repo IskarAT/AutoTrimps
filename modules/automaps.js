@@ -295,7 +295,7 @@ function autoMap() {
 	break;
 	case 3:
 	// Look at H:D ratio, if overkilling then do nothing, else run maps for stacks
-	if (newHDratio > 0.001) doMaxMapBonus = true;
+	if (newHDratio > 0.01) doMaxMapBonus = true;
 	break;
 	case 4:
 	// Look at healthRatio, if above certain value, do nothing. Else maps for HP
