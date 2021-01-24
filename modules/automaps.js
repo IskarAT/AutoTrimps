@@ -431,8 +431,12 @@ function autoMap() {
         lootAdvMapsRange.value = tempMapPreset.loot;
         difficultyAdvMapsRange.value = tempMapPreset.difficulty;
         biomeAdvMapsSelect.value = tempMapPreset.biome;
-        advSpecialSelect.value = tempMapPreset.specMod;
         advPerfectCheckbox.checked = tempMapPreset.perf;
+	
+	// U2 farmup before voids for extra radon from Tributes
+	if(game.global.universe == 2 && doVoids && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10)
+	   advSpecialSelect.value = tempMapPreset.specMod == "lsc";
+        
         // Power raiding for Spire and Void maps, if applicable
 	if(powerRaiding == 2 && (game.global.spireActive || needToVoid) && game.global.world > 50) {
 	  document.getElementById("mapLevelInput").value = game.global.world; // Shitty override is shitty, I know
