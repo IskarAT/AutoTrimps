@@ -25,7 +25,9 @@ var defaultMapPreset = {
 				specMod: "p",
 				perf: true,
 				extra: 0
-}; // move it to customVars?
+};
+var presetChestOverride = "nothing"; // Init as nothing so we don't face undefined
+var worship = game.global.universe == 2 && game.jobs.Worshipper.locked == 0 && getPageSetting('MaxWorshippers');
 
 var preSpireFarming = false;
 var spireMapBonusFarming = false;
@@ -308,6 +310,15 @@ function autoMap() {
 		toggleAutoStructure(false);
 		toggleAutoEquip(false);
 		}
+	// Override map chest for resouce quests
+	if (game.challenges.Quest.resource == "food")
+		presetChestOverride = "lsc";
+	if (game.challenges.Quest.resource == "wood")
+		presetChestOverride = "lwc";
+	if (game.challenges.Quest.resource == "metal")
+		presetChestOverride = "lmc";
+	if (game.challenges.Quest.resource == "science")
+		presetChestOverride = "lrc";
 	case 2:
 	// Quest for maps or resources, so run maps until completion
 	doMaxMapBonus = true;
@@ -326,7 +337,20 @@ function autoMap() {
     // U2 run single map at Z51; should technically be a setting but...
     if(game.global.universe && game.global.world == 51 && game.global.mapBonus == 0 && !game.global.mapsActive) {
        doMaxMapBonus = true; // Yes, I technically say "Run max" but after starting to run the z51 map, it will turn off
+       presetChestOverride = "lsc";
     }
+	
+    // Try to maximise worshippers in U2 by running maps if we are overkilling, else only override to food map every 5 zones
+    if(worship && game.global.world > 50 && game.global.world%5 == 0 && game.jobs.Worshipper.owned < 45) {
+       if(newHDratio < 0.1) {
+	  doMaxMapBonus = true;
+	  presetChestOverride = "lsc";
+       } else presetChestOverride = "lsc";
+    }
+
+    // U2 farmup before voids for extra radon from Tributes
+    if(game.global.universe == 2 && game.buildings.Tribute.owned < 1250 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
+	advSpecialSelect.value = "lsc";
 	
     // Map bonus is maxed, only thing to do now are voids after reaching set cell; it's not an else because we could be missing max map bonus, which would break the logic
     if (needToVoid) {
@@ -438,18 +462,12 @@ function autoMap() {
         biomeAdvMapsSelect.value = tempMapPreset.biome;
         advPerfectCheckbox.checked = tempMapPreset.perf;
 	
-	// U2 farmup before voids for extra radon from Tributes, else default from presets
-	if(game.global.universe == 2 && game.buildings.Tribute.owned < 1250 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
-	   advSpecialSelect.value = "lsc";
-	   /*
-	   Alright, let's explain this bit because I will likely have to do adjustments. Swap to LSC at Voidmap level in U2 and ONLY at that level.
-	   It will not proc for running odd voidmaps that are in grace period (run until) and of course if we don't have Greed perk or are in U1 (duh)
-	   This is an unfinished crux because ideally I would want to have a logic that swaps map mid-mapping based on what we need.
-	   Example: Are we running Quest and just got a Wood quest? Run Wood chest map until done. Did we finish at 3/10 stacks but our H:D ratio says to get full stacks? Well, exit and make a normal preset map.
-	   Example2: Before voids, it'd more like 5 food first, then 5 metal... but with current code, I'm selecting maps based off of level and skip this part entirely if a map is found.
-	   Example3: Archeology (max relics every now and then with Science chest)
-	   */
-	else
+	// Override Chest preset, else use default we have in map preset
+	if(presetChestOverride != "nothing" && presetChestOverride != "") {
+	   // Set chest and reset to nothing
+	   advSpecialSelect.value = presetChestOverride;
+	   presetChestOverride = "nothing";
+	} else
 	   advSpecialSelect.value = tempMapPreset.specMod;
         
         // Power raiding for Spire and Void maps, if applicable
