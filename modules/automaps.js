@@ -434,7 +434,7 @@ function autoMap() {
         advPerfectCheckbox.checked = tempMapPreset.perf;
 	
 	// U2 farmup before voids for extra radon from Tributes, else default from presets
-	if(game.global.universe == 2 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
+	if(game.global.universe == 2 && game.buildings.Tribute.owned < 1250 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
 	   advSpecialSelect.value = "lsc";
 	   /*
 	   Alright, let's explain this bit because I will likely have to do adjustments. Swap to LSC at Voidmap level in U2 and ONLY at that level.
