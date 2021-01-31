@@ -335,7 +335,7 @@ function autoMap() {
     }
 	
     // U2 run single map at Z51; should technically be a setting but...
-    if(game.global.universe && game.global.world == 51 && game.global.mapBonus == 0 && !game.global.mapsActive) {
+    if(game.global.universe == 2 && game.global.world == 51 && game.global.mapBonus == 0 && !game.global.mapsActive) {
        doMaxMapBonus = true; // Yes, I technically say "Run max" but after starting to run the z51 map, it will turn off
        presetChestOverride = "lsc";
     }
