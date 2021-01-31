@@ -352,8 +352,8 @@ function autoMap() {
     if(game.global.universe == 2 && game.buildings.Tribute.owned < 1250 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
 	presetChestOverride = "lsc";
 	
-    // Reset override
-    if(presetChestOverride != "nothing" && game.global.lastClearedMapCell > 0)
+    // Reset chest override
+    if(game.global.mapsActive && presetChestOverride != "nothing" && game.global.lastClearedMapCell > 0)
 	presetChestOverride = "nothing";
 	
     // Map bonus is maxed, only thing to do now are voids after reaching set cell; it's not an else because we could be missing max map bonus, which would break the logic
