@@ -42,7 +42,7 @@ function betterAutoFight() {
     } // Here ends U2 override for instant fighting
     
     // If we met targetBreed, check if we have enough trimps to not stagger breed timer too much. If soldier size is negligable, just send it anyway
-    if (targetBreed <= currentBreedTime && (game.resources.trimps.owned*1.2 > game.resources.trimps.realMax() || (game.resources.trimps.soldiers/game.resources.trimps.owned) < 0.01)) {
+    if (targetBreed <= currentBreedTime && (game.resources.trimps.owned*1.2 > game.resources.trimps.realMax() || (game.resources.trimps.maxSoldiers/game.resources.trimps.owned) < 0.01)) {
         newSquadRdy = true;
     }
     //Manually click fight instead of using builtin auto-fight
