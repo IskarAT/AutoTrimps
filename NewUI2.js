@@ -188,6 +188,7 @@ function initializeAllSettings() {
     createSetting('RunNewVoidsUntil', 'New Voids Until', 'Run New Voids Until: Put a cap on what zone new voids will run at, until this zone, inclusive. ', 'value', '-1', null, 'Maps');
     createSetting('VoidDailyOffset', 'Daily offset', 'Value of this field gets added to lvl where we run voidmaps but only during daily. Works with negative too but who cares, right? 0 = no change.', 'value', '0', null, 'Maps');
     createSetting('SmithFree', 'AutoRun SmithFree', 'Automatically run Melting Point for SmithFree before voidmaps, unless we are in Melt challenge.', 'boolean', true, null, "Maps");
+    createSetting('MaxWorshippers', 'Farm Worshippers', 'Every 5 zones after z55, run maps to max worshippers.', 'boolean', true, null, "Maps");
     
 //Settings:
     createSetting('FarmerRatio', 'Farmer Ratio', '', 'value', '1', null, "Settings");
