@@ -350,7 +350,11 @@ function autoMap() {
 
     // U2 farmup before voids for extra radon from Tributes
     if(game.global.universe == 2 && game.buildings.Tribute.owned < 1250 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
-	advSpecialSelect.value = "lsc";
+	presetChestOverride = "lsc";
+	
+    // Reset override
+    if(presetChestOverride != "nothing" && game.global.lastClearedMapCell > 0)
+	presetChestOverride = "nothing";
 	
     // Map bonus is maxed, only thing to do now are voids after reaching set cell; it's not an else because we could be missing max map bonus, which would break the logic
     if (needToVoid) {
@@ -466,7 +470,6 @@ function autoMap() {
 	if(presetChestOverride != "nothing" && presetChestOverride != "") {
 	   // Set chest and reset to nothing
 	   advSpecialSelect.value = presetChestOverride;
-	   presetChestOverride = "nothing";
 	} else
 	   advSpecialSelect.value = tempMapPreset.specMod;
         
