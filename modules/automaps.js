@@ -1,9 +1,9 @@
 MODULES["automaps"] = {};
 //These can be changed (in the console) if you know what you're doing:
-MODULES["automaps"].mapCutoff = 3;                                        //
-MODULES["automaps"].worldCutoff = 9;                                      //above this the game will farm.
+MODULES["automaps"].mapCutoff = 5;                                        //
+MODULES["automaps"].worldCutoff = 12;                                      //above this the game will farm.
 MODULES["automaps"].maxMapBonus = 10;                                     // Max map stacks
-MODULES["automaps"].healthCutoff = 4;					  // HP ratio against cell 100
+MODULES["automaps"].healthCutoff = 1;					  // HP ratio against cell 100
 MODULES["automaps"].maxMapBonusAfterZ = MODULES["automaps"].maxMapBonus;  //Max Map Bonus After Zone uses this many stacks; starts at 10
 
 //Initialize Global Vars (dont mess with these ones, nothing good can come from it).
@@ -321,6 +321,11 @@ function autoMap() {
 		}
 	}
      if (game.global.mapBonus == customVars.maxMapBonus) doMaxMapBonus = false;
+    }
+	
+    // U2 run single map at Z51; should technically be a setting but...
+    if(game.global.universe && game.global.world == 51 && game.global.mapBonus == 0 && !game.global.mapsActive) {
+       doMaxMapBonus = true; // Yes, I technically say "Run max" but after starting to run the z51 map, it will turn off
     }
 	
     // Map bonus is maxed, only thing to do now are voids after reaching set cell; it's not an else because we could be missing max map bonus, which would break the logic
