@@ -342,7 +342,7 @@ function autoMap() {
 	
     // Try to maximise worshippers in U2 by running maps if we are overkilling, else only override to food map every 5 zones
     if(worship && game.global.world > 50 && game.global.world%5 == 0 && game.jobs.Worshipper.owned < 45) {
-       if(newHDratio < 0.1) {
+       if(newHDratio < 1) {
 	  doMaxMapBonus = true;
 	  presetChestOverride = "lsc";
        } else presetChestOverride = "lsc";
