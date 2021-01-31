@@ -993,7 +993,7 @@ function checkPortalSettings() {
     return portalLevel;
 }
 
-
+/*
 //UI startup:
 //Add breeding box:
 var breedbarContainer = document.querySelector('#trimps > div.row');
@@ -1019,3 +1019,5 @@ function addToolTipToArmyCount() {
     armycount.setAttribute("onmouseout", 'tooltip("hide")');
     armycount.setAttribute("class", 'tooltipadded');
 }
+*/
+
