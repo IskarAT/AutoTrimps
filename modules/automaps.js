@@ -27,7 +27,7 @@ var defaultMapPreset = {
 				extra: 0
 };
 var presetChestOverride = "nothing"; // Init as nothing so we don't face undefined
-var worship = game.global.universe == 2 && game.jobs.Worshipper.locked == 0 && getPageSetting('MaxWorshippers');
+var worship = game.global.universe == 2 && game.jobs.Worshipper.locked == 0 && getPageSetting('MaxWorshippers') && game.global.world > 50 && game.global.world%5 == 0 && game.jobs.Worshipper.owned < 45;
 
 var preSpireFarming = false;
 var spireMapBonusFarming = false;
@@ -340,8 +340,8 @@ function autoMap() {
        presetChestOverride = "lsc";
     }
 	
-    // Try to maximise worshippers in U2 by running maps if we are overkilling, else only override to food map every 5 zones
-    if(worship && game.global.world > 50 && game.global.world%5 == 0 && game.jobs.Worshipper.owned < 45) {
+    // Try to maximise worshippers in U2 by running maps every 5 zones if we are overkilling, else only override to food map
+    if(worship) {
        if(newHDratio < 1) {
 	  doMaxMapBonus = true;
 	  presetChestOverride = "lsc";
