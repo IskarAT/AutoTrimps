@@ -538,7 +538,7 @@ function automationMenuInit() {
     //create automaps status
     newContainer = document.createElement("DIV");
     newContainer.setAttribute("style", "display: block; font-size: 1.1vw; text-align: center; background-color: rgba(0,0,0,0.3);");
-    newContainer.setAttribute("onmouseover", 'tooltip(\"Health to Damage ratio\", \"customText\", event, \"This displays the current mode that Automaps is in. H:D ratio means estimated enemy health vs your current damage.<p><br><b>H:D ratio = </b>\" + newHDratio + \"<br><b>HP ratio = </b>\" + healthRatio + \"<br>\" +\"<br><b>Map vars: </b><br>shouldDoMaps: \" + shouldDoMaps + \"<br>needPrestige: \" + needPrestige + \"<br>doMaxMapBonus: \" + doMaxMapBonus + \"<br>needToVoid: \" + needToVoid + \"<br>doVoids: \" + doVoids + \"<br>\")');
+    newContainer.setAttribute("onmouseover", 'tooltip(\"Health to Damage ratio\", \"customText\", event, \"This displays the current mode that Automaps is in. H:D ratio means estimated enemy health vs your current damage.<p><br><b>H:D ratio = </b>\" + newHDratio + \"<br><b>HP ratio = </b>\" + healthRatio + \"<br>\" +\"<br><b>Map vars: </b><br>shouldDoMaps: \" + shouldDoMaps + \"<br>needPrestige: \" + needPrestige + \"<br>doMaxMapBonus: \" + doMaxMapBonus + \"<br>needToVoid: \" + needToVoid + \"<br>doVoids: \" + doVoids + \"<br>worship: \" + worship + \"<br>\")');
     newContainer.setAttribute("onmouseout", 'tooltip("hide")');
     abutton = document.createElement("SPAN");
     abutton.id = 'autoMapStatus';
