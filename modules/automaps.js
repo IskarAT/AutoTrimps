@@ -27,7 +27,7 @@ var defaultMapPreset = {
 				extra: 0
 };
 var presetChestOverride = "nothing"; // Init as nothing so we don't face undefined
-var worship = game.global.universe == 2 && game.jobs.Worshipper.locked == 0 && getPageSetting('MaxWorshippers') && game.global.world > 50 && game.global.world%5 == 0 && game.jobs.Worshipper.owned < 45;
+var worship = false;
 
 var preSpireFarming = false;
 var spireMapBonusFarming = false;
@@ -93,6 +93,7 @@ function autoMap() {
 	
     // Use map presets
     var useMapPresets = true; // for now true, later we'll make it into a setting
+    var worshipZone = game.global.universe == 2 && game.jobs.Worshipper.locked == 0 && getPageSetting('MaxWorshippers') && game.global.world > 50 && game.global.world%5 == 0 && game.jobs.Worshipper.owned < 45;
     
     // Get Wind farm and other settings; cannot move to global vars in case user changes them
     const forceWind = getPageSetting('ForceWind');
@@ -341,12 +342,13 @@ function autoMap() {
     }
 	
     // Try to maximise worshippers in U2 by running maps every 5 zones if we are overkilling, else only override to food map
-    if(worship) {
+    if(worshipZone) {
+       worship = true;
        if(newHDratio < 1) {
 	  doMaxMapBonus = true;
 	  presetChestOverride = "lsc";
        } else presetChestOverride = "lsc";
-    }
+    } else worship = false;
 
     // U2 farmup before voids for extra radon from Tributes
     if(game.global.universe == 2 && game.buildings.Tribute.owned < 1250 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
