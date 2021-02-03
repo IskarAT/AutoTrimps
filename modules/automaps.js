@@ -234,6 +234,8 @@ function autoMap() {
      challengeHPmod *= game.challenges.Eradicated.scaleModifier * hpEradicMult;
     } else if (game.global.challengeActive == "Quest") {
      actualTrimpDamage /= Math.pow(1.1, game.challenges.Quest.finishedQuests);
+    } else if (game.global.challengeActive == "Mayhem") {
+     challengeHPmod *= (game.challenges.Mayhem.stacks/10);
     }
     // add else ifs to handle all challenge mods and later check if we need to add handle to damage buff from challenges
     if (!game.global.mapsActive && !game.global.preMapsActive)
