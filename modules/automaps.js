@@ -368,7 +368,7 @@ function autoMap() {
 	presetChestOverride = "lsc";
 	
     // Insanity challenge farming at z50
-    if(game.global.challengeActive == "Insanity" && game.global.world == 50 game.challenges.Insanity.insanity < game.challenges.Insanity.maxInsanity) {
+    if(game.global.challengeActive == "Insanity" && game.global.world == 50 && game.challenges.Insanity.insanity < game.challenges.Insanity.maxInsanity) {
       farmInsanity = true;
       presetChestOverride = "nothing";
     } else farmInsanity = false;
