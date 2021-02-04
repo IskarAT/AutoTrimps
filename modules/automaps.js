@@ -15,17 +15,28 @@ var doVoids = false;
 var mapAtZoneReached = false;
 var windStacking = false;
 var spireMapBonusOverride = false;
+var farmInsanity = false;
 
 // Biome, difficulty, extra levels, loot, perfect sliders, size, special modifier; We default into Perfect slider gardens with Prestigious mod and no extra levels
 var defaultMapPreset = {
-				loot: 9,
-				difficulty: 9,
-				size: 9,
-				biome: "Plentiful",
-				specMod: "p",
-				perf: true,
-				extra: 0
+	loot: 9,
+	difficulty: 9,
+	size: 9,
+	biome: "Plentiful",
+	specMod: "p",
+	perf: true,
+	extra: 0
 };
+var insanityMapPreset = {
+	loot: 0,
+	difficulty: 9,
+	size: 0,
+	biome: "Random",
+	specMod: "",
+	perf: false,
+	extra: 5
+};
+
 var presetChestOverride = "nothing"; // Init as nothing so we don't face undefined
 var worship = false;
 
@@ -356,6 +367,12 @@ function autoMap() {
     if(game.global.universe == 2 && game.buildings.Tribute.owned < 1250 && needToVoid && !game.portal.Greed.radLocked && game.portal.Greed.radLevel > 10 && voidMapLevelSetting == game.global.world)
 	presetChestOverride = "lsc";
 	
+    // Insanity challenge farming at z50
+    if(game.global.challengeActive == "Insanity" && game.global.world == 50 game.challenges.Insanity.insanity < game.challenges.Insanity.maxInsanity) {
+      farmInsanity = true;
+      presetChestOverride = "nothing";
+    } else farmInsanity = false;
+	
     // Reset chest override
     if(game.global.mapsActive && presetChestOverride != "nothing" && game.global.lastClearedMapCell > 0)
 	presetChestOverride = "nothing";
@@ -365,7 +382,7 @@ function autoMap() {
       if (game.global.lastClearedCell+1 >= voidMapLevelSettingMap) doVoids = true;
     }
     // Variables are initialized, let's set map mode, then apply overrides if triggered
-    shouldDoMaps = needPrestige || doMaxMapBonus || doVoids || spireMapBonusOverride;
+    shouldDoMaps = needPrestige || doMaxMapBonus || doVoids || spireMapBonusOverride || farmInsanity;
     
     // Override section for special cases
     //Farm X Minutes Before Spire:
@@ -403,14 +420,21 @@ function autoMap() {
       var siphonLevel = (game.global.universe == 1)?(game.portal.Siphonology.level):0;
       var desiredMapLevel = 0;
       var extraLevels = 0;
-      if (needPrestige || doVoids) { // Technically we shouldn't need doVoids here but who knows how I'll write the find function :)
+      if (needPrestige || doVoids) {
         desiredMapLevel = game.global.world;
       } else if(powerRaiding == 2 && (game.global.spireActive || needToVoid)) {
-	if(game.global.world < 175) // Do not attempt to power raid before z175. We'd just get wrecked by things in U2
-	extraLevels = 0;
-	else
-	extraLevels = ((5-game.global.world%10)>=0)?(5-game.global.world%10):(0); // Same as selecting extra levels for power raiding
+	// Do not attempt to power raid before z125. We'd just get wrecked by things in U2
+	if(game.global.world < 125) {
+	  extraLevels = 0;
+	  desiredMapLevel = game.global.world;
+	}
+	else {
+	  extraLevels = ((5-game.global.world%10)>=0)?(5-game.global.world%10):(0); // Same as selecting extra levels for power raiding
+          desiredMapLevel = game.global.world;
+	}
+      } else if (farmInsanity) {
         desiredMapLevel = game.global.world;
+        extraLevels = 5;
       } else {
         desiredMapLevel = (game.global.world - siphonLevel);
       }
@@ -477,7 +501,7 @@ function autoMap() {
 	} else
 	   advSpecialSelect.value = tempMapPreset.specMod;
         
-        // Power raiding for Spire and Void maps, if applicable
+        // Power raiding for Spire and Void maps, if applicable, Insanity stacking preset
 	if(powerRaiding == 2 && (game.global.spireActive || needToVoid) && game.global.world > 50) {
 	  document.getElementById("mapLevelInput").value = game.global.world; // Shitty override is shitty, I know
 	  if(game.global.spireActive) {
@@ -485,6 +509,15 @@ function autoMap() {
 	  } else {
 	    advExtraLevelSelect.value = ((5-game.global.world%10)>=0)?(5-game.global.world%10):(0); // This should always make it raid a MOD 5 zone
 	  }
+	} else if(farmInsanity) { // We are running instanity challenge and it needs its own map stacking preset
+	  sizeAdvMapsRange.value = insanityMapPreset.size;
+	  lootAdvMapsRange.value = insanityMapPreset.loot;
+	  difficultyAdvMapsRange.value = insanityMapPreset.difficulty;
+	  biomeAdvMapsSelect.value = insanityMapPreset.biome;
+	  advPerfectCheckbox.checked = insanityMapPreset.perf;
+	  advExtraLevelSelect.value = insanityMapPreset.extra;
+	  advSpecialSelect.value = insanityMapPreset.specMod;
+	  document.getElementById("mapLevelInput").value = game.global.world;
 	}
         // document.getElementById('advExtraLevelSelect').value;
         
@@ -541,7 +574,7 @@ function autoMap() {
         
         if(pickedMap != getCurrentMapObject()) repeatButton = false; // Fixes loading AT into unwanted map, so that we can run desired one instead
         
-        if (mapAtZoneReached) repeatButton = true;
+        if (mapAtZoneReached || farmInsanity) repeatButton = true;
         // Don't forget to check/click the repeat button as we want it!
         if (game.global.repeatMap && !repeatButton) {
           debug("Repeat clicked: " + game.global.repeatMap + " " + repeatButton, "maps", 'th-large');
@@ -584,9 +617,9 @@ function updateAutoMapsStatus() {
     var status = document.getElementById('autoMapStatus');
     var minSp = getPageSetting('MinutestoFarmBeforeSpire');
     if (!autoTrimpSettings.AutoMaps.enabled && game.options.menu.mapAtZone.enabled && mapAtZoneReached) status.innerHTML = 'Map at zone reached!';
-    else if (!autoTrimpSettings.AutoMaps.enabled) status.innerHTML = 'Off';
-    else if (game.global.challengeActive == "Mapology" && game.challenges.Mapology.credits < 1) status.innerHTML = 'Out of Map Credits';
-    else if (preSpireFarming) {
+    else if(!autoTrimpSettings.AutoMaps.enabled) status.innerHTML = 'Off';
+    else if(game.global.challengeActive == "Mapology" && game.challenges.Mapology.credits < 1) status.innerHTML = 'Out of Map Credits';
+    else if(preSpireFarming) {
         var secs = Math.floor(60 - (spireTime*60)%60).toFixed(0)
         var mins = Math.floor(minSp - spireTime).toFixed(0);
         var hours = minSp - (spireTime / 60).toFixed(2);
@@ -594,14 +627,15 @@ function updateAutoMapsStatus() {
             (hours + 'h') : (mins + 'm:' + (secs>=10 ? secs : ('0'+secs)) + 's');
         status.innerHTML = 'Farming for Spire ' + spiretimeStr + ' left';
     }
-    else if (spireMapBonusFarming) status.innerHTML = 'Getting Spire Map Bonus';
-    else if (windStacking) status.innerHTML = 'Windstacking with H:D: ' + newHDratio.toFixed(2);
-    else if (doMaxMapBonus) status.innerHTML = 'Mapping for bonus';
-    else if (!game.global.mapsUnlocked) status.innerHTML = '&nbsp;';
-    else if (needPrestige && !doVoids) status.innerHTML = 'Prestige';
-    else if (doVoids) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps;
-    else if (game.global.spireActive && spireHD > 1) status.innerHTML = 'Spire H/D: ' + spireHD.toFixed(2);
-    else if (newHDratio < 0.01) status.innerHTML = 'Overkilling';
+    else if(spireMapBonusFarming) status.innerHTML = 'Getting Spire Map Bonus';
+    else if(windStacking) status.innerHTML = 'Windstacking with H:D: ' + newHDratio.toFixed(2);
+    else if(doMaxMapBonus) status.innerHTML = 'Mapping for bonus';
+    else if(!game.global.mapsUnlocked) status.innerHTML = '&nbsp;';
+    else if(needPrestige && !doVoids) status.innerHTML = 'Prestige';
+    else if(doVoids) status.innerHTML = 'Void Maps: ' + game.global.totalVoidMaps;
+    else if(game.global.spireActive && spireHD > 1) status.innerHTML = 'Spire H/D: ' + spireHD.toFixed(2);
+    else if(newHDratio < 0.01) status.innerHTML = 'Overkilling';
+    else if(farmInsanity) status.innerHTML = 'Horrimp farm';
     else status.innerHTML = 'H/D: ' + newHDratio.toFixed(2);
 
     //hider he/hr% status
