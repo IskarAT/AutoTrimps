@@ -355,7 +355,7 @@ function autoMap() {
     }
 	
     // Try to maximise worshippers in U2 by running maps every 5 zones if we are overkilling, else only override to food map
-    if(worshipZone) {
+    if(worshipZone && game.global.mapBonus < customVars.maxMapBonus) {
        worship = true;
        if(newHDratio < 1) {
 	  doMaxMapBonus = true;
