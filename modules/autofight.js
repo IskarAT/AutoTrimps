@@ -47,7 +47,7 @@ function betterAutoFight() {
     }
     //Manually click fight instead of using builtin auto-fight
     if (!game.global.fighting) {
-        if (newSquadRdy || game.global.soldierHealth > 0) {
+        if (newSquadRdy || game.global.soldierHealth > 0 || ame.global.world == 1) {
             fightManual();
             if(deathsThisZone <= 20) deathsThisZone++; // Well, it's not ideal but close enough
         }
