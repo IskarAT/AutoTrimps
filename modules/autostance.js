@@ -98,12 +98,12 @@ function autoStance() {
     
     // Start Enlightenment if we are in a daily and none is selected
     if(getPageSetting('AutoEmpowerments') && activeEnlight == "" && game.global.challengeActive == "Daily") {
-     if(game.empowerments.Wind.nextUberCost == 0) {
+     if(game.empowerments.Wind.nextUberCost < 150) {
        naturePurchase("uberEmpower", "Wind")
-     } else if (game.empowerments.Ice.nextUberCost == 0) {
+     } else if (game.empowerments.Ice.nextUberCost < 100) {
        naturePurchase("uberEmpower", "Ice")
      } else if (game.empowerments.Poison.nextUberCost == 0) {
-       naturePurchase("uberEmpower", "Poison")
+       naturePurchase("uberEmpower", "Poison") // Changed the code to prioritise Wind, then Ice for Fluffy exp, and only then go poison
      }
     }
     
