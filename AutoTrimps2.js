@@ -33,11 +33,7 @@ function initializeAutoTrimps() {
     for (var i=0,len=modules.length; i<len; i++) {
         document.head.appendChild(document.createElement('script')).src = base + module + modules[i] + '.js';
     }
-    //Autoperks
-    if (typeof(AutoPerks) === 'undefined')
-        document.head.appendChild(document.createElement('script')).src = base + module + 'autoperks.js';
-    else
-        debug('AutoPerks is now included in Autotrimps, please disable the tampermonkey script for AutoPerks to remove this message!', '*spinner3');
+    
     toggleSettingsMenu();
     toggleSettingsMenu();
     // dank dark graphs by Unihedron
@@ -52,20 +48,6 @@ function initializeAutoTrimps() {
     debug('AutoTrimps v' + ATversion + ' Loaded!', '*spinner3');
 }
 
-function printChangelog() {
-    tooltip('confirm', null, 'update', '\
-<br><b class="AutoEggs">11/26/2017 v2.1.5.9p10</b>\
-<br>Add option to never use scryer in void maps\
-<br><b class="AutoEggs">11/26/2017 v2.1.5.9p9</b>\
-<br>Fix Chrono/Jestimps in 4.6\
-<br><b class="AutoEggs">11/22/2017 v2.1.5.9p8</b> genBTC update\
-<br>The genBTC version of the script has been updated with most of this fork\'s changes, and vice-versa.\
-<br>If you migrate, genBTC has a zone-based Maps -> Ignore Spires Until setting instead of this fork\'s genBTC -> Min Spire for AT.\
-<br>This fork will be kept up for the time being.\
-<br><u>Report any bugs/problems please! You can find me on Discord: <span style="background-color:#ddd;color:#222">patsy#5684</span></u>\
-<br><a href="https://github.com/coderpatsy/AutoTrimps/commits/gh-pages" target="#">Check the commit history</a> (if you care)\
-', 'cancelTooltip()', 'Script Update Notice ' + ATversion);
-}
 ////////////////////////////////////////
 //Main DELAY Loop///////////////////////
 ////////////////////////////////////////
@@ -219,7 +201,6 @@ function mainLoop() {
 
     BAFsetting = getPageSetting('BetterAutoFight');
     if (BAFsetting==1) betterAutoFight();        //"Better Auto Fight"  (autofight.js)
-    else if (BAFsetting==2) betterAutoFight2();     //"Better Auto Fight2"  (")
     else if (BAFsetting==0 && BAFsetting!=oldBAFsetting && game.global.autoBattle && game.global.pauseFight)  pauseFight(); //turn on autofight on once when BAF is toggled off.
     else if (BAFsetting==0 && game.global.world == 1 && game.global.autoBattle && game.global.pauseFight) pauseFight();     //turn on autofight on lvl 1 if its off.
     else if (BAFsetting==0 && !game.global.autoBattle && game.global.soldierHealth == 0) betterAutoFight();   //use BAF as a backup for pre-Battle situations
