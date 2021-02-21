@@ -52,6 +52,7 @@ var healthRatio = 0;
 var spireHD = 0;
 var spireHealth = 1;
 var challengeHPmod = 1;
+var challengeModApplied = false;
 var localQuestID = -2;
 
 //AutoMap - function originally created by Belaith (in 1971)
@@ -251,9 +252,15 @@ function autoMap() {
      challengeHPmod *= game.buildings.Laboratory.getEnemyMult();
     }
     // add else ifs to handle all challenge mods and later check if we need to add handle to damage buff from challenges
-    if (!game.global.mapsActive && !game.global.preMapsActive)
+    if (!game.global.mapsActive && !game.global.preMapsActive) {
     // Now add challenge modifier. If we are in maps though, HP is not recalculated so it would cause updating old HP over and over
-    actualEnemyHealth *= challengeHPmod;
+     actualEnemyHealth *= challengeHPmod;
+     challengeModApplied = false;
+    } else if (challengeModApplied == false) {
+     // We are in maps, so apply once, then disable applying until we loop around to world again. Yes, it's not 100% accurate but should do for now
+     actualEnemyHealth *= challengeHPmod;
+     challengeModApplied = true;
+    }
     
     // Spire health override
     if (game.global.spireActive) {
