@@ -247,6 +247,8 @@ function autoMap() {
      actualTrimpDamage /= Math.pow(1.1, game.challenges.Quest.finishedQuests);
     } else if (game.global.challengeActive == "Mayhem") {
      challengeHPmod *= game.challenges.Mayhem.getEnemyMult() * (1+game.challenges.Mayhem.stacks/15); // It should be /10 but so we don't overfarm lower levels
+    } else if (game.global.challengeActive == "Nurture") {
+     challengeHPmod *= game.buildings.Laboratory.getEnemyMult();
     }
     // add else ifs to handle all challenge mods and later check if we need to add handle to damage buff from challenges
     if (!game.global.mapsActive && !game.global.preMapsActive)
