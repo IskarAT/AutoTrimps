@@ -105,7 +105,7 @@ function autoMap() {
 	
     // Use map presets
     var useMapPresets = true; // for now true, later we'll make it into a setting
-    var worshipZone = game.global.universe == 2 && game.jobs.Worshipper.locked == 0 && getPageSetting('MaxWorshippers') && game.global.world > 50 && game.global.world%5 == 0 && game.jobs.Worshipper.owned < 45;
+    var worshipZone = game.global.universe == 2 && game.jobs.Worshipper.locked == 0 && getPageSetting('MaxWorshippers') && game.global.world > 50 && game.global.world%5 == 3 && game.jobs.Worshipper.owned < 45;
     
     // Get Wind farm and other settings; cannot move to global vars in case user changes them
     const forceWind = getPageSetting('ForceWind');
