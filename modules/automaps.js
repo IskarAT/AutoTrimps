@@ -538,11 +538,13 @@ function autoMap() {
 	} else if(game.global.challengeActive == "Alchemy") { // Biome rotation during alchemy; There is no new trigger for this because it feeds into "worship" mechanic
 	  var newMapBiome;
 	  switch(lastMapBiome) { // Check last biome
+	    // Either we didn't run anything yet or we want to reset cycle
 	    case "Random":
 	    case "Plentiful":
-	    newMapBiome = "Mountain"; // Either we didn't run anything yet or we want to reset cycle
+	    /* I don't need potatoes, they hinder Radon/H due to sharp mult increase
+	    newMapBiome = "Mountain";
 	    break;
-	    case "Mountain":
+	    case "Mountain":*/
 	    newMapBiome = "Forest";
 	    break;
 	    case "Forest":
@@ -555,7 +557,8 @@ function autoMap() {
 	    newMapBiome = "Plentiful";
 	    break;
 	    default:
-	    // Other cases, such as Farmlands biome -> leave it alone (so no block). Yes, I know that default: is then redundant but in case I want to tweak shit later...
+	    // Other cases, such as Farmlands biome
+	    lastMapBiome = "Random";
 	    }
 	  biomeAdvMapsSelect.value = newMapBiome;
 	  lastMapBiome = newMapBiome; // then cycle next
