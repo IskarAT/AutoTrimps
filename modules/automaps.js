@@ -387,8 +387,8 @@ function autoMap() {
       presetChestOverride = "nothing";
     } else farmInsanity = false;
 	
-    // Alchemy buy Str. potions after z145 to eek out a little more damage
-    if(game.global.challengeActive == "Alchemy" && game.global.world > 145 && alchObj.canAffordPotion("Potion of Strength")) {
+    // Alchemy buy Str. potions after z148 to eek out a little more damage
+    if(game.global.challengeActive == "Alchemy" && game.global.world > 148 && alchObj.canAffordPotion("Potion of Strength")) {
       // Craft potion
       alchObj.craftPotion("Potion of Strength")
     }
