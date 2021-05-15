@@ -16,6 +16,8 @@ var mapAtZoneReached = false;
 var windStacking = false;
 var spireMapBonusOverride = false;
 var farmInsanity = false;
+var alchemyFarm = false;
+var lastMapBiome = "Random"; // Init as Random because since AT loaded, we didn't handle the code
 
 // Biome, difficulty, extra levels, loot, perfect sliders, size, special modifier; We default into Perfect slider gardens with Prestigious mod and no extra levels
 var defaultMapPreset = {
@@ -130,7 +132,7 @@ function autoMap() {
     if (game.global.totalVoidMaps > 0 && (game.global.world == voidMapLevelSettingZone || (game.global.world > voidMapLevelSettingZone && game.global.world < voidsuntil))) needToVoid = true; // We reached void map level or are still inside the Until setting; Todo: Add setting for "Only run on poison" and handle it here
     
     // Stop: Map initialization
-    
+    /* Disabled, I do not use it anymore...
     // Check Equality and if we use toggling
     if (game.global.universe == 2 && !game.portal.Equality.radLocked && getPageSetting('Equality')) {
      if (game.portal.Equality.scalingActive && game.global.world > getPageSetting('EqualityWhen')) {
@@ -139,6 +141,7 @@ function autoMap() {
       game.portal.Equality.scalingActive = true;
      }
     }
+    */
 	
     // Are we running quest? If so, see which one
     if (game.global.challengeActive == "Quest") localQuestID = getQuestID();
@@ -250,6 +253,8 @@ function autoMap() {
      challengeHPmod *= game.challenges.Mayhem.getEnemyMult() * (1+game.challenges.Mayhem.stacks/15); // It should be /10 but so we don't overfarm lower levels
     } else if (game.global.challengeActive == "Nurture") {
      challengeHPmod *= game.buildings.Laboratory.getEnemyMult();
+    } else if (game.global.challengeActive == "Alchemy") {
+     challengeHPmod *= (1+alchObj.getEnemyStats());
     }
     // add else ifs to handle all challenge mods and later check if we need to add handle to damage buff from challenges
     if (!game.global.mapsActive && !game.global.preMapsActive) {
@@ -416,7 +421,7 @@ function autoMap() {
       }
     }
   
-    //MaxMapBonusAfterZone (idea from awnv)
+    // MaxMapBonusAfterZone
     var maxMapBonusZ = getPageSetting('MaxMapBonusAfterZone');
     if (maxMapBonusZ >= 0 && game.global.mapBonus < customVars.maxMapBonusAfterZ && game.global.world >= maxMapBonusZ) {
         shouldDoMaps = true;
@@ -529,8 +534,33 @@ function autoMap() {
 	  advExtraLevelSelect.value = insanityMapPreset.extra;
 	  advSpecialSelect.value = insanityMapPreset.specMod;
 	  document.getElementById("mapLevelInput").value = game.global.world;
+          // document.getElementById('advExtraLevelSelect').value;
+	} else if(game.global.challengeActive == "Alchemy") { // Biome rotation during alchemy; There is no new trigger for this because it feeds into "worship" mechanic
+	  var newMapBiome;
+	  switch(lastMapBiome) { // Check last biome
+	    case "Random":
+	    case "Plentiful":
+	    newMapBiome = "Mountain"; // Either we didn't run anything yet or we want to reset cycle
+	    break;
+	    case "Mountain":
+	    newMapBiome = "Forest";
+	    break;
+	    case "Forest":
+	    newMapBiome = "Sea";
+	    break;
+	    case "Sea":
+	    newMapBiome = "Depths";
+	    break;
+	    case "Depths":
+	    newMapBiome = "Plentiful";
+	    break;
+	    default:
+	    // Other cases, such as Farmlands biome -> leave it alone (so no block). Yes, I know that default: is then redundant but in case I want to tweak shit later...
+	    }
+	  biomeAdvMapsSelect.value = newMapBiome;
+	  lastMapBiome = newMapBiome; // then cycle next
 	}
-        // document.getElementById('advExtraLevelSelect').value;
+
         
         // Presets are loaded, now let's get map cost
         updateMapCost();
