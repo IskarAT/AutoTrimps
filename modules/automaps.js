@@ -557,11 +557,15 @@ function autoMap() {
 	    newMapBiome = "Forest";
 	    break;
 	    case "Forest":
-	    newMapBiome = "Sea";
-	    break;
+	    if(alchObj.getPotionCount("Potion of Finding") < alchObj.potionAuto[2] && lastMapBiome == "Forest") {
+	      newMapBiome = "Sea";
+	      break;
+	    }
 	    case "Sea":
-	    newMapBiome = "Depths";
-	    break;
+	    if(alchObj.getPotionCount("Potion of the Void") < alchObj.potionAuto[3] && (lastMapBiome == "Sea" || lastMapBiome == "Forest")) {
+	      newMapBiome = "Depths";
+	      break;
+	    }
 	    case "Depths":
 	    newMapBiome = "Plentiful";
 	    break;
