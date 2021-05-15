@@ -543,6 +543,9 @@ function autoMap() {
           // document.getElementById('advExtraLevelSelect').value;
 	} else if(game.global.challengeActive == "Alchemy") { // Biome rotation during alchemy; There is no new trigger for this because it feeds into "worship" mechanic
 	  var newMapBiome;
+	  if(game.global.world == 155)
+	    newMapBiome = "Forest"; // For extra shrooms
+	  else {
 	  switch(lastMapBiome) { // Check last biome
 	    // Either we didn't run anything yet or we want to reset cycle
 	    case "Random":
@@ -566,6 +569,7 @@ function autoMap() {
 	    // Other cases, such as Farmlands biome
 	    lastMapBiome = "Random";
 	    }
+	  }
 	  biomeAdvMapsSelect.value = newMapBiome;
 	  lastMapBiome = newMapBiome; // then cycle next
 	}
