@@ -56,8 +56,7 @@ var challengeHPmod = 1;
 var challengeModApplied = false;
 var localQuestID = -2;
 
-//AutoMap - function originally created by Belaith (in 1971)
-//anything/everything to do with maps
+
 function autoMap() {
     var customVars = MODULES["automaps"];
     // Start: Map initialization and weird cases handle part
