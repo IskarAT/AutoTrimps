@@ -255,6 +255,8 @@ function autoMap() {
      challengeHPmod *= game.buildings.Laboratory.getEnemyMult();
     } else if (game.global.challengeActive == "Alchemy") {
      challengeHPmod *= (1+alchObj.getEnemyStats());
+    } else if (game.global.challengeActive == "Pandemonium") {
+     challengeHPmod *= (3*game.challenges.Pandemonium.getPandMult()); // This returns normal mob multi so it's 1/3 of the boss after magic number adjustment
     }
     // add else ifs to handle all challenge mods and later check if we need to add handle to damage buff from challenges
     if (!game.global.mapsActive && !game.global.preMapsActive) {
