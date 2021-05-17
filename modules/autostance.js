@@ -98,12 +98,12 @@ function autoStance() {
     
     // Start Enlightenment if we are in a daily and none is selected
     if(getPageSetting('AutoEmpowerments') && activeEnlight == "" && game.global.challengeActive == "Daily") {
-     if(game.empowerments.Wind.nextUberCost < 150) {
-       naturePurchase("uberEmpower", "Wind")
+     if(game.empowerments.Wind.nextUberCost < 500 && game.empowerments.Wind.nextUberCost < game.empowerments.Wind.tokens) {
+       naturePurchase("uberEmpower", "Wind"); // Ah well, Fluffy is now maxed anyway so let's do only Winds while keeping the other code afloat just in case
      } else if (game.empowerments.Ice.nextUberCost < 100) {
-       naturePurchase("uberEmpower", "Ice")
+       naturePurchase("uberEmpower", "Ice");
      } else if (game.empowerments.Poison.nextUberCost == 0) {
-       naturePurchase("uberEmpower", "Poison") // Changed the code to prioritise Wind, then Ice for Fluffy exp, and only then go poison
+       naturePurchase("uberEmpower", "Poison"); // Changed the code to prioritise Wind, then Ice for Fluffy exp, and only then go poison
      }
     }
     
